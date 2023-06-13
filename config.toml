@@ -2,3 +2,6 @@ baseURL = 'https://l-n1988.github.io/'
 languageCode = 'en-us'
 title = 'Open channel'
 theme = "PaperMod"
+
+[markup.goldmark.renderer]
+unsafe = true

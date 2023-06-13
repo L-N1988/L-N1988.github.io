@@ -21,9 +21,9 @@ tool:
 
 {{< figure src="/ox-hugo/2023-06-13_14-16-33_image-129.svg" caption="<span class=\"figure-number\">Figure 1: </span>(Figure 16.5.1.) IEEE 754 bit patterns. (a) float (b) double" >}}
 
-\\(N=(-1)^s\times 1.f\times 2^e\\)
+<img src="/ltximg/IEEE754 float_3899792af295078e654a4e4b6b2f6f432dfb1a72.svg" alt="$N=(-1)^s\times 1.f\times 2^e$" class="org-svg" />
 
-\\(bias = 2^{w-1}-1\\)
+<img src="/ltximg/IEEE754 float_6b2a59a43e693029dd1966ec5eafaad32465b911.svg" alt="$bias = 2^{w-1}-1$" class="org-svg" />
 
 where: s is the sign bit, f is the 23-bit fractional part of the significand, and e is the 8-bit exponent.
 
