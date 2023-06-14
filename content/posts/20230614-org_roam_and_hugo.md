@@ -20,6 +20,12 @@ default output markdown use &lt;img&gt; tag to show math equation svg, something
 <img src="/ltximg/IEEE754 float_6b2a59a43e693029dd1966ec5eafaad32465b911.svg" alt="$bias = 2^{w-1}-1$" class="org-svg" />
 ```
 
+inline math svg, add embed tag:
+
+```text
+<embed img src="/ltximg/IEEE754 float_6b2a59a43e693029dd1966ec5eafaad32465b911.svg" alt="$bias = 2^{w-1}-1$" class="org-svg" />
+```
+
 but hugo markdown parser does not support &lt;img&gt; tag, see [&lt;img&gt; tag does not work - support - HUGO](https://discourse.gohugo.io/t/img-tag-does-not-work/40918).
 
 so, change config.toml (indentation matters):

@@ -19,7 +19,7 @@ A register file can be implemented with a decoder for each read or write port an
 
 -   decoder:
 
-A logic block that has an n -bit input and <img src="/ltximg/register file_c2cc16a26ba3599cc92443c0c13342eb087fa010.svg" alt="\(2^n\)" class="org-svg" /> outputs, where only one output is asserted for each input combination.
+A logic block that has an n-bit input and <embed img src="/ltximg/register file_c2cc16a26ba3599cc92443c0c13342eb087fa010.svg" alt="\(2^n\)" class="org-svg" /> outputs, where only one output is asserted for each input combination.
 
 {{< figure src="/ox-hugo/2023-06-14_13-59-57_screenshot.png" >}}
 
