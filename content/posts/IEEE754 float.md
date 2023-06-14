@@ -9,12 +9,14 @@ draft = false
 tool:
 
 -   [IEEE-754 Floating Point Converter](https://www.h-schmidt.net/FloatConverter/IEEE754.html)
--   gdb:
+-   gdb: see [gdb print format](https://ftp.gnu.org/old-gnu/Manuals/gdb/html_node/gdb_54.html).
     ```text
     p/t (float)decimal number
     ==> binary IEEE754 format(32 bits)
     p/tx (float)decimal number
     ==> hex IEEE754 format(32 bits)
+    p 0b0100111 or 0B0100111
+    ==> binary to deciaml
     ```
 
 -   course: [IEEE 754](https://bob.cs.sonoma.edu/IntroCompOrg-RPi/sec-ieee.html)
