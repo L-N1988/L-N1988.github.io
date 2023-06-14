@@ -28,3 +28,22 @@ so, change config.toml (indentation matters):
 [markup.goldmark.renderer]
 unsafe = true
 ```
+
+
+## config search button {#config-search-button}
+
+create search.md in content folder.
+
+add following to config.toml
+
+```toml
+[[languages.en.menu.main]]
+name = "search"
+url = "search/"
+weight = 10
+```
+
+Refs:
+
+-   [Features | PaperMod: Search Page](https://adityatelange.github.io/hugo-PaperMod/posts/papermod/papermod-features/#search-page)
+-   [hugo-PaperMod/config.yml](https://github.com/adityatelange/hugo-PaperMod/blob/exampleSite/config.yml)
