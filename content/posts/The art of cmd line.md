@@ -11,6 +11,8 @@ draft = false
 ## [xargs]({{< relref "xargs.md" >}}) {#xargs--xargs-dot-md}
 
 
+## [二进制分析]({{< relref "二进制分析.md" >}}) {#二进制分析--二进制分析-dot-md}
+
 ## Miscellaneous {#miscellaneous}
 
 -   使用 nohup 或 disown 使一个后台进程持续运行。
@@ -19,18 +21,9 @@ draft = false
     set -euo pipefail
     trap "echo 'error: Script failed: see failed command above'" ERR
     ```
--   在 Bash 中，变量有许多的扩展方式。
-    ```text
-    ${name:?error message} 用于检查变量是否存在。
 
-    此外，当 Bash 脚本只需要一个参数时，可以使用这样的代码 input_file=${1:?usage: $0 input_file}。
+- 在 Bash 中，变量有许多的扩展方式。`${name:?error message}` 用于检查变量是否存在。此外，当 Bash 脚本只需要一个参数时，可以使用这样的代码 `input_file=${1:?usage: $0 input_file}`。在变量为空时使用默认值：`${name:-default}`。如果你要在之前的例子中再加一个（可选的）参数，可以使用类似这样的代码 `output_file=${2:-logfile}`，如果省略了 \$2，它的值就为空，于是 `output_file` 就会被设为 `logfile`。数学表达式：`i=$(( (i + 1) % 5 ))`。序列：`{1..10}`。截断字符串：`${var%suffix}` 和 `${var#prefix}`。例如，假设 `var=foo.pdf`，那么 `echo ${var%.pdf}.txt` 将输出 `foo.txt`。
 
-    在变量为空时使用默认值：${name:-default}。
-
-    如果你要在之前的例子中再加一个（可选的）参数，可以使用类似这样的代码 output_file=${2:-logfile}，如果省略了 $2，它的值就为空，于是 output_file 就会被设为 logfile。
-
-    数学表达式：i=$(( (i + 1) % 5 ))。序列：{1..10}。截断字符串：${var%suffix} 和 ${var#prefix}。例如，假设 var=foo.pdf，那么 echo ${var%.pdf}.txt 将输出 foo.txt。
-    ```
 -   编写脚本时，你可能会想要把代码都放在大括号里。缺少右括号的话，代码就会因为语法错误而无法执行。如果你的脚本是要放在网上分享供他人使用的，这样的写法就体现出它的好处了，因为这样可以防止下载不完全代码被执行。
     ```text
     {
@@ -40,32 +33,32 @@ draft = false
 -   使用 jq 处理 JSON。
 -   替换一个或多个文件中出现的字符串：
 
-<!--listend-->
+    <!--listend-->
 
-```shell
-perl -pi.bak -e 's/old-string/new-string/g' my-files-*.txt
-```
+    ```shell
+    perl -pi.bak -e 's/old-string/new-string/g' my-files-*.txt
+    ```
 
 -   重命名文件
 
 Given the files foo1, ..., foo9, foo10, ..., foo278, the commands
 
-```shell
-rename foo foo00 foo?
-rename foo foo0 foo??
-```
+    ```shell
+    rename foo foo00 foo?
+    rename foo foo0 foo??
+    ```
 
 will turn them into foo001, ..., foo009, foo010, ..., foo278. And
 
-```shell
-rename .htm .html *.htm
-```
+    ```shell
+    rename .htm .html *.htm
+    ```
 
 will fix the extension of your html files. Provide an empty string for shortening:
 
-```shell
-rename '_with_long_name' '' file_with_long_name.*
-```
+    ```shell
+    rename '_with_long_name' '' file_with_long_name.*
+    ```
 
 will remove the substring in the filenames.
 
@@ -81,11 +74,9 @@ rename 's/\.bak$//' *.bak
 -   要处理 Excel 或 CSV 文件的话，csvkit 提供了 in2csv，csvcut，csvjoin，csvgrep 等方便易用的工具。
 -   根据 man 页面的描述，rsync 是一个快速且非常灵活的文件复制工具。它闻名于设备之间的文件同步，但其实它在本地情况下也同样有用。在安全设置允许下，用 rsync 代替 scp 可以实现文件续传，而不用重新从头开始。它同时也是删除大量文件的最快方法之一：
 
-<!--listend-->
-
-```shell
-mkdir empty && rsync -r --delete empty/ some-dir && rmdir some-dir
-```
+    ```shell
+    mkdir empty && rsync -r --delete empty/ some-dir && rmdir some-dir
+    ```
 
 -   了解 sort 的参数。显示数字时，使用 -n 或者 -h 来显示更易读的数（例如 du -h 的输出）。明白排序时关键字的工作原理（-t 和 -k）。例如，注意到你需要 -k1，1 来仅按第一个域来排序，而 -k1 意味着按整行排序。稳定排序（sort -s）在某些情况下很有用。例如，以第二个域为主关键字，第一个域为次关键字进行排序，你可以使用 sort -k1，1 | sort -s -k2，2。
 -   标准的源代码对比及合并工具是 diff 和 patch。使用 diffstat 查看变更总览数据。注意到 diff -r 对整个文件夹有效。使用 diff -r tree1 tree2 | diffstat 查看变更的统计数据。vimdiff 用于比对并编辑文件。
@@ -94,5 +85,3 @@ mkdir empty && rsync -r --delete empty/ some-dir && rmdir some-dir
 -   lshw，lscpu，lspci，lsusb 和 dmidecode：查看硬件信息，包括 CPU、BIOS、RAID、显卡、USB 设备等
 -   lsmod 和 modinfo：列出内核模块，并显示其细节
 
-
-## [二进制分析]({{< relref "二进制分析.md" >}}) {#二进制分析--二进制分析-dot-md}
