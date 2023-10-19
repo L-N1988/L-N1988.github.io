@@ -7,3 +7,6 @@
 [submodule "themes/PaperMod"]
 	path = themes/PaperMod
 	url = https://github.com/adityatelange/hugo-PaperMod.git
+[submodule "themes/hugo-flex"]
+	path = themes/hugo-flex
+	url = https://github.com/de-souza/hugo-flex.git

@@ -1,32 +1,38 @@
 baseURL = 'https://l-n1988.github.io/'
 languageCode = 'en-us'
 title = 'Open channel'
-theme = "PaperMod"
+theme = "hugo-flex"
 
-[markup.goldmark.renderer]
-unsafe = true
+##################################
+# papermod theme
+##################################
+# [markup.goldmark.renderer]
+# unsafe = true
+# 
+# [params.homeInfoParams]
+# Title = "The road to world"
+# Content = "Do not go gentle into that good night, \n\nOld age should burn and rave at close of day; \n\nRage, rage against the dying of the light."
+# 
+# [[languages.en.menu.main]]
+# name = "Archive"
+# url = "archives/"
+# weight = 10
+# 
+# [[languages.en.menu.main]]
+# name = "Search"
+# url = "search/"
+# weight = 10
+# 
+# [[languages.en.menu.main]]
+# name = "Tags"
+# url = "tags/"
+# weight = 10
+# [outputs]
+# home = [ "HTML", "RSS", "JSON" ]
 
-[params.homeInfoParams]
-Title = "The road to world"
-Content = "Do not go gentle into that good night, \n\nOld age should burn and rave at close of day; \n\nRage, rage against the dying of the light."
-
-[[languages.en.menu.main]]
-name = "Archive"
-url = "archives/"
-weight = 10
-
-[[languages.en.menu.main]]
-name = "Search"
-url = "search/"
-weight = 10
-
-[[languages.en.menu.main]]
-name = "Tags"
-url = "tags/"
-weight = 10
-[outputs]
-home = [ "HTML", "RSS", "JSON" ]
-
+##################################
+##old theme
+##################################
 # [params.fuseOpts]
 # isCaseSensitive = false
 # shouldSort = true
@@ -38,3 +44,4 @@ home = [ "HTML", "RSS", "JSON" ]
 
 [params]
 ShowCodeCopyButtons = true
+summaries = true
