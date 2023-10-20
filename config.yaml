@@ -3,6 +3,7 @@ languageCode: en-us
 title: Open channel
 theme: PaperMod
 
+enableEmoji: true # 允许使用 Emoji 表情，建议 true
 markup:
   goldmark:
     renderer:
@@ -12,9 +13,9 @@ params:
     Title: The road to world
     Content: |-
       Do not go gentle into that good night, 
-
+  
       Old age should burn and rave at close of day; 
-
+  
       Rage, rage against the dying of the light.
   ShowCodeCopyButtons: true
 
@@ -22,9 +23,12 @@ languages:
   en:
     menu:
       main:
-        - name: Archive
-          url: archives/
+        - name: Posts
+          url: posts/
           weight: 10
+        - name: Pre&Notes
+          url: notes/
+          weight: 1
         - name: Search
           url: search/
           weight: 10
