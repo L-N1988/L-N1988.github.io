@@ -1,0 +1,38 @@
+baseURL: 'https://l-n1988.github.io/'
+languageCode: en-us
+title: Open channel
+theme: PaperMod
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+params:
+  homeInfoParams:
+    Title: The road to world
+    Content: |-
+      Do not go gentle into that good night, 
+
+      Old age should burn and rave at close of day; 
+
+      Rage, rage against the dying of the light.
+  ShowCodeCopyButtons: true
+
+languages:
+  en:
+    menu:
+      main:
+        - name: Archive
+          url: archives/
+          weight: 10
+        - name: Search
+          url: search/
+          weight: 10
+        - name: Tags
+          url: tags/
+          weight: 10
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
