@@ -1,0 +1,54 @@
+baseURL: 'https://l-n1988.github.io/'
+languageCode: en-us
+title: Open channel
+theme: hugo-flex
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+params:
+  color: teal           # Any color in CSS syntax
+  width: 42rem          # Any length in CSS syntax / leave empty to span page
+  divider: \a0          # Any string in CSS syntax / leave empty for no divider
+  footer: >-            # HTML spaces (&#32;) are needed before HTML elements
+    Except where otherwise noted, content on this site is licensed under a &#32;
+    <a href="http://creativecommons.org/licenses/by/4.0/" rel="license">Creative
+    Commons Attribution 4.0 International License</a>.
+  rss: To subscribe to this RSS feed, copy its address and paste it into your
+    favorite feed reader.
+  noClasses: true       # Set to the same value as markup.highlight.noClasses
+  headingoffset: 0      # Change heading levels when rendering markdown
+  linkicons: false      # Set to hover or true to add a link icon to headings
+  summaries: false      # Set to true to show summaries of posts on homepage
+  schema: false         # Set to true to add Schema.org metadata
+  opengraph: false      # Set to true to add Open Graph metadata
+  twittercards: false   # Set to true to add Twitter Cards metadata
+  utterances:
+    repo:               # Set to Utterances repo URL to add Utterances comments
+    issueterm:          # Leave empty for the default blog post to issue mapping
+    theme:              # Leave empty to use the adaptive Utterances dark theme
+  netlify:
+    honeypot: false     # Set to true to add honeypot field in contact form
+    recaptcha: false    # Set to true to add recaptcha challenge in contact form
+  # css:                # Uncomment to add custom CSS from the assets directory
+  #   - css/foo.css
+  #   - bar.css
+  # js:                 # Uncomment to add custom JS from the assets directory
+  #   - js/foo.js
+  #   - bar.js
+
+menu:
+  nav:
+    - name: Posts
+      url: posts/
+      weight: 2
+    - name: Tags
+      url: tags/
+      weight: 3
+
+mediaTypes:
+  font/woff2:
+    suffixes:
+      - woff2
