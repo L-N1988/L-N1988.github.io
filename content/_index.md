@@ -32,3 +32,11 @@ $$
 $$
 R(t)=\lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} f(\tau)f(\tau+t)d\tau.
 $$
+
+此处使用的傅里叶变换对为:
+$$
+\begin{cases}
+\hat{f}(\omega) = \int_{-\infty}^{\infty} f(t)e^{-j\omega t} dt \\\\
+f(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} \hat{f}(\omega) e^{~j\omega t} d\omega. 
+\end{cases}
+$$
