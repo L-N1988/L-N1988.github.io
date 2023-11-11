@@ -10,6 +10,8 @@ url: "/"
 |-----|----|
 |谱分析|[pdf](./SpectrumAnalysis.pdf)|
 
+- [了那WiKi: mkdocs playground](https://l-n1988.github.io/open-channel/)
+
 ## 谱分析小结
 
 - 功率与功率谱密度关系
