@@ -53,7 +53,8 @@ for k = 1:lt
 end
 
 %------------------------------------------------------------------------%
-% statistics process
+% statistic process
+% READ FIRST: https://www.mit.edu/course/1/1.061/www/dream/SEVEN/SEVENTHEORY.PDF
 %------------------------------------------------------------------------%
 
 for k = 1:lt
@@ -68,12 +69,11 @@ V_t = vSum ./ tCnt;
 
 % double average velocity
 % vector
-U_xt = mean(U_t, 2) % average in x direction
-V_xt = mean(V_t, 2) % average in x direction
+U_xt = mean(U_t, 2); % average in x direction
+V_xt = mean(V_t, 2); % average in x direction
 
 % double average component
 % FIXME: this should be same as U_xt or V_xt, but not?
-% vector
 % U_xt = sum(uSum, 2) ./ sum(tCnt, 2);
 % V_xt = sum(vSum, 2) ./ sum(tCnt, 2);
 
@@ -108,8 +108,9 @@ end
 uv_xt = mean(uv ./ tCnt, 2); % u'v' Reynold shear stress
 uu_xt = mean(uu ./ tCnt, 2); % u'u' TKE of u
 vv_xt = mean(vv ./ tCnt, 2); % v'v' TKE of v
-u_rms = sqrt(uu_xt); % turbulence intensity of u
-v_rms = sqrt(vv_xt); % turbulence intensity of v
+% rms means space average of stdandard deviation
+u_rms = mean(sqrt(uu ./ tCnt), 2); % turbulence intensity of u
+v_rms = mean(sqrt(vv ./ tCnt), 2); % turbulence intensity of v
 uuu_xt = mean(uuu ./ tCnt, 2); % u'u'u' third moment of u
 
 %------------------------------------------------------------------------%
