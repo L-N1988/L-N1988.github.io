@@ -12,7 +12,7 @@ url: "/"
 |超大尺度涡|[pdf](./超大尺度涡.pdf) [jupyter notebook](./预乘谱讨论.pdf)|
 
 # Scripts
-- PIVLab: [matlab code](.\PIVlab.m)
+- PIVLab: [matlab code](./PIVlab.m)
 
 # Blog
 - [了那WiKi: mkdocs playground](https://l-n1988.github.io/open-channel/)
