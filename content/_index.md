@@ -12,6 +12,10 @@ url: "/"
 |超大尺度涡|[pdf](./超大尺度涡.pdf) [jupyter notebook](./预乘谱讨论.pdf)|
 |$\LaTeX{}$简介|[slide](./LaTeX简介.pdf) [lecture note](./noteLaTeX简介.pdf)|
 
+# Scripts
+- PIVLab: [matlab code](./PIVlab.m)
+
+# Blog
 - [了那WiKi: mkdocs playground](https://l-n1988.github.io/open-channel/)
 
 ## 谱分析小结
