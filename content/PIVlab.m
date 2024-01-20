@@ -39,17 +39,17 @@ vSum = zeros(mx, ny);
 %------------------------------------------------------------------------%
 
 for k = 1:lt
-    for i = 1:mx
-        for j = 1:ny
-            if plane_nomask(i, j)
-                tCnt(i, j) = tCnt(i, j) + 1; % snapshot numbers of each valid cell
-            else
-                % remove masked cells
-                u_filtered{k}(i, j) = 0;
-                v_filtered{k}(i, j) = 0;
-            end
-        end
-    end
+	for i = 1:mx
+		for j = 1:ny
+			if plane_nomask(i, j)
+				tCnt(i, j) = tCnt(i, j) + 1; % snapshot numbers of each valid cell
+			else
+				% remove masked cells
+				u_filtered{k}(i, j) = 0;
+				v_filtered{k}(i, j) = 0;
+			end
+		end
+	end
 end
 
 %------------------------------------------------------------------------%
@@ -58,8 +58,8 @@ end
 %------------------------------------------------------------------------%
 
 for k = 1:lt
-    uSum = uSum + u_filtered{k};
-    vSum = vSum + v_filtered{k};
+	uSum = uSum + u_filtered{k};
+	vSum = vSum + v_filtered{k};
 end
 
 % time average velocity of each cell
@@ -88,20 +88,20 @@ vv = zeros(mx, ny); % v'v' TKE of v
 uuu = zeros(mx, ny); % u'u'u'
 
 for k = 1:lt
-    u_pri{k} = u_filtered{k} - U_t;
-    v_pri{k} = v_filtered{k} - V_t;
-    for i = 1:mx
-        for j = 1:ny
-            if plane_nomask(i, j) == 0
-                u_pri{k}(i, j) = 0;
-                v_pri{k}(i, j) = 0;
-            end
-        end
-    end
-    uv = uv + u_pri{k} .* v_pri{k};
-    uu = uu + u_pri{k}.^2;
-    vv = vv + v_pri{k}.^2;
-    uuu = uuu + u_pri{k}.^3;
+	u_pri{k} = u_filtered{k} - U_t;
+	v_pri{k} = v_filtered{k} - V_t;
+	for i = 1:mx
+		for j = 1:ny
+			if plane_nomask(i, j) == 0
+				u_pri{k}(i, j) = 0;
+				v_pri{k}(i, j) = 0;
+			end
+		end
+	end
+	uv = uv + u_pri{k} .* v_pri{k};
+	uu = uu + u_pri{k}.^2;
+	vv = vv + v_pri{k}.^2;
+	uuu = uuu + u_pri{k}.^3;
 end
 
 % double average: average in time direction then in x direction
@@ -109,9 +109,72 @@ uv_xt = mean(uv ./ tCnt, 2); % u'v' Reynold shear stress
 uu_xt = mean(uu ./ tCnt, 2); % u'u' TKE of u
 vv_xt = mean(vv ./ tCnt, 2); % v'v' TKE of v
 % rms means space average of stdandard deviation
-u_rms = mean(sqrt(uu ./ tCnt), 2); % turbulence intensity of u
-v_rms = mean(sqrt(vv ./ tCnt), 2); % turbulence intensity of v
+u_rms = mean(sqrt(uu ./ tCnt), 2); % turbulence strength of u
+v_rms = mean(sqrt(vv ./ tCnt), 2); % turbulence strength of v
 uuu_xt = mean(uuu ./ tCnt, 2); % u'u'u' third moment of u
+
+%------------------------------------------------------------------------%
+% spectrum analysis
+%------------------------------------------------------------------------%
+center = [floor(mx / 2) + 1, floor(ny / 2) + 1];
+eps = max(1, min(floor(mx / 10), floor(ny / 10)));
+% time serie of turbulent velocity
+u_pri_t = mean(u_pri{:}(center[1] - eps:center[2] + eps,...
+								center[2] - eps:center[2] + pes),...
+								[1, 2]);
+
+% PSD by FFT
+% https://ww2.mathworks.cn/help/signal/ug/power-spectral-density-estimates-using-fft.html
+x = u_pri_t; fs = 1000;
+N = length(x);
+xdft = fft(x);
+xdft = xdft(1:N/2+1);
+psdx = (1/(fs*N)) * abs(xdft).^2;
+psdx(2:end-1) = 2*psdx(2:end-1);
+freq = 0:fs/length(x):fs/2;
+
+figure(1);
+subplot(4,1,1);
+plot(freq,psdx)
+grid on
+title("PSD Using FFT")
+xlabel("Frequency (Hz)")
+ylabel("Power/Frequency (J/Hz)")
+
+% PSD by Periodogram
+% https://ww2.mathworks.cn/help/signal/ug/power-spectral-density-estimates-using-fft.html
+subplot(4,1,2);
+plot(freq,periodogram(x,rectwin(N),N,fs))
+grid on
+title("PSD Using FFT")
+xlabel("Frequency (Hz)")
+ylabel("Power/Frequency (J/Hz)")
+% mxerr = max(psdx'-periodogram(x,rectwin(N),N,fs))
+
+% PSD by pwelch
+% https://ww2.mathworks.cn/matlabcentral/answers/1788420-finding-psd-from-autocorrelation-fft-periodogram-and-pwelch
+subplot(4,1,3);
+plot(freq,pwelch(u_pri_t, rectwin(N)))
+grid on
+title("PSD Using pwelch")
+xlabel("Frequency (Hz)")
+ylabel("Power/Frequency (J/Hz)")
+
+% PSD by auto-correlation
+% Read: page 10 and 11 in https://l-n1988.github.io/SpectrumAnalysis.pdf
+acf = ifft(fft(x).*fft(x));			% circular correlation
+acf = circshift(acf,1);					% put zero lag value at the beginning of the array
+S = real(fft(acf));							% remove small nuisance imaginary part 
+S = (1/(fs*N))*S;              	% factor that's needed 
+S = S(1:(N/2)+1);
+S(2:end-1) = 2*S(2:end-1);
+
+subplot(4,1,4);
+plot(freq,S)
+grid on
+title('PSD using auto-correlation')
+xlabel('Frequency (Hz)')
+ylabel("Power/Frequency (J/Hz)")
 
 %------------------------------------------------------------------------%
 % plot lines
