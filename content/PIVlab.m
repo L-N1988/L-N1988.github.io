@@ -119,13 +119,16 @@ uuu_xt = mean(uuu ./ tCnt, 2); % u'u'u' third moment of u
 center = [floor(mx / 2) + 1, floor(ny / 2) + 1];
 eps = max(1, min(floor(mx / 10), floor(ny / 10)));
 % time serie of turbulent velocity
-u_pri_t = mean(u_pri{:}(center[1] - eps:center[2] + eps,...
-								center[2] - eps:center[2] + pes),...
+u_pri_t = zeros(lt, 1);
+for i = 1:lt
+    u_pri_t(i) = mean(u_pri{i}(center(1)-eps:center(1)+eps, ...
+								center(2)-eps:center(2)+eps),...
 								[1, 2]);
+end
 
 % PSD by FFT
 % https://ww2.mathworks.cn/help/signal/ug/power-spectral-density-estimates-using-fft.html
-x = u_pri_t; fs = 1000;
+x = u_pri_t; fs = 24;
 N = length(x);
 xdft = fft(x);
 xdft = xdft(1:N/2+1);
@@ -137,6 +140,7 @@ figure(1);
 subplot(4,1,1);
 plot(freq,psdx)
 grid on
+set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 title("PSD Using FFT")
 xlabel("Frequency (Hz)")
 ylabel("Power/Frequency (J/Hz)")
@@ -144,18 +148,20 @@ ylabel("Power/Frequency (J/Hz)")
 % PSD by Periodogram
 % https://ww2.mathworks.cn/help/signal/ug/power-spectral-density-estimates-using-fft.html
 subplot(4,1,2);
-plot(freq,periodogram(x,rectwin(N),N,fs))
+periodogram(x,rectwin(N),N,fs)
 grid on
-title("PSD Using FFT")
+set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
+title("PSD Using Periodogram")
 xlabel("Frequency (Hz)")
 ylabel("Power/Frequency (J/Hz)")
-% mxerr = max(psdx'-periodogram(x,rectwin(N),N,fs))
+% mxerr = max(max(psdx'-periodogram(x,rectwin(N),N,fs)))
 
 % PSD by pwelch
 % https://ww2.mathworks.cn/matlabcentral/answers/1788420-finding-psd-from-autocorrelation-fft-periodogram-and-pwelch
 subplot(4,1,3);
-plot(freq,pwelch(u_pri_t, rectwin(N)))
+pwelch(u_pri_t, rectwin(N))
 grid on
+set(gca, 'XScale', 'log');
 title("PSD Using pwelch")
 xlabel("Frequency (Hz)")
 ylabel("Power/Frequency (J/Hz)")
@@ -163,15 +169,16 @@ ylabel("Power/Frequency (J/Hz)")
 % PSD by auto-correlation
 % Read: page 10 and 11 in https://l-n1988.github.io/SpectrumAnalysis.pdf
 acf = ifft(fft(x).*fft(x));			% circular correlation
-acf = circshift(acf,1);					% put zero lag value at the beginning of the array
-S = real(fft(acf));							% remove small nuisance imaginary part 
-S = (1/(fs*N))*S;              	% factor that's needed 
+acf = circshift(acf,1);				% put zero lag value at the beginning of the array
+S = real(fft(acf));					% remove small nuisance imaginary part 
+S = (1/(fs*N))*S;              	    % factor that's needed 
 S = S(1:(N/2)+1);
 S(2:end-1) = 2*S(2:end-1);
 
 subplot(4,1,4);
 plot(freq,S)
 grid on
+set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 title('PSD using auto-correlation')
 xlabel('Frequency (Hz)')
 ylabel("Power/Frequency (J/Hz)")
