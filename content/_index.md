@@ -1,50 +1,41 @@
 ---
-title: "Pre(s) and Note(s)"
-date: 2023-10-21T01:03:38+08:00
-draft: false
-url: "/"
+title: Introduction
+type: docs
 ---
 
-# Pres and Notes
-|Topic|file|
-|-----|----|
-|谱分析|[pdf](./SpectrumAnalysis.pdf)|
-|超大尺度涡|[pdf](./超大尺度涡.pdf) [jupyter notebook](./预乘谱讨论.pdf)|
-|$\LaTeX{}$简介|[slide](./LaTeX简介.pdf) [lecture note](./noteLaTeX简介.pdf)|
+# Acerbo datus maxime
 
-# Scripts
-- PIVLab: [matlab code](./PIVlab.m)
+{{< columns >}}
+## Astris ipse furtiva
 
-# Blog
-- [了那WiKi: mkdocs playground](https://l-n1988.github.io/open-channel/)
+Est in vagis et Pittheus tu arge accipiter regia iram vocatur nurus. Omnes ut
+olivae sensit **arma sorori** deducit, inesset **crudus**, ego vetuere aliis,
+modo arsit? Utinam rapta fiducia valuere litora _adicit cursu_, ad facies
 
-## 谱分析小结
+<--->
 
-- 功率与功率谱密度关系
-$$
-\begin{align*}
-    \overline{f^2}(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} S(\omega) d\omega
-.\end{align*}
-$$
+## Suis quot vota
 
-- 功率谱密度与相关函数关系
+Ea _furtique_ risere fratres edidit terrae magis. Colla tam mihi tenebat:
+miseram excita suadent es pecudes iam. Concilio _quam_ velatus posset ait quod
+nunc! Fragosis suae dextra geruntur functus vulgata.
+{{< /columns >}}
 
-$$
-\begin{align*}
-	R(t) \overset{\mathcal{F}}{\Longrightarrow}S(\omega)
-.\end{align*}
-$$
 
-- 相关函数与随机信号关系
+## Tempora nisi nunc
 
-$$
-R(t)=\lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} f(\tau)f(\tau+t)d\tau.
-$$
+Lorem **markdownum** emicat gestu. Cannis sol pressit ducta. **Est** Idaei,
+tremens ausim se tutaeque, illi ulnis hausit, sed, lumina cutem. Quae avis
+sequens!
 
-此处使用的傅里叶变换对为:
-$$
-\begin{cases}
-\hat{f}(\omega) = \int_{-\infty}^{\infty} f(t)e^{-j\omega t} dt \\\\
-f(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} \hat{f}(\omega) e^{~j\omega t} d\omega. 
-\end{cases}
-$$
+    var panel = ram_design;
+    if (backup + system) {
+        file.readPoint = network_native;
+        sidebar_engine_device(cell_tftp_raster,
+                dual_login_paper.adf_vci.application_reader_design(
+                graphicsNvramCdma, lpi_footer_snmp, integer_model));
+    }
+
+## Locis suis novi cum suoque decidit eadem
+
+Idmoniae ripis, at aves, ali missa adest, ut _et autem_, et ab?
