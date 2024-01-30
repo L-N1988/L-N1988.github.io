@@ -1,7 +1,7 @@
 +++
 title = "resovle symbols"
 date = 2023-06-13T23:15:00+08:00
-draft = false
+draft = true
 +++
 
 Functions and initialized global variables get strong symbols.

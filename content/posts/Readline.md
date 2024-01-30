@@ -2,7 +2,7 @@
 title = "Readline"
 date = 2023-06-19T17:23:00+08:00
 tags = ["cmd-line"]
-draft = false
+draft = true
 +++
 
 ## Readline {#readline}

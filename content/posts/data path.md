@@ -2,7 +2,7 @@
 title = "datapath"
 date = 2023-06-21T00:29:00+08:00
 tags = ["pipeline", "CSAPP"]
-draft = false
+draft = true
 +++
 
 ## single-cycle datapath {#single-cycle-datapath}

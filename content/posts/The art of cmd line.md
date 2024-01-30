@@ -2,7 +2,7 @@
 title = "The art of cmd line"
 date = 2023-06-19T16:52:00+08:00
 tags = ["cmd-line"]
-draft = false
+draft = true
 +++
 
 ## [Readline]({{< relref "Readline.md" >}}) {#readline--readline-dot-md}

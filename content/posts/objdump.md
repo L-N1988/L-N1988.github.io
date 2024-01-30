@@ -1,7 +1,7 @@
 +++
 title = "objdump"
 date = 2023-06-13T23:15:00+08:00
-draft = false
+draft = true
 +++
 
 -   objdump -h &lt;objectfile&gt; to display the section headers of the object file.

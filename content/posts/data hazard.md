@@ -2,7 +2,7 @@
 title = "data hazard"
 date = 2023-06-20T23:35:00+08:00
 tags = ["pipeline", "CSAPP"]
-draft = false
+draft = true
 +++
 
 {{< figure src="/ox-hugo/2023-06-22_12-36-20_screenshot.png" caption="<span class=\"figure-number\">Figure 1: </span>The datapath modified to resolve hazards via forwarding." >}}

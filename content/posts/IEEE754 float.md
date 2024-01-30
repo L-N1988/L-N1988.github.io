@@ -1,7 +1,7 @@
 +++
 title = "IEEE754 float"
 date = 2023-06-13T23:15:00+08:00
-draft = false
+draft = true
 +++
 
 {{< figure src="/ox-hugo/2023-06-13_12-06-28_Float_example.svg" >}}

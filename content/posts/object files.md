@@ -2,7 +2,7 @@
 title = "object files"
 date = 2023-06-13T23:15:00+08:00
 tags = ["CSAPP"]
-draft = false
+draft = true
 +++
 
 Object files come in three forms:

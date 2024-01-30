@@ -2,7 +2,7 @@
 title = "symbols and symbol tables"
 date = 2023-06-13T23:15:00+08:00
 tags = ["symbol-table", "CSAPP"]
-draft = false
+draft = true
 +++
 
 Refs:

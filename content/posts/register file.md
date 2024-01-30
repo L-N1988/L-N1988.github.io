@@ -2,7 +2,7 @@
 title = "register file"
 date = 2023-06-14T12:50:00+08:00
 tags = ["register"]
-draft = false
+draft = true
 +++
 
 ## Definition {#definition}

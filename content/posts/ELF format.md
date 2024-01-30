@@ -2,7 +2,7 @@
 title = "ELF format"
 date = 2023-06-13T23:15:00+08:00
 tags = ["CSAPP"]
-draft = false
+draft = true
 +++
 
 {{< figure src="/ox-hugo/2023-06-12_15-50-59_screenshot.png" >}}

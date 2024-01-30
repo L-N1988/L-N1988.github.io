@@ -1,7 +1,7 @@
 +++
 title = "org-roam and hugo"
 date = 2023-06-14T00:52:00+08:00
-draft = false
+draft = true
 +++
 
 ## export latex snippet in svg {#export-latex-snippet-in-svg}

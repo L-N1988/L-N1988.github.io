@@ -1,7 +1,7 @@
 +++
 title = "bss vs COMMON"
 date = 2023-06-13T23:15:00+08:00
-draft = false
+draft = true
 +++
 
 <https://stackoverflow.com/questions/16835716/bss-vs-common-what-goes-where>

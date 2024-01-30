@@ -2,7 +2,7 @@
 title = "static linking"
 date = 2023-06-13T23:15:00+08:00
 tags = ["linker", "CSAPP"]
-draft = false
+draft = true
 +++
 
 [Anon ELF object file format](//select/items/1_HB8FFAHN)
