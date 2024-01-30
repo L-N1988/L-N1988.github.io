@@ -1,0 +1,7 @@
+baseURL: 'https://l-n1988.github.io/'
+languageCode: en-us
+title: Open channel
+theme: academic
+
+summarylength: 30
+hasCJKLanguage: true
