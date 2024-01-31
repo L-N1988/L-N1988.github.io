@@ -3,6 +3,18 @@ title: Introduction
 type: docs
 ---
 
+# Pres and Notes
+|Topic|file|
+|-----|----|
+|谱分析|[pdf](./SpectrumAnalysis.pdf)|
+|超大尺度涡|[pdf](./超大尺度涡.pdf) [jupyter notebook](./预乘谱讨论.pdf)|
+|$\LaTeX{}$简介|[slide](./LaTeX简介.pdf) [lecture note](./noteLaTeX简介.pdf)|
+
+# Scripts
+- PIVLab: [matlab code](./PIVlab.m)
+
+# Blog
+- [了那WiKi: mkdocs playground](https://l-n1988.github.io/open-channel/)
 # Acerbo datus maxime
 
 {{< columns >}}
@@ -24,9 +36,8 @@ nunc! Fragosis suae dextra geruntur functus vulgata.
 
 ## Tempora nisi nunc
 
-Lorem **markdownum** emicat gestu. Cannis sol pressit ducta. **Est** Idaei,
-tremens ausim se tutaeque, illi ulnis hausit, sed, lumina cutem. Quae avis
-sequens!
+**Markdown content**  Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa
 
     var panel = ram_design;
     if (backup + system) {
@@ -39,3 +50,4 @@ sequens!
 ## Locis suis novi cum suoque decidit eadem
 
 Idmoniae ripis, at aves, ali missa adest, ut _et autem_, et ab?
+
