@@ -5,4 +5,4 @@ headless = true
 - [**Book**]({{< relref "/docs/" >}})
   - [Demo]({{< relref "/docs/page-one" >}})
 - [**Blogs**]({{< relref "/posts/" >}})
-  - [Hello world]({{< relref "/posts/nonsense" >}})
+  - [Hello world]({{< relref "/posts/my-first-post" >}})

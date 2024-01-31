@@ -31,7 +31,7 @@ menu:
     - name: "Github"
       url: "https://github.com/L-N1988"
       weight: 10
-    - name: "Hugo Book Themes"
+    - name: "Hugo Book Theme"
       url: "https://themes.gohugo.io/themes/hugo-book/"
       weight: 20
 
