@@ -5,7 +5,7 @@
   font-weight: 400;
   font-display: swap;
   src: local(''),
-       url('fonts/LxgwWenKai/lxgw-wenkai-v1.315/LXGWWenKai-Regular.ttf') format('ttf'); /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('fonts/LxgwWenKai/lxgw-wenkai-v1.315/LXGWWenKai-Regular.ttf') format('truetype'); /* Chrome 26+, Opera 23+, Firefox 39+ */
 }
 
 /* Tinos-regular - latin */
@@ -15,7 +15,7 @@
   font-weight: 400;
   font-display: swap;
   src: local(''),
-       url('fonts/SourceSerifPro-Regular.otf') format('otf'); /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('fonts/SourceSerifPro-Regular.otf') format('opentype'); /* Chrome 26+, Opera 23+, Firefox 39+ */
 }
 
 /* roboto-regular - latin */
