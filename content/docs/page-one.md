@@ -9,8 +9,10 @@ draft = false
 -   S = 0, R = 1: Reset
 -   S = 1, R = 1: Not allowed
 
-$\sum_{k=0}^{\infty} c_k (x-a)^k $
 
-\\[
-a+b=c
-\\]
+$$
+\begin{aligned}
+	\sum_{n=1}^{\infty} a_n z^n &=  \sum_{n=1}^{\infty} a_n z^n\\\\
+	&= \sum_{k=0}^{\infty} c_k (x-a)^k
+.\end{aligned}
+$$
