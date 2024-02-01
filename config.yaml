@@ -3,6 +3,7 @@ languageCode: en-us
 title: Open channel
 theme: hugo-book
 
+summarylength: 20
 # Book configuration
 disablePathToLower: true
 enableGitInfo: true
