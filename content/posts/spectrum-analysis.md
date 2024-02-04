@@ -97,7 +97,7 @@ $$\begin{cases}
 	X(t)=\frac{1}{2\pi}\int_{-\infty}^{\infty} \hat{X}(\omega)e^{\\,it\omega} d\omega.
 \end{cases}$$
 
-采用不同的Fourier变化对得到的结果仅存在系数$\frac{1}{2\pi}$上的差异，并不影响物理量关系。
+采用不同的Fourier变换对得到的结果仅存在系数$\frac{1}{2\pi}$上的差异，并不影响物理量关系。
 
 根据[Parseval–Plancherel identity](https://en.wikipedia.org/wiki/Plancherel_theorem)（类比Fourier级数的[帕塞瓦尔恒等式](https://en.wikipedia.org/wiki/Parseval%27s_identity)）：
 
@@ -164,7 +164,7 @@ $$
 
 为了弥补空间量程上的不足，实验测量通过延长测量时间得到更广频率域范围的功率谱$S(\omega)$，再通过泰勒冻结界定将功率谱变换为波数谱。
 
-泰勒冻结假定的变换方法只是进行一次变量替换，$t=\frac{x}{U}\iff k=\frac{\omega}{U}$：
+泰勒冻结假定的变换方法只是进行一次变量替换，$t=\frac{x}{U}\implies k=\frac{\omega}{U}$：
 $$
 \begin{aligned}
 R_X(t)=R_X(\frac{x}{U})&=\frac{1}{2\pi}\int_{-\infty}^{\infty} S(\omega)e^{\\,i\omega\cdot \frac{x}{U}} d\omega \\\\
@@ -177,4 +177,147 @@ $$
 
 文献中常用到的预乘谱（pre-multiplied spectrum）更加简单。只是将纵坐标变量改为$kS(k)$，并保持线性坐标，横坐标$k$改为对数坐标。
 
-## 代码实现
+# 离散信号谱分析
+## DFT形式的功率谱密度
+谱分析最重要的是得到功率谱密度$S(f)$。本章节为了对称性，采用数学上常用的频率$f$为自变量的功率谱密度$S(f)$，而不是工程常用的角频率$\omega$为自变量的功率谱密度$S(\omega)$。
+
+这种数学上的对称性来自于Fourier变换对形式的对称性（替换$\omega=2\pi f$消除了系数$\frac{1}{2\pi}$）：
+$$\begin{cases}
+	\hat{X}(f)=\int_{-\infty}^{\infty} X(t)e^{-2\pi itf} dt,\\\\
+	X(t)=\int_{-\infty}^{\infty} \hat{X}(\omega)e^{\\,2\pi itf} df.
+\end{cases}$$
+
+因此，前述结论可重新写作：
+- Paserval-Plancherel identity：$ \int_{-\infty}^{\infty}  |X(t)|^2dt=\int_{-\infty}^{\infty} |\hat{X}(f)|^2df;$
+- 功率谱密度$S(f)$：
+$$S(f)\triangleq \lim_{T\to\infty}\frac{1}{2T}|\hat{X}(f)|^2\implies \overline{X^2}=\int_{-\infty}^{\infty} S(f)df;$$
+
+上述表达式借助离散Fourier（DFT）变换推广为离散形式（此处为单边形式$0\sim N-1$，因此系数分母中无2），得到功率谱密度$S(f)$的计算方法为：
+$$
+S(f_k)= \lim_{N\to\infty}\frac{1}{N}|\hat{X}(f_k)\Delta t|^2,
+$$
+其中$T=(N-1)\Delta t$，$\hat{X}(f_k)=\sum_{n=0}^{N-1}X(t_n)\cdot e^{-2\pi i t_n f_k}$。由于$t_n=\Delta t\cdot n,~f_k=\frac{k}{N\cdot \Delta t}$，采用的DFT可简化为：
+$$
+\hat{X}(f_k)=\hat{X_k}=\sum_{n=0}^{N-1}X_n\cdot e^{-2\pi i n \frac{k}{N}}.
+$$
+
+## Window 函数
+实际测量的序列不可能是无限长的，$T$或者$N$都无法达到无穷的极限，因此在信号处理上往往将采样的数据$X_T(t)$视作无限长信号信号$X(t)$叠加了[rectangular window](https://ccrma.stanford.edu/~jos/sasp/Rectangular_Window.html)的截断（cut-off）结果：
+$$
+X_T(t)=X(t)\cdot \rm window
+$$
+
+<embed img src="/figures/window3.svg" height="60%" alt="window" class="org-svg" />
+
+采用实验数据实际计算的功率谱密度是
+$$
+S(f_k)=\frac{\Delta t^2}{N}|\hat{X_T}(f_k)|^2 = \frac{\Delta t^2}{N}|\hat{X}(f_k)\* \hat{W}(f_k)|^2.
+$$
+
+直觉上，window函数的Fourier变换$\hat{W}(f)$越接近$\delta$函数，得到的功率谱越真实。关于各种类型window的讨论，见
+- [slide](http://www.ee.ic.ac.uk/pcheung/teaching/de2_ee/Lecture%205%20-%20DFT%20&%20Windowing%20(x2).pdf),
+- [standford researchher page](https://ccrma.stanford.edu/~jos/sasp/Spectrum_Analysis_Windows.html),
+- Discrete-Time Signal Processing by Alan V. Oppenheim and Ronald W. Schafer: **section 2.2 and 3.3** in Chapter 10. Fourier Analysis of Signals Using the Discrete Fourier Transform.
+
+## 计算方法一：Periodogram
+
+[code blog](https://scicoding.com/calculating-power-spectral-density-in-python/)
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np 
+
+# f is the requested frequency
+# signal is the time series data
+# Fs is the sampling frequency in Hz
+def Sxx(f, signal, Fs):
+    t = 1/Fs # Sample spacing
+    T = len(signal) # Signal duration
+    
+    s = np.sum([signal[i] * np.exp(-1j*2*np.pi*f*i*t) for i in range(T)])
+    
+    return t**2 / T * np.abs(s)**2
+
+# Use Sxx to calculate PSD for f in [0, 100]
+S = [Sxx(f, signal, fs) for f in range(100)]
+
+plt.semilogy([f for f in range(100)], S)
+plt.xlim([0, 100])
+plt.xlabel('frequency [Hz]')
+plt.ylabel('PSD [V**2/Hz]')
+plt.show()
+```
+
+Ref(s)
+- Discrete-Time Signal Processing by Alan V. Oppenheim and Ronald W. Schafer: **section 5** in Chapter 10. Fourier Analysis of Signals Using the Discrete Fourier Transform.
+- [SciPy source code](https://github.com/scipy/scipy/blob/v1.12.0/scipy/signal/_spectral_py.py#L156-L293)
+
+### Segment periodogram：Welch's method
+- [stanford researchher page: welch's method](https://ccrma.stanford.edu/~jos/sasp/Welch_s_Method.html)(简单明了，推荐)
+- [pwelch octave code](https://github.com/CyclotronResearchCentre/FASST/blob/master/SPTfunctions/pwelch.m)(注释极详细，本节代码来源于此文件)
+- [PSD computations using Welch's method by Solomon](https://www.osti.gov/servlets/purl/5688766)
+- [Trying to understand the nperseg effect of Welch method](https://dsp.stackexchange.com/a/81653/65250)
+
+```matlab
+%% ...
+%% Nfft        %% [integer scalar] Length of FFT.  The default is the length
+%%             %%       of the "window" vector or has the same value as the
+%%             %%       scalar "window" argument.  If Nfft is larger than the
+%%             %%       segment length, "seg_len", the data segment is padded
+%%             %%       with "Nfft-seg_len" zeros.  The default is no padding.
+%%             %%       Nfft values smaller than the length of the data
+%%             %%       segment (or window) are ignored silently.
+%%
+%% Fs          %% [real scalar] sampling frequency (Hertz); default=1.0
+%%
+%% minimum FFT length is seg_len
+Nfft = max( Nfft, seg_len );
+%% Mean square of window is required for normalising PSD amplitude.
+win_meansq = (window.' * window) / seg_len;
+%%
+%% Set default or check overlap.
+if ( isempty(overlap) )
+	overlap = fix(seg_len /2);
+elseif ( overlap >= seg_len )
+	error( 'pwelch: arg (overlap=%d) too big. Must be <length(window)=%d',...
+		overlap, seg_len );
+end
+%%
+%% MAIN CALCULATIONS
+%% ...
+%% 
+%% Calculate and accumulate periodograms
+%%   xx and yy are padded data segments
+%%   Pxx is periodogram sum
+xx = zeros(Nfft,1);
+Pxx = xx;
+n_ffts = 0;
+for start_seg = [1:seg_len-overlap:x_len-seg_len+1]
+	end_seg = start_seg+seg_len-1;
+	%% Don't truncate/remove the zero padding in xx and yy
+	xx(1:seg_len) = window .* x(start_seg:end_seg);
+	fft_x = fft(xx);
+	%% force Pxx to be real; pgram = periodogram
+	pgram = real(fft_x .* conj(fft_x));
+	Pxx = Pxx + pgram;
+	n_ffts = n_ffts +1;
+end
+psd_len = Nfft;
+%% end MAIN CALCULATIONS
+%%
+%% SCALING AND OUTPUT
+%%   Pxx is sum of periodogram, so "n_ffts"
+%%   in the scale factor converts them into averages
+spectra    = zeros(psd_len);
+scale = n_ffts * seg_len * Fs * win_meansq;
+
+spectra(:) = Pxx / scale;
+freq = [0:psd_len-1].' * ( Fs / Nfft );
+```
+
+<img src="/figures/welch.png" width="100%" alt="welch" class="png" />
+
+## 计算方法二：Autocorrelation
+Ref(s)
+- Discrete-Time Signal Processing by Alan V. Oppenheim and Ronald W. Schafer: **section 6** in Chapter 10. Fourier Analysis of Signals Using the Discrete Fourier Transform.
+
