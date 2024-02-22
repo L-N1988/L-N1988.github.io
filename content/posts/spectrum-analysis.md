@@ -5,6 +5,23 @@ date: 2024-02-01T11:44:42+08:00
 # bookSearchExclude: false
 ---
 
+# 写在前面
+手册一般分为操作手册和原理手册，一般将前者称为指南，后者对应地称为指北。教科书往往兼顾两者，但是更加偏向原理讲解，绕了一大圈才道出问题的解决方法。在互联网论坛中存在一类“TL;DR”文化，即文本“Too long; Don't read”，因此发帖人往往将操作讲解放在开头方便浏览者迅速找到问题的解决办法。
+
+时间序列谱分析可以很复杂，先数学后物理再编程；也可以很简单，五六行代码便得到结果。本节是TL;DR的版本。
+
+```matlab
+rng default
+% Sample rate 1000Hz
+Fs = 1000; t = 0:1/Fs:1;
+% A signal with 200Hz cosine and 100Hz sine and noise
+x = cos(2*pi*t*200) + sin(2*pi*t*100) + randn(size(t));
+
+[pxx, f] = pwelch(x, [], [], [], Fs);
+plot(f, 10*log10(pxx))
+legend('Pxx by welch')
+```
+
 # 随机过程
 ## 定义
 流场分析采用雷诺分解瞬时流速$u(t)$为时均流速$U=\left\langle u\right\rangle$和脉动流速$u\'(t)$，即
