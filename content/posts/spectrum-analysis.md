@@ -19,6 +19,8 @@ x = cos(2*pi*t*200) + sin(2*pi*t*100) + randn(size(t));
 
 [pxx, f] = pwelch(x, [], [], [], Fs);
 plot(f, 10*log10(pxx))
+xlabel('Frequency (Hz)')
+ylanel('PSD (dB/Hz)')
 legend('Pxx by welch')
 ```
 
