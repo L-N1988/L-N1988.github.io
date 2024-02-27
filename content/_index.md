@@ -13,6 +13,8 @@ type: docs
 {{< /hint >}}
 
 {{< hint warning >}}
+**Warning**
+
 The search bar does not work for CJK lang!
 {{< /hint >}}
 
@@ -25,7 +27,9 @@ The search bar does not work for CJK lang!
 |$\LaTeX{}$简介|[slide](./LaTeX简介.pdf) [lecture note](./noteLaTeX简介.pdf)|
 
 # Script(s)
-- PIVLab data processing: [matlab code](./PIVlab.m)
+PIVLab data processing: [matlab code](./PIVlab.m)
+- average velocity
+- spectrum analysis
 
 # See also
 - [了那WiKi: mkdocs playground](https://l-n1988.github.io/open-channel/)

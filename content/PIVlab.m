@@ -1,5 +1,6 @@
-% This script processes `mat` from PIVLab toolbox to calculate turbulence statistic parameters
-clc; clear;
+% This script processes `mat` from PIVLab toolbox 
+% to calculate turbulence statistic parameters
+clc; clear; close all;
 
 %------------------------------------------------------------------------%
 % read data
@@ -7,40 +8,45 @@ clc; clear;
 
 % before running, add mat file path here!!!
 matPath = 'Edit here';
-data = load(matPath);
+data = load(strcat(matPath, 'PIVlab.mat'));
 % vector, 2d plane coordinate values
 Y = data.y{1, 1}(:, 1);
 X = data.x{1, 1}(1, :);
 % 3d matrix
 u_original = data.u_original;
 v_original = data.v_original;
-u_filtered = data.u_filtered;
-v_filtered = data.v_filtered;
+if isempty(data.u_filtered{1}) && isempty(data.v_filtered{1})
+    u_filtered = u_original;
+    v_filtered = v_original;
+else
+    u_filtered = data.u_filtered;
+    v_filtered = data.v_filtered;
+end
 plane_nomask = data.typevector_original{1, 1};
 %    o--------o
 %   /        /|
 %  /        / |
 % o--------o  |
 % |        |  o
-% |     ny | /
+% |     my | /
 % |        |/ lt
 % o--------o
-%     mx
+%     nx
 % scalar, 3d matrix dimension length
-[mx, ny] = size(u_original{1});
+[my, nx] = size(u_original{1}); % FIXME
 lt = length(u_original); % snapshot number
 
-tCnt = zeros(mx, ny); % valid cell numbers in snapshots
-uSum = zeros(mx, ny);
-vSum = zeros(mx, ny);
+tCnt = zeros(my, nx); % valid cell numbers in snapshots
+uSum = zeros(my, nx);
+vSum = zeros(my, nx);
 
 %------------------------------------------------------------------------%
 % clean data
 %------------------------------------------------------------------------%
 
 for k = 1:lt
-	for i = 1:mx
-		for j = 1:ny
+	for i = 1:my
+		for j = 1:nx
 			if plane_nomask(i, j)
 				tCnt(i, j) = tCnt(i, j) + 1; % snapshot numbers of each valid cell
 			else
@@ -81,17 +87,17 @@ V_xt = mean(V_t, 2); % average in x direction
 u_pri = cell(lt, 1); % u'
 v_pri = cell(lt, 1); % v'
 % cross- or self- correlation, second moment
-uv = zeros(mx, ny); % u'v' Reynold shear stress
-uu = zeros(mx, ny); % u'u' TKE of u
-vv = zeros(mx, ny); % v'v' TKE of v
+uv = zeros(my, nx); % u'v' Reynold shear stress
+uu = zeros(my, nx); % u'u' TKE of u
+vv = zeros(my, nx); % v'v' TKE of v
 % third moment
-uuu = zeros(mx, ny); % u'u'u'
+uuu = zeros(my, nx); % u'u'u'
 
 for k = 1:lt
 	u_pri{k} = u_filtered{k} - U_t;
 	v_pri{k} = v_filtered{k} - V_t;
-	for i = 1:mx
-		for j = 1:ny
+	for i = 1:my
+		for j = 1:nx
 			if plane_nomask(i, j) == 0
 				u_pri{k}(i, j) = 0;
 				v_pri{k}(i, j) = 0;
@@ -116,72 +122,36 @@ uuu_xt = mean(uuu ./ tCnt, 2); % u'u'u' third moment of u
 %------------------------------------------------------------------------%
 % spectrum analysis
 %------------------------------------------------------------------------%
-center = [floor(mx / 2) + 1, floor(ny / 2) + 1];
-eps = max(1, min(floor(mx / 10), floor(ny / 10)));
-% time serie of turbulent velocity
-u_pri_t = zeros(lt, 1);
-for i = 1:lt
-    u_pri_t(i) = mean(u_pri{i}(center(1)-eps:center(1)+eps, ...
-								center(2)-eps:center(2)+eps),...
-								[1, 2]);
+center = [floor(my / 2) + 1, floor(nx / 2) + 1];
+Fs = 24;
+pxxs = 0; fs = 0;
+for i = -1:1:1
+	for j = -1:1:1
+		area = [center(1) + i, center(2) + j];
+		u_ = zeros(lt, 1);
+		for k = 1:lt
+			u_(k) = u_pri{k}(area(1), area(2));
+		end
+		[pxx_, f_] = pwelch(u_, [], [], [], Fs);
+		pxxs = pxx_ + pxxs;
+		fs = f_ + fs;
+	end
 end
+pxx = pxxs ./ 9; f = fs ./ 9;
 
-% PSD by FFT
-% https://ww2.mathworks.cn/help/signal/ug/power-spectral-density-estimates-using-fft.html
-x = u_pri_t; fs = 24;
-N = length(x);
-xdft = fft(x);
-xdft = xdft(1:N/2+1);
-psdx = (1/(fs*N)) * abs(xdft).^2;
-psdx(2:end-1) = 2*psdx(2:end-1);
-freq = 0:fs/length(x):fs/2;
+figure();
+plot(f, pxx)
+grid on; set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
+set(xlabel("$f$ (Hz)", "FontSize", 14), 'Interpreter', 'latex'); 
+set(ylabel("$S_{uu}(f)$ (J/Hz)", "FontSize", 14), 'Interpreter', 'latex');
+set(title("PSD", FontSize=14), 'Interpreter', 'latex');
 
-figure(1);
-subplot(4,1,1);
-plot(freq,psdx)
-grid on
-set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-title("PSD Using FFT")
-xlabel("Frequency (Hz)")
-ylabel("Power/Frequency (J/Hz)")
-
-% PSD by Periodogram
-% https://ww2.mathworks.cn/help/signal/ug/power-spectral-density-estimates-using-fft.html
-subplot(4,1,2);
-periodogram(x,rectwin(N),N,fs)
-grid on
-set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-title("PSD Using Periodogram")
-xlabel("Frequency (Hz)")
-ylabel("Power/Frequency (J/Hz)")
-% mxerr = max(max(psdx'-periodogram(x,rectwin(N),N,fs)))
-
-% PSD by pwelch
-% https://ww2.mathworks.cn/matlabcentral/answers/1788420-finding-psd-from-autocorrelation-fft-periodogram-and-pwelch
-subplot(4,1,3);
-pwelch(u_pri_t, rectwin(N))
-grid on
-set(gca, 'XScale', 'log');
-title("PSD Using pwelch")
-xlabel("Frequency (Hz)")
-ylabel("Power/Frequency (J/Hz)")
-
-% PSD by auto-correlation
-% Read: page 10 and 11 in https://l-n1988.github.io/SpectrumAnalysis.pdf
-acf = ifft(fft(x).*fft(x));			% circular correlation
-acf = circshift(acf,1);				% put zero lag value at the beginning of the array
-S = real(fft(acf));					% remove small nuisance imaginary part 
-S = (1/(fs*N))*S;              	    % factor that's needed 
-S = S(1:(N/2)+1);
-S(2:end-1) = 2*S(2:end-1);
-
-subplot(4,1,4);
-plot(freq,S)
-grid on
-set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
-title('PSD using auto-correlation')
-xlabel('Frequency (Hz)')
-ylabel("Power/Frequency (J/Hz)")
+figure();
+plot(f, f.* pxx)
+grid on; set(gca, 'XScale', 'log');
+set(xlabel("$f$ (Hz)", "FontSize", 14), 'Interpreter', 'latex'); 
+set(ylabel("$fS_{uu}(f)$ (J)", "FontSize", 14), 'Interpreter', 'latex');
+set(title("pre-multiplied PSD", FontSize=14), 'Interpreter', 'latex');
 
 %------------------------------------------------------------------------%
 % plot lines
@@ -270,10 +240,10 @@ c.Label.Interpreter = 'latex';
 c.Label.FontSize = 14;
 hold on;
 sv = 6;
-ny = flip(data.y{1, 1});
+nx = flip(data.y{1, 1});
 nU = flip(U_t);
 nV = flip(V_t);
-% h1 = quiver(data.x{1, 1}(1:sv:end), ny(1:sv:end), nU(1:sv:end), nV(1:sv:end), 'w');
+% h1 = quiver(data.x{1, 1}(1:sv:end), nx(1:sv:end), nU(1:sv:end), nV(1:sv:end), 'w');
 % set(h1, 'AutoScale', 'on', 'AutoScaleFactor', .5);
 % verts1 = stream2(data.x{1, 1}, flip(data.y{1, 1}), flip(U_t), flip(V_t), zeros(20, 1) + 0.011, linspace(0, 0.08, 20));
 % streamline(verts1);
