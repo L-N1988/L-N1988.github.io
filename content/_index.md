@@ -31,6 +31,7 @@ The search bar does not work for CJK lang!
 PIVLab data processing: [matlab code](./PIVlab.m)
 - average velocity
 - spectrum analysis
+    - requirement: [FFT filter helper function](./fftfilter.m)
 
 # See also
 - [了那WiKi: mkdocs playground](https://l-n1988.github.io/open-channel/)

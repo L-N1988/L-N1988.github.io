@@ -28,25 +28,25 @@ plane_nomask = data.typevector_original{1, 1};
 %  /        / |
 % o--------o  |
 % |        |  o
-% |     my | /
-% |        |/ lt
+% |  mRows | /
+% |        |/ lTime
 % o--------o
-%     nx
+%     nCols
 % scalar, 3d matrix dimension length
-[my, nx] = size(u_original{1}); % FIXME
-lt = length(u_original); % snapshot number
+[mRows, nCols] = size(u_original{1}); % FIXME
+lTime = length(u_original); % snapshot number
 
-tCnt = zeros(my, nx); % valid cell numbers in snapshots
-uSum = zeros(my, nx);
-vSum = zeros(my, nx);
+tCnt = zeros(mRows, nCols); % valid cell numbers in snapshots
+uSum = zeros(mRows, nCols);
+vSum = zeros(mRows, nCols);
 
 %------------------------------------------------------------------------%
 % clean data
 %------------------------------------------------------------------------%
 
-for k = 1:lt
-	for i = 1:my
-		for j = 1:nx
+for k = 1:lTime
+	for i = 1:mRows
+		for j = 1:nCols
 			if plane_nomask(i, j)
 				tCnt(i, j) = tCnt(i, j) + 1; % snapshot numbers of each valid cell
 			else
@@ -63,7 +63,7 @@ end
 % READ FIRST: https://www.mit.edu/course/1/1.061/www/dream/SEVEN/SEVENTHEORY.PDF
 %------------------------------------------------------------------------%
 
-for k = 1:lt
+for k = 1:lTime
 	uSum = uSum + u_filtered{k};
 	vSum = vSum + v_filtered{k};
 end
@@ -84,20 +84,20 @@ V_xt = mean(V_t, 2); % average in x direction
 % V_xt = sum(vSum, 2) ./ sum(tCnt, 2);
 
 % turbulent velocity
-u_pri = cell(lt, 1); % u'
-v_pri = cell(lt, 1); % v'
+u_pri = cell(lTime, 1); % u'
+v_pri = cell(lTime, 1); % v'
 % cross- or self- correlation, second moment
-uv = zeros(my, nx); % u'v' Reynold shear stress
-uu = zeros(my, nx); % u'u' TKE of u
-vv = zeros(my, nx); % v'v' TKE of v
+uv = zeros(mRows, nCols); % u'v' Reynold shear stress
+uu = zeros(mRows, nCols); % u'u' TKE of u
+vv = zeros(mRows, nCols); % v'v' TKE of v
 % third moment
-uuu = zeros(my, nx); % u'u'u'
+uuu = zeros(mRows, nCols); % u'u'u'
 
-for k = 1:lt
+for k = 1:lTime
 	u_pri{k} = u_filtered{k} - U_t;
 	v_pri{k} = v_filtered{k} - V_t;
-	for i = 1:my
-		for j = 1:nx
+	for i = 1:mRows
+		for j = 1:nCols
 			if plane_nomask(i, j) == 0
 				u_pri{k}(i, j) = 0;
 				v_pri{k}(i, j) = 0;
@@ -122,37 +122,34 @@ uuu_xt = mean(uuu ./ tCnt, 2); % u'u'u' third moment of u
 %------------------------------------------------------------------------%
 % spectrum analysis
 %------------------------------------------------------------------------%
-center = [floor(my / 2) + 1, floor(nx / 2) + 1];
+center = [floor(mRows / 2) + 1, floor(nCols / 2) + 1];
 Fs = 24;
-pxxs = 0; fs = 0;
+u_ = zeros(lTime, 1);
 for i = -1:1:1
 	for j = -1:1:1
-		area = [center(1) + i, center(2) + j];
-		u_ = zeros(lt, 1);
-		for k = 1:lt
-			u_(k) = u_pri{k}(area(1), area(2));
+		for k = 1:lTime
+			u_(k) = u_pri{k}(center(1) + i, center(2) + j);
 		end
-		[pxx_, f_] = pwelch(u_, [], [], [], Fs);
-		pxxs = pxx_ + pxxs;
-		fs = f_ + fs;
+		[pxx_, f_] = pwelch(fftfilter(X, Fs, 0:0.025:1), [], [], [], Fs);
 	end
 end
-pxx = pxxs ./ 9; f = fs ./ 9;
+pxx = pxx ./ 9; frequency = f_ ./ 9;
 
 figure();
-plot(f, pxx)
+plot(frequency, pxx)
 grid on; set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), 'Interpreter', 'latex'); 
-set(ylabel("$S_{uu}(f)$ (J/Hz)", "FontSize", 14), 'Interpreter', 'latex');
+set(ylabel("$S_{uu}(f) (m^2/s)$", "FontSize", 14), 'Interpreter', 'latex');
 set(title("PSD", FontSize=14), 'Interpreter', 'latex');
 
 figure();
-plot(f, f.* pxx)
+plot(frequency, frequency .* pxx)
 grid on; set(gca, 'XScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), 'Interpreter', 'latex'); 
-set(ylabel("$fS_{uu}(f)$ (J)", "FontSize", 14), 'Interpreter', 'latex');
+set(ylabel("$fS_{uu}(f) (m^2)$", "FontSize", 14), 'Interpreter', 'latex');
 set(title("pre-multiplied PSD", FontSize=14), 'Interpreter', 'latex');
 
+save(strcat(matPath, "spectrum.mat"), "frequency", "pxx", "u_pri");
 %------------------------------------------------------------------------%
 % plot lines
 %------------------------------------------------------------------------%
