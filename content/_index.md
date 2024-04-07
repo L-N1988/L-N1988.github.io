@@ -26,6 +26,7 @@ The search bar does not work for CJK lang!
 | 超大尺度涡                  | [slide PDF](./超大尺度涡.pdf), [jupyter notebook](./预乘谱讨论.pdf)|
 | $\LaTeX{}$简介              | [slide PDF](./LaTeX简介.pdf), [lecture note](./noteLaTeX简介.pdf)|
 | 二次流对LSM和VLSM影响的实验 | [slide PDF](./环形水槽LSM-VLSM.pdf)|
+| 拉格朗日拟序结构LCS | [slide PDF](./LCS.pdf)|
 
 # Script(s)
 PIVLab data processing: [matlab code](./PIVlab.m)
