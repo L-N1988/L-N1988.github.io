@@ -1,7 +1,12 @@
 import json
 import sys
+import os
+
 file_path = "".join(sys.argv[1:])
-print(file_path)
+_, output_file = os.path.split(file_path)
+output_file = output_file.replace('.json', '.md')
+
+print(file_path, '==➡️==>', output_file)
 
 # Sample JSON data
 with open(file_path) as f: 
@@ -28,7 +33,7 @@ for message in data["messages"]:
 markdown_file_content = "".join(markdown_output)
 
 # Writing to a Markdown file
-with open('output.md', 'w') as file:
+with open(output_file, 'w') as file:
     # Replace brackets to math dollar symbols
     file.write(markdown_file_content\
                .replace('\\(', '$')\
