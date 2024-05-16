@@ -35,6 +35,7 @@ PIVLab data processing: [matlab code](./PIVlab.m)
     - requirement: [FFT filter helper function](./fftfilter.m)
 
 convert ChatGPT raw conversation json to markdown: [GPTjson2md](./GPT-conversations/json2mdGPT.py)
+- [some gpt conversation](./GPT-conversations/)
 
 # See also
 - [了那WiKi: mkdocs playground](https://l-n1988.github.io/open-channel/)
