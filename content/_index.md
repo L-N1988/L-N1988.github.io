@@ -3,21 +3,6 @@ title: Introduction
 type: docs
 ---
 
-{{< hint info >}}
-**Update Info**  
-
-- Blog site new theme: [Hugo Book](https://themes.gohugo.io/themes/hugo-book/);
-- Theme modification: 
-    - Fonts: [Source Serif Pro](https://fonts.adobe.com/fonts/source-serif) for english, [LXGW WenKai / 霞鹜文楷](https://github.com/lxgw/LxgwWenKai) for CJK;
-    - Activate $\LaTeX{}$ render: Move modified `katex.html` from `/layouts/shortcodes` to `/layouts/partials/doc` and add it to `/layouts/partials/header.html`.
-{{< /hint >}}
-
-{{< hint warning >}}
-**Warning**
-
-The search bar does not work for CJK lang!
-{{< /hint >}}
-
 # Pres and Notes
 
 | Topics                      | Files|
