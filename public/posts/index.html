@@ -16,12 +16,9 @@
 <link rel="icon" href="/favicon.png" >
 <link rel="stylesheet" href="/book.min.2ecc9e7bb589cbc03fb334c7669a9df9db723c1276765d69f569d9e870d6682e.css" integrity="sha256-Lsyee7WJy8A/szTHZpqd&#43;dtyPBJ2dl1p9WnZ6HDWaC4=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.2dcf2b18e3f6f5eba13eb121ba4014947b7077a74accd2379753607313256182.js" integrity="sha256-Lc8rGOP29euhPrEhukAUlHtwd6dKzNI3l1NgcxMlYYI=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.eff08322e7203938fa9194a0f81b8c4354f49e2bb379ac775f572f4815701b17.js" integrity="sha256-7/CDIucgOTj6kZSg&#43;BuMQ1T0niuzeax3X1cvSBVwGxc=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
-
-  
-
 <link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/index.xml" title="Open channel" />
 <!--
 Made with Book Theme
@@ -48,7 +45,6 @@ https://github.com/alex-shpak/hugo-book
   <div class="book-search-spinner hidden"></div>
   <ul id="book-search-results"></ul>
 </div>
-
 
 
 
@@ -179,6 +175,41 @@ https://github.com/alex-shpak/hugo-book
       <strong>Tags</strong>
       <ul>
       
+        <li class="flex justify-between">
+          <a href="/tags/CSAPP/">CSAPP</a>
+          <span>6</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/pipeline/">Pipeline</a>
+          <span>2</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/cmd-line/">Cmd-Line</a>
+          <span>3</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/register/">Register</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/linker/">Linker</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/note-taking/">Note-Taking</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/symbol-table/">Symbol-Table</a>
+          <span>1</span>
+        </li>
+      
       </ul>
     </li>
     
@@ -197,6 +228,45 @@ https://github.com/alex-shpak/hugo-book
   
   <article class="markdown book-post">
     <h2>
+      <a href="/posts/K41/">K41</a>
+    </h2>
+    
+  <h5>February 27, 2024</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><h1 id="symmetry-in-statistical-sense">
+  Symmetry in statistical sense
+  <a class="anchor" href="#symmetry-in-statistical-sense">#</a>
+</h1>
+<h1 id="scale-invarient">
+  Scale invarient
+  <a class="anchor" href="#scale-invarient">#</a>
+</h1>
+<h1 id="finite-mean-rate-of-dissipation">
+  Finite mean rate of dissipation
+  <a class="anchor" href="#finite-mean-rate-of-dissipation">#</a>
+</h1>
+<h1 id="refs">
+  Refs
+  <a class="anchor" href="#refs">#</a>
+</h1>
+<p>
+  <a href="https://blogs.ed.ac.uk/physics-of-turbulence/2021/06/17/the-landau-criticism-of-k41-and-problems-with-averages/">The Landau criticism of K41 and problems with averages</a></p>
+        <a href="/posts/K41/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
       <a href="/posts/spectrum-analysis/">Spectrum Analysis</a>
     </h2>
     
@@ -211,9 +281,33 @@ https://github.com/alex-shpak/hugo-book
 
 
 
-    <p>写在前面 # 手册一般分为操作手册和原理手册，一般将前者称为指南，后者对应地称为指北。教科书往往兼顾两者，但是更加偏向原理讲解，绕了一大圈才道出问题的解决方法。在互联网论坛中存在一类“TL;DR”文化，即文本“Too long; Don&rsquo;t read”，因此发帖人往往将操作讲解放在开头方便浏览者迅速找到问题的解决办法。
-时间序列谱分析可以很复杂，先数学后物理再编程；也可以很简单，五六行代码便得到结果。本节是TL;DR的版本。
-rng default % Sample rate 1000Hz Fs = 1000; t = 0:1/Fs:1; % A signal with 200Hz cosine and 100Hz sine and noise x = cos(2*pi*t*200) + sin(2*pi*t*100) + randn(size(t)); [pxx, f] = pwelch(x, [], [], [], Fs); plot(f, 10*log10(pxx)) xlabel(&#39;Frequency (Hz)&#39;) ylabel(&#39;PSD (dB/Hz)&#39;) legend(&#39;Pxx by welch&#39;) 随机过程 # 定义 # 流场分析采用雷诺分解瞬时流速$u(t)$为时均流速$U=\left\langle u\right\rangle$和脉动流速$u'(t)$，即 $$u(t)=\left\langle u \right\rangle+u'(t).
+    <p><h1 id="写在前面">
+  写在前面
+  <a class="anchor" href="#%e5%86%99%e5%9c%a8%e5%89%8d%e9%9d%a2">#</a>
+</h1>
+<p>手册一般分为操作手册和原理手册，一般将前者称为指南，后者对应地称为指北。教科书往往兼顾两者，但是更加偏向原理讲解，绕了一大圈才道出问题的解决方法。在互联网论坛中存在一类“TL;DR”文化，即文本“Too long; Don&rsquo;t read”，因此发帖人往往将操作讲解放在开头方便浏览者迅速找到问题的解决办法。</p>
+<p>时间序列谱分析可以很复杂，先数学后物理再编程；也可以很简单，五六行代码便得到结果。本节是TL;DR的版本。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-matlab" data-lang="matlab"><span style="display:flex;"><span>rng default
+</span></span><span style="display:flex;"><span><span style="color:#75715e">% Sample rate 1000Hz</span>
+</span></span><span style="display:flex;"><span>Fs = <span style="color:#ae81ff">1000</span>; t = <span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span>Fs:<span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">% A signal with 200Hz cosine and 100Hz sine and noise</span>
+</span></span><span style="display:flex;"><span>x = cos(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi<span style="color:#f92672">*</span>t<span style="color:#f92672">*</span><span style="color:#ae81ff">200</span>) <span style="color:#f92672">+</span> sin(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>pi<span style="color:#f92672">*</span>t<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>) <span style="color:#f92672">+</span> randn(size(t));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[pxx, f] = pwelch(x, [], [], [], Fs);
+</span></span><span style="display:flex;"><span>plot(f, <span style="color:#ae81ff">10</span><span style="color:#f92672">*</span>log10(pxx))
+</span></span><span style="display:flex;"><span>xlabel(<span style="color:#e6db74">&#39;Frequency (Hz)&#39;</span>)
+</span></span><span style="display:flex;"><span>ylabel(<span style="color:#e6db74">&#39;PSD (dB/Hz)&#39;</span>)
+</span></span><span style="display:flex;"><span>legend(<span style="color:#e6db74">&#39;Pxx by welch&#39;</span>)
+</span></span></code></pre></div><h1 id="随机过程">
+  随机过程
+  <a class="anchor" href="#%e9%9a%8f%e6%9c%ba%e8%bf%87%e7%a8%8b">#</a>
+</h1>
+<h2 id="定义">
+  定义
+  <a class="anchor" href="#%e5%ae%9a%e4%b9%89">#</a>
+</h2>
+<p>流场分析采用雷诺分解瞬时流速$u(t)$为时均流速$U=\left\langle u\right\rangle$和脉动流速$u'(t)$，即
+$$u(t)=\left\langle u \right\rangle+u'(t).$$</p>
         <a href="/posts/spectrum-analysis/">...</a>
       
     </p>
@@ -221,10 +315,10 @@ rng default % Sample rate 1000Hz Fs = 1000; t = 0:1/Fs:1; % A signal with 200Hz 
   
   <article class="markdown book-post">
     <h2>
-      <a href="/posts/nonsense/">春天下午我总感到悲伤</a>
+      <a href="/posts/vim-plugin/">Vim Plugin</a>
     </h2>
     
-  <h5>May 22, 2023</h5>
+  <h5>October 24, 2023</h5>
 
 
 
@@ -235,23 +329,30 @@ rng default % Sample rate 1000Hz Fs = 1000; t = 0:1/Fs:1; % A signal with 200Hz 
 
 
 
-    <p>春天下午，天气好得人心慌，做什么或不做什么都是虚度。
-白昼还没长到足以浪费，而黄昏又迟迟不结束。
-站在玉兰和山茶之间，
-玉兰像白鸟的羽翼、怒放的雪，茶花在太阳下闪着光辉。
-人迷恋声色犬马，只是为了忘记时间在流逝……
-人用意义来对抗死，
-而春天没有意义。
-春天下午我总感到悲伤。
+    <p><ul>
+<li>Source: 
+  <a href="https://learnvimscriptthehardway.stevelosh.com/chapters/41.html">create a full plugin</a></li>
+<li>Source: 
+  <a href="https://vimways.org/2019/writing-vim-plugin/">writing vim plugin</a></li>
+<li>:help write-plugin</li>
+</ul>
+<h1 id="file-structure">
+  file structure
+  <a class="anchor" href="#file-structure">#</a>
+</h1>
+<p>See 
+  <a href="https://learnvimscriptthehardway.stevelosh.com/chapters/42.html">leanr vim script the hard way ch42</a>.</p>
+        <a href="/posts/vim-plugin/">...</a>
+      
     </p>
   </article>
   
   <article class="markdown book-post">
     <h2>
-      <a href="/posts/my-first-post/">My First Post</a>
+      <a href="/posts/20231021-pre_and_notes/">Pre and Notes</a>
     </h2>
     
-  <h5>April 10, 2023</h5>
+  <h5>October 21, 2023</h5>
 
 
 
@@ -262,12 +363,459 @@ rng default % Sample rate 1000Hz Fs = 1000; t = 0:1/Fs:1; % A signal with 200Hz 
 
 
 
-    <p>😀Hello world!
+    <p><h2 id="谱分析">
+  谱分析
+  <a class="anchor" href="#%e8%b0%b1%e5%88%86%e6%9e%90">#</a>
+</h2>
+<p>See slide: 
+  <a href="/ox-hugo/SpectrumAnalysis.pdf">谱分析</a>.</p>
+<p>对于随机实信号 <embed img src="/ltximg/20231021-pre_and_notes_4eee744bfd0712d2c272148512da7526dc6ada0c.svg" alt="$f(t)$" class="org-svg" /> ：</p>
+<ul>
+<li>
+<p>平均功率 <embed img src="/ltximg/20231021-pre_and_notes_f6f3e07438b5a02465b461cda546a7b874f628af.svg" alt="$\displaystyle\overline{f^2}(t)=\lim_{T \to \infty} \frac{1}{2T}\int_{-T}^{T} |f(t)|^2dt$" class="org-svg" /> 与功率谱密度 <embed img src="/ltximg/20231021-pre_and_notes_01234ef47d2591719cb8284aab9969128985e092.svg" alt="$S(\omega)$" class="org-svg" /> 的关系</p>
+<p><embed img src="/ltximg/20231021-pre_and_notes_a96ecd1aafaa0c15471d9643d66288b8baf61320.svg" alt="\begin{align*}
+\overline{f^2}(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} S(\omega) d\omega
+.\end{align*}
+" class="org-svg" />
+</span></p>
+        <a href="/posts/20231021-pre_and_notes/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/20231008-%E4%BA%8C%E9%98%B6%E7%9F%A9%E8%BF%87%E7%A8%8B/">二阶矩过程</a>
+    </h2>
+    
+  <h5>October 8, 2023</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><p>若随机过程<embed img src="/ltximg/20231008-二阶矩过程_5da097b199eb86cf3c2f5d586cc3f5d33815aea0.svg" alt="$\{X(t), t\in T\}$" class="org-svg" /> 是一个复或实值随机过程，若对任意的<embed img src="/ltximg/20231008-二阶矩过程_ea6c868baa9180b7e03deafa7c16c00f0c0fec53.svg" alt="$t\in T$" class="org-svg" />，满足<embed img src="/ltximg/20231008-二阶矩过程_ee5d412ad7d7f3a1561f9e14637b738f6fa0848f.svg" alt="$E \mid X(t) \mid ^2&amp;lt;+\infty$" class="org-svg" />，则称随机过程是二阶矩过程。</p>
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/data-path/">datapath</a>
+    </h2>
+    
+  <h5>June 21, 2023</h5>
+
+
+
+  
+
+  
+  <div>
+    
+      <a href="/tags/pipeline/">Pipeline</a>, 
+      <a href="/tags/CSAPP/">CSAPP</a>
+  </div>
+  
+
+
+
+
+    <p><h2 id="single-cycle-datapath">
+  single-cycle datapath
+  <a class="anchor" href="#single-cycle-datapath">#</a>
+</h2>
+<p>
+  <a href="/posts/processor/#datapath">processor::datapath</a></p>
+<figure><img src="/ox-hugo/2023-06-21_00-29-52_screenshot.png">
+</figure>
+
+<figure><img src="/ox-hugo/2023-06-21_00-38-15_screenshot.png"
+    alt="Figure 1: Instructions being executed using the single-cycle datapath"><figcaption>
+      <p><span class="figure-number">Figure 1: </span>Instructions being executed using the single-cycle datapath</p>
+        <a href="/posts/data-path/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/data-hazard/">data hazard</a>
+    </h2>
+    
+  <h5>June 20, 2023</h5>
+
+
+
+  
+
+  
+  <div>
+    
+      <a href="/tags/pipeline/">Pipeline</a>, 
+      <a href="/tags/CSAPP/">CSAPP</a>
+  </div>
+  
+
+
+
+
+    <p><figure><img src="/ox-hugo/2023-06-22_12-36-20_screenshot.png"
+    alt="Figure 1: The datapath modified to resolve hazards via forwarding."><figcaption>
+      <p><span class="figure-number">Figure 1: </span>The datapath modified to resolve hazards via forwarding.</p>
+        <a href="/posts/data-hazard/">...</a>
+      
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%88%86%E6%9E%90/">二进制分析</a>
+    </h2>
+    
+  <h5>June 19, 2023</h5>
+
+
+
+  
+
+  
+  <div>
+    
+      <a href="/tags/cmd-line/">Cmd-Line</a>
+  </div>
+  
+
+
+
+
+    <p><ul>
+<li>对于二进制文件，使用 hd，hexdump 或者 xxd 使其以十六进制显示，使用 bvi，hexedit 或者 biew 来进行二进制编辑。</li>
+<li>对于二进制文件，使用 hd，hexdump 或者 xxd 使其以十六进制显示，使用 bvi，hexedit 或者 biew 来进行二进制编辑。</li>
+<li>同样对于二进制文件，strings（包括 grep 等工具）可以帮助在二进制文件中查找特定比特。</li>
+<li>制作二进制差分文件（Delta 压缩），使用 xdelta3。</li>
+<li>了解 strace 和 ltrace。这俩工具在你的程序运行失败、挂起甚至崩溃，而你却不知道为什么或你想对性能有个总体的认识的时候是非常有用的。注意 profile 参数（-c）和附加到一个运行的进程参数 （-p）。</li>
+<li>了解使用 ldd 来检查共享库。但是永远不要在不信任的文件上运行。</li>
+<li>了解如何运用 gdb 连接到一个运行着的进程并获取它的堆栈轨迹。</li>
+</ul>
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/xargs/">xargs</a>
+    </h2>
+    
+  <h5>June 19, 2023</h5>
+
+
+
+  
+
+  
+
+
+
+
+    <p><p>使用 xargs （ 或 parallel）。他们非常给力。注意到你可以控制每行参数个数（-L）和最大并行数（-P）。如果你不确定它们是否会按你想的那样工作，先使用 xargs echo 查看一下。此外，使用 -I{} 会很方便。例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>find . -name <span style="color:#e6db74">&#39;*.py&#39;</span> | xargs grep some_function
+</span></span><span style="display:flex;"><span>cat hosts | xargs -I<span style="color:#f92672">{}</span> ssh root@<span style="color:#f92672">{}</span> hostname
+</span></span></code></pre></div>
+    </p>
+  </article>
+  
+  <article class="markdown book-post">
+    <h2>
+      <a href="/posts/Readline/">Readline</a>
+    </h2>
+    
+  <h5>June 19, 2023</h5>
+
+
+
+  
+
+  
+  <div>
+    
+      <a href="/tags/cmd-line/">Cmd-Line</a>
+  </div>
+  
+
+
+
+
+    <p><h2 id="readline">
+  Readline
+  <a class="anchor" href="#readline">#</a>
+</h2>
+<ul>
+<li>你喜欢的话，可以执行 set -o vi 来使用 vi 风格的快捷键，而执行 set -o emacs 可以把它改回来。</li>
+<li>为了便于编辑长命令，在设置你的默认编辑器后（例如 export EDITOR=vim），ctrl-x ctrl-e 会打开一个编辑器来编辑当前输入的命令。在 vi 风格下快捷键则是 escape-v。</li>
+<li>键入 history 查看命令行历史记录，再用 !n（n 是命令编号）就可以再次执行。其中有许多缩写，最有用的大概就是 !$， 它用于指代上次键入的参数，而 !! 可以指代上次键入的命令了（参考 man 页面中的“HISTORY EXPANSION”）。不过这些功能，你也可以通过快捷键 ctrl-r 和 alt-. 来实现。</li>
+</ul>
+<!--listend-->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>man readline
+</span></span></code></pre></div><h3 id="commands-for-manipulating-the-history">
+  Commands for Manipulating the History
+  <a class="anchor" href="#commands-for-manipulating-the-history">#</a>
+</h3>
+<ul>
+<li>accept-line (Newline, Return)</li>
+<li>previous-history (C-p)</li>
+<li>next-history (C-n)</li>
+<li>beginning-of-history (M-&lt;)</li>
+<li>end-of-history (M-&gt;)</li>
+<li>operate-and-get-next (C-o)</li>
+<li>fetch-history</li>
+<li>reverse-search-history (C-r)</li>
+<li>forward-search-history (C-s)</li>
+<li>non-incremental-reverse-search-history (M-p)</li>
+<li>non-incremental-forward-search-history (M-n)</li>
+<li>history-search-backward</li>
+<li>history-search-forward</li>
+<li>history-substring-search-backward</li>
+<li>history-substring-search-forward</li>
+<li>yank-nth-arg (M-C-y)</li>
+<li><strong>yank-last-arg (M-., M-_)</strong></li>
+</ul>
+<h3 id="commands-for-changing-text">
+  Commands for Changing Text
+  <a class="anchor" href="#commands-for-changing-text">#</a>
+</h3>
+<ul>
+<li>end-of-file (usually C-d)</li>
+<li>delete-char (C-d)</li>
+<li>backward-delete-char (Rubout)</li>
+<li>forward-backward-delete-char</li>
+<li>quoted-insert (C-q, C-v)</li>
+<li>tab-insert (M-TAB)</li>
+<li>self-insert (a, b, A, 1, !, &hellip;)</li>
+<li>transpose-chars (C-t)</li>
+<li>transpose-words (M-t)</li>
+<li>upcase-word (M-u)</li>
+<li>downcase-word (M-l)</li>
+<li>capitalize-word (M-c)</li>
+<li>overwrite-mode</li>
+</ul>
+<h3 id="killing-and-yanking">
+  Killing and Yanking
+  <a class="anchor" href="#killing-and-yanking">#</a>
+</h3>
+<ul>
+<li>kill-line (C-k)</li>
+<li>backward-kill-line (C-x Rubout)</li>
+<li>unix-line-discard (C-u)</li>
+<li>kill-whole-line</li>
+<li>kill-word (M-d)</li>
+<li>backward-kill-word (M-Rubout)</li>
+<li>unix-word-rubout (C-w)</li>
+<li>unix-filename-rubout</li>
+<li>delete-horizontal-space (M-\)</li>
+<li>kill-region</li>
+<li>copy-region-as-kill</li>
+<li>copy-backward-word</li>
+<li>copy-forward-word</li>
+<li>yank (C-y)</li>
+<li>yank-pop (M-y)</li>
+</ul>
+<h3 id="numeric-arguments">
+  Numeric Arguments
+  <a class="anchor" href="#numeric-arguments">#</a>
+</h3>
+<ul>
+<li>digit-argument (M-0, M-1, &hellip;, M&ndash;)</li>
+<li>universal-argument</li>
+</ul>
+<h3 id="completing">
+  Completing
+  <a class="anchor" href="#completing">#</a>
+</h3>
+<ul>
+<li>complete (TAB)</li>
+<li>possible-completions (M-?)</li>
+<li>insert-completions (M-*)</li>
+<li>menu-complete</li>
+<li>menu-complete-backward</li>
+<li>delete-char-or-list</li>
+</ul>
+<h3 id="keyboard-macros">
+  Keyboard Macros
+  <a class="anchor" href="#keyboard-macros">#</a>
+</h3>
+<ul>
+<li>start-kbd-macro (C-x ()</li>
+<li>end-kbd-macro (C-x ))</li>
+<li>call-last-kbd-macro (C-x e)</li>
+<li>print-last-kbd-macro ()</li>
+</ul>
+<h3 id="miscellaneous">
+  Miscellaneous
+  <a class="anchor" href="#miscellaneous">#</a>
+</h3>
+<ul>
+<li>re-read-init-file (C-x C-r)</li>
+<li>abort (C-g)</li>
+<li>do-lowercase-version (M-A, M-B, M-x, &hellip;)</li>
+<li>prefix-meta (ESC)</li>
+<li>undo (C-_, C-x C-u)</li>
+<li>revert-line (M-r)</li>
+<li>tilde-expand (M-&amp;)</li>
+<li>set-mark (C-@, M-&lt;space&gt;)</li>
+<li>exchange-point-and-mark (C-x C-x)</li>
+<li>character-search (C-])</li>
+<li>character-search-backward (M-C-])</li>
+<li>skip-csi-sequence</li>
+<li>insert-comment (M-#)</li>
+<li>dump-functions</li>
+<li>dump-variables</li>
+<li>dump-macros</li>
+<li>emacs-editing-mode (C-e)</li>
+<li>vi-editing-mode (M-C-j)</li>
+</ul>
+<h3 id="emacs-mode">
+  Emacs Mode
+  <a class="anchor" href="#emacs-mode">#</a>
+</h3>
+<h4 id="emacs-standard-bindings">
+  Emacs Standard bindings
+  <a class="anchor" href="#emacs-standard-bindings">#</a>
+</h4>
+<ul>
+<li>&ldquo;C-@&rdquo;  set-mark</li>
+<li>&ldquo;C-A&rdquo;  beginning-of-line</li>
+<li>&ldquo;C-B&rdquo;  backward-char</li>
+<li>&ldquo;C-D&rdquo;  delete-char</li>
+<li>&ldquo;C-E&rdquo;  end-of-line</li>
+<li>&ldquo;C-F&rdquo;  forward-char</li>
+<li>&ldquo;C-G&rdquo;  abort</li>
+<li>&ldquo;C-H&rdquo;  backward-delete-char</li>
+<li>&ldquo;C-I&rdquo;  complete</li>
+<li>&ldquo;C-J&rdquo;  accept-line</li>
+<li>&ldquo;C-K&rdquo;  kill-line</li>
+<li>&ldquo;C-L&rdquo;  clear-screen</li>
+<li>&ldquo;C-M&rdquo;  accept-line</li>
+<li>&ldquo;C-N&rdquo;  next-history</li>
+<li>&ldquo;C-P&rdquo;  previous-history</li>
+<li>&ldquo;C-Q&rdquo;  quoted-insert</li>
+<li>&ldquo;C-R&rdquo;  reverse-search-history</li>
+<li>&ldquo;C-S&rdquo;  forward-search-history</li>
+<li>&ldquo;C-T&rdquo;  transpose-chars</li>
+<li>&ldquo;C-U&rdquo;  unix-line-discard</li>
+<li>&ldquo;C-V&rdquo;  quoted-insert</li>
+<li>&ldquo;C-W&rdquo;  unix-word-rubout</li>
+<li>&ldquo;C-Y&rdquo;  yank</li>
+<li>&ldquo;C-]&rdquo;  character-search</li>
+<li>&ldquo;C-_&rdquo;  undo</li>
+<li>&quot; &quot; to &ldquo;/&rdquo;  self-insert</li>
+<li>&ldquo;0&rdquo;  to &ldquo;9&rdquo;  self-insert</li>
+<li>&ldquo;:&rdquo;  to &ldquo;~&rdquo;  self-insert</li>
+<li>&ldquo;C-?&rdquo;  backward-delete-char</li>
+</ul>
+<h4 id="emacs-meta-bindings">
+  Emacs Meta bindings
+  <a class="anchor" href="#emacs-meta-bindings">#</a>
+</h4>
+<ul>
+<li>&ldquo;M-C-G&rdquo;  abort</li>
+<li>&ldquo;M-C-H&rdquo;  backward-kill-word</li>
+<li>&ldquo;M-C-I&rdquo;  tab-insert</li>
+<li>&ldquo;M-C-J&rdquo;  vi-editing-mode</li>
+<li>&ldquo;M-C-L&rdquo;  clear-display</li>
+<li>&ldquo;M-C-M&rdquo;  vi-editing-mode</li>
+<li>&ldquo;M-C-R&rdquo;  revert-line</li>
+<li>&ldquo;M-C-Y&rdquo;  yank-nth-arg</li>
+<li>&ldquo;M-C-[&rdquo;  complete</li>
+<li>&ldquo;M-C-]&rdquo;  character-search-backward</li>
+<li>&ldquo;M-space&rdquo;  set-mark</li>
+<li>&ldquo;M-#&rdquo;  insert-comment</li>
+<li>&ldquo;M-&amp;&rdquo;  tilde-expand</li>
+<li>&ldquo;M-*&rdquo;  insert-completions</li>
+<li>&ldquo;M&ndash;&rdquo;  digit-argument</li>
+<li>&ldquo;M-.&rdquo;  yank-last-arg</li>
+<li>&ldquo;M-0&rdquo;  digit-argument</li>
+<li>&ldquo;M-1&rdquo;  digit-argument</li>
+<li>&ldquo;M-2&rdquo;  digit-argument</li>
+<li>&ldquo;M-3&rdquo;  digit-argument</li>
+<li>&ldquo;M-4&rdquo;  digit-argument</li>
+<li>&ldquo;M-5&rdquo;  digit-argument</li>
+<li>&ldquo;M-6&rdquo;  digit-argument</li>
+<li>&ldquo;M-7&rdquo;  digit-argument</li>
+<li>&ldquo;M-8&rdquo;  digit-argument</li>
+<li>&ldquo;M-9&rdquo;  digit-argument</li>
+<li>&ldquo;M-&lt;&rdquo;  beginning-of-history</li>
+<li>&ldquo;M-=&rdquo;  possible-completions</li>
+<li>&ldquo;M-&gt;&rdquo;  end-of-history</li>
+<li>&ldquo;M-?&rdquo;  possible-completions</li>
+<li>&ldquo;M-B&rdquo;  backward-word</li>
+<li>&ldquo;M-C&rdquo;  capitalize-word</li>
+<li>&ldquo;M-D&rdquo;  kill-word</li>
+<li>&ldquo;M-F&rdquo;  forward-word</li>
+<li>&ldquo;M-L&rdquo;  downcase-word</li>
+<li>&ldquo;M-N&rdquo;  non-incremental-forward-search-history</li>
+<li>&ldquo;M-P&rdquo;  non-incremental-reverse-search-history</li>
+<li>&ldquo;M-R&rdquo;  revert-line</li>
+<li>&ldquo;M-T&rdquo;  transpose-words</li>
+<li>&ldquo;M-U&rdquo;  upcase-word</li>
+<li>&ldquo;M-Y&rdquo;  yank-pop</li>
+<li>&ldquo;M-\&rdquo;  delete-horizontal-space</li>
+<li>&ldquo;M-~&rdquo;  tilde-expand</li>
+<li>&ldquo;M-C-?&rdquo;  backward-kill-word</li>
+<li>&ldquo;M-_&rdquo;  yank-last-arg</li>
+</ul>
+<h4 id="emacs-control-x-bindings">
+  Emacs Control-X bindings
+  <a class="anchor" href="#emacs-control-x-bindings">#</a>
+</h4>
+<ul>
+<li>&ldquo;C-XC-G&rdquo;  abort</li>
+<li>&ldquo;C-XC-R&rdquo;  re-read-init-file</li>
+<li>&ldquo;C-XC-U&rdquo;  undo</li>
+<li>&ldquo;C-XC-X&rdquo;  exchange-point-and-mark</li>
+<li>&ldquo;C-X(&rdquo;  start-kbd-macro</li>
+<li>&ldquo;C-X)&rdquo;  end-kbd-macro</li>
+<li>&ldquo;C-XE&rdquo;  call-last-kbd-macro</li>
+<li>&ldquo;C-XC-?&rdquo;  backward-kill-line</li>
+</ul>
+<h3 id="vi-mode-binding">
+  Vi Mode Binding
+  <a class="anchor" href="#vi-mode-binding">#</a>
+</h3>
     </p>
   </article>
   
 
   
+    <ul class="pagination pagination-default">
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="First" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;&laquo;</span></a>
+      </li>
+      <li class="page-item disabled">
+        <a aria-disabled="true" aria-label="Previous" class="page-link" role="button" tabindex="-1"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+      <li class="page-item active">
+        <a aria-current="page" aria-label="Page 1" class="page-link" role="button">1</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/2/" aria-label="Page 2" class="page-link" role="button">2</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/3/" aria-label="Page 3" class="page-link" role="button">3</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/4/" aria-label="Page 4" class="page-link" role="button">4</a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/2/" aria-label="Next" class="page-link" role="button"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+      <li class="page-item">
+        <a href="/posts/page/4/" aria-label="Last" class="page-link" role="button"><span aria-hidden="true">&raquo;&raquo;</span></a>
+      </li>
+    </ul>
  
       
 
@@ -317,6 +865,41 @@ rng default % Sample rate 1000Hz Fs = 1000; t = 0:1/Fs:1; % A signal with 200Hz 
     <li class="book-section-flat">
       <strong>Tags</strong>
       <ul>
+      
+        <li class="flex justify-between">
+          <a href="/tags/CSAPP/">CSAPP</a>
+          <span>6</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/pipeline/">Pipeline</a>
+          <span>2</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/cmd-line/">Cmd-Line</a>
+          <span>3</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/register/">Register</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/linker/">Linker</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/note-taking/">Note-Taking</a>
+          <span>1</span>
+        </li>
+      
+        <li class="flex justify-between">
+          <a href="/tags/symbol-table/">Symbol-Table</a>
+          <span>1</span>
+        </li>
       
       </ul>
     </li>
