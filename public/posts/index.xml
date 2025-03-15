@@ -4,7 +4,7 @@
     <title>Posts on Open channel</title>
     <link>http://localhost:1313/posts/</link>
     <description>Recent content in Posts on Open channel</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Thu, 21 Mar 2024 19:42:28 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />

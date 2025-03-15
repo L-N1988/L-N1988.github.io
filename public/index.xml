@@ -4,7 +4,7 @@
     <title>Introduction on Open channel</title>
     <link>http://localhost:1313/</link>
     <description>Recent content in Introduction on Open channel</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     <item>
@@ -41,6 +41,41 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/docs/page-two/</guid>
       <description></description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/GPT-conversations/firmware-bootloader-MBR/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/GPT-conversations/firmware-bootloader-MBR/</guid>
+      <description>Q by user # how to debug a toy boot-loader using qemu and gdb?&#xA;A by GPT # Debugging a toy bootloader using QEMU and GDB involves a few steps to set up your environment and then run your bootloader under emulation with debugging enabled.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/GPT-conversations/hilbert-transform/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/GPT-conversations/hilbert-transform/</guid>
+      <description>Q by user # explain why this code implement hilbert transform in math sense:&#xA;I had a look at your code, made a couple edits, and compared it to the scipy and MATLAB Hilbert transforms.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/GPT-conversations/implicit-vs-explicit-scheme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/GPT-conversations/implicit-vs-explicit-scheme/</guid>
+      <description>Q # explain implicit vs explicit scheme in pde and show examples&#xA;A # Implicit vs. Explicit Schemes in Partial Differential Equations (PDEs) # In numerical analysis, particularly when solving partial differential equations (PDEs), two common approaches are used: implicit and explicit schemes.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/GPT-conversations/minimal-bootloader/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/GPT-conversations/minimal-bootloader/</guid>
+      <description>Q by user # why qemu always stuck at VNC server running on ::1:5900?&#xA;A by GPT # When QEMU appears to be stuck at the message &amp;ldquo;VNC server running on ::1:5900,&amp;rdquo; it typically indicates that QEMU is running and waiting for a VNC client to connect to the virtual machine&amp;rsquo;s graphical output.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/GPT-conversations/project-matrix-GPT/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/GPT-conversations/project-matrix-GPT/</guid>
+      <description>Q by user # explain math meaning, project a matrix A onto the POD modes in U is U^*AU, where * means conjugate transpose.</description>
     </item>
     <item>
       <title>search</title>

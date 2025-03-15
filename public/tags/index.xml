@@ -4,7 +4,7 @@
     <title>Tags on Open channel</title>
     <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on Open channel</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
