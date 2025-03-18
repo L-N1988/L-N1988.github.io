@@ -16,4 +16,5 @@
 2. Plot turbulence statistical: [matlab code](./PIV-processing/pivPlot.m)
 3. Estimate power spectral density in vertical centre line of FOV: [matlab code](./PIV-processing/PSD.m)
 4. Plot power spectral density contour: [matlab code](./PIV-processing/pxxPlot.m)
-
+5. Merged PSD from different PSD series: [matlab code](./PIV-processing/mergePSD.m)
+6. Plot 2D vertical distribution PSD contour: [matlab code](./PIV-processing/mergePxxPlot.m)
