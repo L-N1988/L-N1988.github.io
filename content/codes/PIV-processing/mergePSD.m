@@ -54,7 +54,7 @@ mid_l = round(size(pxx_l, 2)/2);
 pxx_l = squeeze(pxx_l(:, mid_l, :));
 f_l = squeeze(f_l(:, mid_l, :));
 
-cut_f = 1; % cut edge of merged frequency
+cut_f = 2; % cut edge of merged frequency
 index_c = (f_c >= cut_f);
 index_l = (f_l <= cut_f);
 
@@ -125,7 +125,11 @@ function [f_merge, pxx_merge, Y_merge] = mergeAlighment(longer, shorter, cut_f, 
         % Store merged data
         f_merge(ii, 1:length(merged_f)) = merged_f;
         pxx_merge(ii, 1:length(merged_pxx)) = merged_pxx;
-        loglog(merged_f, smoothdata(merged_pxx, "movmean", 5));
+        plot(f_c(ii, :), pxx_c(ii, :));
+        hold on;
+        plot(f_l(ii, :), pxx_l(ii, :));
+        plot(merged_f, merged_pxx); 
+        set(gca, 'XScale', 'log', 'YScale', 'log'); hold off;
     end
 
     % Trim unused columns
