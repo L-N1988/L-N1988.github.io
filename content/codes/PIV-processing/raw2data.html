@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/home/liuning/openchannel/content/codes/PIV-processing/raw2data.m</title>
+<meta name="colorscheme" content="sublimemonokai"></meta>
+<style>
+* {font-family: monospace}
+body {background-color: #272822; color: #e8e8e3}
+.SublimeWarmGrey {color: #75715e}
+.SublimePink {color: #f92772}
+.SublimePurple {color: #ae81ff}
+.SublimeWhite {color: #e8e8e3}
+.SublimeYellow {color: #e6db74}
+</style>
+</head>
+<body style="display: flex">
+<pre>
+<span class="SublimeWarmGrey">% This script processes `mat` from PIVLab toolbox </span>
+<span class="SublimeWarmGrey">% to calculate turbulence statistic parameters</span>
+
+<span class="SublimeWhite">function</span> status = raw2data(casePath)
+    <span class="SublimeWarmGrey">% PIVLab frame data format</span>
+    <span class="SublimeWarmGrey">%         o--------o</span>
+    <span class="SublimeWarmGrey">%        /        /|</span>
+    <span class="SublimeWarmGrey">%       /        / |</span>
+    <span class="SublimeWarmGrey">%      o--------o  |</span>
+    <span class="SublimeWarmGrey">%      |        |  o</span>
+    <span class="SublimeWarmGrey">% mRows|        | /</span>
+    <span class="SublimeWarmGrey">%      |        |/ nFrame</span>
+    <span class="SublimeWarmGrey">%      o--------o</span>
+    <span class="SublimeWarmGrey">%         nCols</span>
+    <span class="SublimeWarmGrey">%%</span>
+
+    data = load(fullfile(casePath, <span class="SublimeYellow">'normalized_data'</span>, <span class="SublimeYellow">'PIVlab.mat'</span>))<span class="SublimePink">;</span>
+    xmesh = data.x{<span class="SublimePurple">1</span>, <span class="SublimePurple">1</span>}<span class="SublimePink">;</span> X = xmesh(<span class="SublimePurple">1</span>, :)<span class="SublimePink">;</span>
+    ymesh = data.y{<span class="SublimePurple">1</span>, <span class="SublimePurple">1</span>}<span class="SublimePink">;</span> Y = ymesh(:, <span class="SublimePurple">1</span>)<span class="SublimePink">;</span>
+    disp(sprintf(<span class="SublimeWhite">[</span><span class="SublimeYellow">'Measure domain: \n'</span><span class="SublimeWarmGrey">...</span>
+            <span class="SublimeYellow">'X from %.5f to %.5f, nX = %d, dX = %.5f.\n'</span><span class="SublimeWarmGrey">...</span>
+            <span class="SublimeYellow">'Y from %.5f to %.5f, nY = %d, dY = %.5f.\n'</span><span class="SublimeWhite">]</span>), <span class="SublimeWarmGrey">...</span>
+            X(<span class="SublimePurple">1</span>), X(<span class="SublimePink">end</span>), length(X), <span class="SublimePink">mean</span>(diff(X)), Y(<span class="SublimePurple">1</span>), Y(<span class="SublimePink">end</span>), length(Y), <span class="SublimePink">mean</span>(diff(Y)))<span class="SublimePink">;</span>
+    <span class="SublimeWarmGrey">% 3d matrix</span>
+    u_original = data.u_original<span class="SublimePink">;</span>
+    v_original = data.v_original<span class="SublimePink">;</span>
+
+    <span class="SublimePink">if</span> isempty(data.u_filtered{<span class="SublimePurple">1</span>}) <span class="SublimePink">&amp;&amp;</span> isempty(data.v_filtered{<span class="SublimePurple">1</span>})
+        warning(<span class="SublimeYellow">'Data not fileted in PIVLab. Mat file may contains some abnormal data.'</span>)
+        u_filtered = u_original<span class="SublimePink">;</span>
+        v_filtered = v_original<span class="SublimePink">;</span>
+        typevector = data.typevector_original<span class="SublimePink">;</span>
+    <span class="SublimePink">else</span>
+        u_filtered = data.u_filtered<span class="SublimePink">;</span>
+        v_filtered = data.v_filtered<span class="SublimePink">;</span>
+        typevector = data.typevector_filtered<span class="SublimePink">;</span>
+    <span class="SublimePink">end</span>
+
+    <span class="SublimeWhite">[</span>mRows, nCols<span class="SublimeWhite">]</span> = <span class="SublimePink">size</span>(u_filtered{<span class="SublimePurple">1</span>})<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% FIXME</span>
+    nFrame = length(u_filtered)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% snapshot number</span>
+
+    <span class="SublimeWarmGrey">% Remove non-numerical and mask data</span>
+    <span class="SublimeWarmGrey">% Ask Groq3 beta</span>
+    _results = cellfun(<span class="SublimeWarmGrey">...</span>
+        @(u_frame, v_frame, validMask) <span class="SublimeWarmGrey">...</span>
+        {<span class="SublimeWarmGrey">...</span>
+            u_frame(<span class="SublimePink">~</span>validMask <span class="SublimePink">||</span> isnan(u_frame) <span class="SublimePink">||</span> isinf(u_frame)) = <span class="SublimePurple">0</span><span class="SublimePink">;</span> u_frame, <span class="SublimeWarmGrey">...</span>
+            v_frame(<span class="SublimePink">~</span>validMask <span class="SublimePink">||</span> isnan(v_frame) <span class="SublimePink">||</span> isinf(v_frame)) = <span class="SublimePurple">0</span><span class="SublimePink">;</span> v_frame, <span class="SublimeWarmGrey">...</span>
+            }, u_filtered, v_filtered, typevector, <span class="SublimeWarmGrey">...</span>
+        <span class="SublimeYellow">'UniformOutput'</span>, false)<span class="SublimePink">;</span>
+    u_filtered = cellfun(@(x) x{<span class="SublimePurple">1</span>}, _results, <span class="SublimeYellow">'UniformOutput'</span>, false)<span class="SublimePink">;</span>
+    v_filtered = cellfun(@(x) x{<span class="SublimePurple">2</span>}, _results, <span class="SublimeYellow">'UniformOutput'</span>, false)<span class="SublimePink">;</span>
+    <span class="SublimeWarmGrey">% Sum cell array trick</span>
+    <span class="SublimeWarmGrey">% https://www.mathworks.com/matlabcentral/answers/281640-sum-values-in-a-cell-array#answer_220006</span>
+    nValidFrame = <span class="SublimeWhite">sum</span>(<span class="SublimeWhite">[</span>typevector{:}<span class="SublimeWhite">]</span>)<span class="SublimePink">;</span>
+
+    <span class="SublimeWarmGrey">%% Statistic process</span>
+    <span class="SublimeWarmGrey">% READ FIRST: https://www.mit.edu/course/1/1.061/www/dream/SEVEN/SEVENTHEORY.PDF</span>
+
+    <span class="SublimeWarmGrey">% Time average velocity of each cell</span>
+    <span class="SublimeWarmGrey">% Sum cell array trick</span>
+    U_t = <span class="SublimeWhite">sum</span>(<span class="SublimeWhite">[</span>u_filtered{:}<span class="SublimeWhite">]</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
+    V_t = <span class="SublimeWhite">sum</span>(<span class="SublimeWhite">[</span>v_filtered{:}<span class="SublimeWhite">]</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
+
+    <span class="SublimeWarmGrey">% Double average velocity</span>
+    <span class="SublimeWarmGrey">% Vector</span>
+    U_xt = <span class="SublimePink">mean</span>(U_t, <span class="SublimePurple">2</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% average in x/column direction</span>
+    V_xt = <span class="SublimePink">mean</span>(V_t, <span class="SublimePurple">2</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% average in x/column direction</span>
+
+    <span class="SublimeWarmGrey">% Double average component</span>
+    <span class="SublimeWarmGrey">% FIXME: this should be same as U_xt or V_xt, but not?</span>
+    <span class="SublimeWarmGrey">% U_xt = sum(sum(u_filtered{:}]), 2) ./ sum(nValidFrame, 2);</span>
+    <span class="SublimeWarmGrey">% V_xt = sum(sum(v_filtered{:}]), 2) ./ sum(nValidFrame, 2);</span>
+
+    <span class="SublimeWarmGrey">% Turbulent velocity</span>
+    u_pri = cellfun(@(u_frame) u_frame <span class="SublimePink">-</span> U_t, u_filtered)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% u'</span>
+    v_pri = cellfun(@(v_frame) v_frame <span class="SublimePink">-</span> V_t, v_filtered)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% v'</span>
+
+    <span class="SublimeWarmGrey">% Cross- or self- correlation, second moment</span>
+    uv = cellfun(@(u, v) u<span class="SublimePink">.*</span>v, u_filtered, v_filtered)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% u'v' Reynold shear stress</span>
+    uu = cellfun(@(u) u<span class="SublimePink">.^</span><span class="SublimePurple">2</span>, u_filtered)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% u'u' TKE of u</span>
+    vv = cellfun(@(v) v<span class="SublimePink">.^</span><span class="SublimePurple">2</span>, v_filtered)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% v'v' TKE of v</span>
+    <span class="SublimeWarmGrey">% Third moment</span>
+    uuu = cellfun(@(u) u<span class="SublimePink">.^</span><span class="SublimePurple">3</span>, u_filtered)<span class="SublimePink">;</span>
+    vvv = cellfun(@(v) v<span class="SublimePink">.^</span><span class="SublimePurple">3</span>, v_filtered)<span class="SublimePink">;</span>
+
+    <span class="SublimeWarmGrey">% Time average</span>
+    uv_t  = <span class="SublimeWhite">sum</span>(<span class="SublimeWhite">[</span>uv{:}<span class="SublimeWhite">]</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
+    uu_t  = <span class="SublimeWhite">sum</span>(<span class="SublimeWhite">[</span>uu{:}<span class="SublimeWhite">]</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
+    vv_t  = <span class="SublimeWhite">sum</span>(<span class="SublimeWhite">[</span>vv{:}<span class="SublimeWhite">]</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
+    uuu_t = <span class="SublimeWhite">sum</span>(<span class="SublimeWhite">[</span>uuu{:}<span class="SublimeWhite">]</span>)<span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
+    vvv_t = <span class="SublimeWhite">sum</span>(<span class="SublimeWhite">[</span>vvv{:}) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
+
+    <span class="SublimeWarmGrey">% Double average: average in time direction then in x direction</span>
+    uv_xt  = <span class="SublimePink">mean</span>(uv_t, <span class="SublimePurple">2</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% u'v'</span>
+    RSS    = <span class="SublimePink">-</span><span class="SublimePurple">1</span> <span class="SublimePink">*</span> uv_xt<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% Reynold shear stress</span>
+    uu_xt  = <span class="SublimePink">mean</span>(uu_t, <span class="SublimePurple">2</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% u'u' TKE of u</span>
+    vv_xt  = <span class="SublimePink">mean</span>(vv_t, <span class="SublimePurple">2</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% v'v' TKE of v</span>
+    uuu_xt = <span class="SublimePink">mean</span>(uuu_t, <span class="SublimePurple">2</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% u'u'u' third moment of u</span>
+    <span class="SublimeWarmGrey">% rms means space average of stdandard deviation</span>
+    u_rms = <span class="SublimePink">mean</span>(<span class="SublimeWhite">sqrt</span>(uu_t), <span class="SublimePurple">2</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% turbulence strength of u</span>
+    v_rms = <span class="SublimePink">mean</span>(<span class="SublimeWhite">sqrt</span>(vv_t), <span class="SublimePurple">2</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% turbulence strength of v</span>
+
+    save(fullfile(casePath, <span class="SublimeYellow">'figure_data'</span>, <span class="SublimeYellow">'u_stat.mat'</span>), <span class="SublimeYellow">'xmesh'</span>, <span class="SublimeYellow">'X'</span>, <span class="SublimeYellow">'ymesh'</span>, <span class="SublimeYellow">'Y'</span>, <span class="SublimeYellow">'U_xt'</span>, <span class="SublimeYellow">'V_xt'</span>, <span class="SublimeYellow">'RSS'</span>, <span class="SublimeYellow">'uu_xt'</span>, <span class="SublimeYellow">'vv_xt'</span>, <span class="SublimeYellow">'u_rms'</span>, <span class="SublimeYellow">'v_rms'</span>)<span class="SublimePink">;</span>
+    save(fullfile(casePath, <span class="SublimeYellow">'figure_data'</span>, <span class="SublimeYellow">'u4pxx.mat'</span>), <span class="SublimeYellow">'xmesh'</span>, <span class="SublimeYellow">'X'</span>, <span class="SublimeYellow">'ymesh'</span>, <span class="SublimeYellow">'Y'</span>, <span class="SublimeYellow">'U_t'</span>, <span class="SublimeYellow">'V_t'</span>, <span class="SublimeYellow">'u_pri'</span>, <span class="SublimeYellow">'v_pri'</span>)<span class="SublimePink">;</span>
+
+    prompt = <span class="SublimeYellow">&quot;Do you want power spectral analysis? Y/N [N]: &quot;</span><span class="SublimePink">;</span>
+    txt = input(prompt,<span class="SublimeYellow">&quot;s&quot;</span>)<span class="SublimePink">;</span>
+    <span class="SublimePink">if</span> isempty(txt)
+        txt = <span class="SublimeYellow">'N'</span><span class="SublimePink">;</span>
+    <span class="SublimePink">end</span>
+    <span class="SublimePink">if</span> txt <span class="SublimePink">==</span> <span class="SublimeYellow">'Y'</span> <span class="SublimePink">||</span> txt <span class="SublimePink">==</span> <span class="SublimeYellow">'y'</span>
+        Fs = input(<span class="SublimeYellow">'PIV sampe frequency [fps]?'</span>)<span class="SublimePink">;</span>
+        PSD(casePath, Fs)<span class="SublimePink">;</span>
+    <span class="SublimePink">else</span>
+        <span class="SublimePink">;</span> <span class="SublimeWarmGrey">% Place holder</span>
+    <span class="SublimePink">end</span>
+<span class="SublimePink">end</span>
+
+
+</pre>
+</body>
+</html>

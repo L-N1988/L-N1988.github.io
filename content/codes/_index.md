@@ -12,7 +12,7 @@
 
 ## MATLAB code data processing
 
-1. Extract raw PIVLab.mat to normalised data: [matlab code](./PIV-processing/raw2data.m)
+1. Extract raw PIVLab.mat to normalised data:  [view](./PIV-processing/raw2data.html) | [download](./PIV-processing/raw2data.m)
 2. Plot turbulence statistical: [matlab code](./PIV-processing/pivPlot.m)
 3. Estimate power spectral density in vertical centre line of FOV: [matlab code](./PIV-processing/PSD.m)
 4. Plot power spectral density contour: [matlab code](./PIV-processing/pxxPlot.m)
