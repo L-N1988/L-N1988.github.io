@@ -2,101 +2,150 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/home/liuning/openchannel/content/codes/PIV-processing/pxxPlot.m</title>
-<meta name="colorscheme" content="sublimemonokai"></meta>
+<title>~/openchannel/content/codes/PIV-processing/pxxPlot.m.html</title>
+<meta name="Generator" content="Vim/9.1">
+<meta name="plugin-version" content="vim9.0_v2">
+<meta name="syntax" content="matlab">
+<meta name="settings" content="number_lines,use_css,no_foldcolumn,expand_tabs,line_ids,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
 <style>
-* {font-family: monospace}
-body {background-color: #272822; color: #e8e8e3}
-.SublimePink {color: #f92772}
-.SublimeWhite {color: #e8e8e3}
-.SublimeYellow {color: #e6db74}
-.SublimeWarmGrey {color: #75715e}
-.SublimePurple {color: #ae81ff}
+<!--
+pre { white-space: pre-wrap; font-family: "Roboto Mono"; color: #ffffff; background-color: #000000; }
+body { font-family: "Roboto Mono"; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Comment { color: #80a0ff; }
+.Constant { color: #ffa0a0; }
+.Special { color: #ffa500; }
+.Identifier { color: #40ffff; }
+.Statement { color: #ffff60; font-weight: bold; }
+.LineNr { color: #ffff00; }
+-->
 </style>
+
+<script>
+<!--
+
+/* function to open any folds containing a jumped-to line before jumping to it */
+function JumpToLine()
+{
+  var lineNum;
+  lineNum = window.location.hash;
+  lineNum = lineNum.substr(1); /* strip off '#' */
+
+  if (lineNum.indexOf('L') == -1) {
+    lineNum = 'L'+lineNum;
+  }
+  var lineElem = document.getElementById(lineNum);
+  /* Always jump to new location even if the line was hidden inside a fold, or
+   * we corrected the raw number to a line ID.
+   */
+  if (lineElem) {
+    lineElem.scrollIntoView(true);
+  }
+  return true;
+}
+if ('onhashchange' in window) {
+  window.onhashchange = JumpToLine;
+}
+
+-->
+</script>
 </head>
-<body style="display: flex">
-<pre>
-<span class="SublimeWhite">function</span> status = pxxPlot(casePath)
-    load(fullfile(casePath, <span class="SublimeYellow">'figure_data'</span>, <span class="SublimeYellow">'pxxs.mat'</span>))<span class="SublimePink">;</span>
-
-    <span class="SublimeWhite">[</span>ii_c, jj_c<span class="SublimeWhite">]</span> = <span class="SublimePink">round</span>(<span class="SublimeWhite">[</span><span class="SublimePink">size</span>(fs, <span class="SublimePurple">1</span>) <span class="SublimePink">size</span>(fs, <span class="SublimePurple">2</span>)<span class="SublimeWhite">]</span> <span class="SublimePink">/</span> <span class="SublimePurple">4</span>)<span class="SublimePink">;</span>
-    figure()<span class="SublimePink">;</span>
-    plot(fs(ii_c, jj_c, :), pxxs(ii_c, jj_c, :))<span class="SublimePink">;</span>
-    grid on<span class="SublimePink">;</span> set(gca, <span class="SublimeYellow">'XScale'</span>, <span class="SublimeYellow">'log'</span>)<span class="SublimePink">;</span> set(gca, <span class="SublimeYellow">'YScale'</span>, <span class="SublimeYellow">'log'</span>)<span class="SublimePink">;</span>
-    set(xlabel(<span class="SublimeYellow">&quot;$f$ (Hz)&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span> 
-    set(ylabel(<span class="SublimeYellow">&quot;$S_{uu}(f) (m^2/s)$&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-    set(title(sprintf(<span class="SublimeYellow">&quot;PSD at y = %.5f m&quot;</span>, Y(jj_c)), FontSize=<span class="SublimePurple">14</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-
-    figure()<span class="SublimePink">;</span>
-    plot(fs(ii_c, jj_c, :), fs(ii_c, jj_c, :) <span class="SublimePink">.*</span> pxxs(ii_c, jj_c, :))<span class="SublimePink">;</span>
-    grid on<span class="SublimePink">;</span> set(gca, <span class="SublimeYellow">'XScale'</span>, <span class="SublimeYellow">'log'</span>)<span class="SublimePink">;</span>
-    set(xlabel(<span class="SublimeYellow">&quot;$f$ (Hz)&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeWarmGrey">...</span>
-        <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span> 
-    set(ylabel(<span class="SublimeYellow">&quot;$fS_{uu}(f) (m^2)$&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeWarmGrey">...</span>
-        <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-    set(title(sprintf(<span class="SublimeYellow">&quot;pre-multiplied PSD at y = %.5f m&quot;</span> Y(jj_c)), FontSize=<span class="SublimePurple">14</span>), <span class="SublimeWarmGrey">...</span>
-        <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-
-    <span class="SublimeWhite">[</span>ii_c, jj_c<span class="SublimeWhite">]</span> = <span class="SublimePink">round</span>(<span class="SublimeWhite">[</span><span class="SublimePink">size</span>(fs, <span class="SublimePurple">1</span>) <span class="SublimePink">size</span>(fs, <span class="SublimePurple">2</span>)<span class="SublimeWhite">]</span> <span class="SublimePink">/</span> <span class="SublimePurple">2</span>)<span class="SublimePink">;</span>
-    figure()<span class="SublimePink">;</span>
-    plot(fs(ii_c, jj_c, :), pxxs(ii_c, jj_c, :))<span class="SublimePink">;</span>
-    grid on<span class="SublimePink">;</span> set(gca, <span class="SublimeYellow">'XScale'</span>, <span class="SublimeYellow">'log'</span>)<span class="SublimePink">;</span> set(gca, <span class="SublimeYellow">'YScale'</span>, <span class="SublimeYellow">'log'</span>)<span class="SublimePink">;</span>
-    set(xlabel(<span class="SublimeYellow">&quot;$f$ (Hz)&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span> 
-    set(ylabel(<span class="SublimeYellow">&quot;$S_{uu}(f) (m^2/s)$&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-    set(title(sprintf(<span class="SublimeYellow">&quot;PSD at y = %.5f m&quot;</span>, Y(jj_c)), FontSize=<span class="SublimePurple">14</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-
-    figure()<span class="SublimePink">;</span>
-    plot(fs(ii_c, jj_c, :), fs(ii_c, jj_c, :) <span class="SublimePink">.*</span> pxxs(ii_c, jj_c, :))<span class="SublimePink">;</span>
-    grid on<span class="SublimePink">;</span> set(gca, <span class="SublimeYellow">'XScale'</span>, <span class="SublimeYellow">'log'</span>)<span class="SublimePink">;</span>
-    set(xlabel(<span class="SublimeYellow">&quot;$f$ (Hz)&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeWarmGrey">...</span>
-        <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span> 
-    set(ylabel(<span class="SublimeYellow">&quot;$fS_{uu}(f) (m^2)$&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeWarmGrey">...</span>
-        <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-    set(title(sprintf(<span class="SublimeYellow">&quot;pre-multiplied PSD at y = %.5f m&quot;</span> Y(jj_c)), FontSize=<span class="SublimePurple">14</span>), <span class="SublimeWarmGrey">...</span>
-        <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-
-    <span class="SublimeWhite">[</span>ii_c, jj_c<span class="SublimeWhite">]</span> = <span class="SublimePink">round</span>(<span class="SublimeWhite">[</span><span class="SublimePink">size</span>(fs, <span class="SublimePurple">1</span>) <span class="SublimePink">size</span>(fs, <span class="SublimePurple">2</span>)<span class="SublimeWhite">]</span> <span class="SublimePink">*</span> (<span class="SublimePurple">3</span><span class="SublimePink">/</span><span class="SublimePurple">4</span>))<span class="SublimePink">;</span>
-    figure()<span class="SublimePink">;</span>
-    plot(fs(ii_c, jj_c, :), pxxs(ii_c, jj_c, :))<span class="SublimePink">;</span>
-    grid on<span class="SublimePink">;</span> set(gca, <span class="SublimeYellow">'XScale'</span>, <span class="SublimeYellow">'log'</span>)<span class="SublimePink">;</span> set(gca, <span class="SublimeYellow">'YScale'</span>, <span class="SublimeYellow">'log'</span>)<span class="SublimePink">;</span>
-    set(xlabel(<span class="SublimeYellow">&quot;$f$ (Hz)&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span> 
-    set(ylabel(<span class="SublimeYellow">&quot;$S_{uu}(f) (m^2/s)$&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-    set(title(sprintf(<span class="SublimeYellow">&quot;PSD at y = %.5f m&quot;</span>, Y(jj_c)), FontSize=<span class="SublimePurple">14</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-
-    figure()<span class="SublimePink">;</span>
-    plot(fs(ii_c, jj_c, :), fs(ii_c, jj_c, :) <span class="SublimePink">.*</span> pxxs(ii_c, jj_c, :))<span class="SublimePink">;</span>
-    grid on<span class="SublimePink">;</span> set(gca, <span class="SublimeYellow">'XScale'</span>, <span class="SublimeYellow">'log'</span>)<span class="SublimePink">;</span>
-    set(xlabel(<span class="SublimeYellow">&quot;$f$ (Hz)&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeWarmGrey">...</span>
-        <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span> 
-    set(ylabel(<span class="SublimeYellow">&quot;$fS_{uu}(f) (m^2)$&quot;</span>, <span class="SublimeYellow">&quot;FontSize&quot;</span>, <span class="SublimePurple">14</span>), <span class="SublimeWarmGrey">...</span>
-        <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-    set(title(sprintf(<span class="SublimeYellow">&quot;pre-multiplied PSD at y = %.5f m&quot;</span> Y(jj_c)), FontSize=<span class="SublimePurple">14</span>), <span class="SublimeWarmGrey">...</span>
-        <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-
-    <span class="SublimeWarmGrey">% Measuring points along vertical centre line</span>
-    pxx_c = pxxs(:, <span class="SublimePink">round</span>(<span class="SublimePink">size</span>(pxxs, <span class="SublimePurple">2</span>)<span class="SublimePink">/</span><span class="SublimePurple">2</span>), :)<span class="SublimePink">;</span>
-    f_c = fs(:, <span class="SublimePink">round</span>(<span class="SublimePink">size</span>(fs, <span class="SublimePurple">2</span>)<span class="SublimePink">/</span><span class="SublimePurple">2</span>), :)<span class="SublimePink">;</span>
-    xv = f_c, yv = ymesh<span class="SublimePink">;</span> vv = f_c <span class="SublimePink">.*</span> pxx_c<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% pre-PSD</span>
-
-    <span class="SublimeWhite">[</span>grid_row, grid_col<span class="SublimeWhite">]</span> = <span class="SublimeWhite">[max</span>(<span class="SublimePurple">800</span>, <span class="SublimePink">size</span>(xv, <span class="SublimePurple">1</span>)<span class="SublimePink">*</span><span class="SublimePurple">10</span>), <span class="SublimeWhite">min</span>(<span class="SublimePurple">2000</span>, <span class="SublimePink">round</span>(<span class="SublimePink">size</span>(xv, <span class="SublimePurple">2</span>)<span class="SublimePink">/</span><span class="SublimePurple">100</span>))<span class="SublimeWhite">]</span><span class="SublimePink">;</span>
-    xq = logspace(<span class="SublimeWarmGrey">...</span>
-        <span class="SublimeWhite">log10</span>(<span class="SublimeWhite">min</span>(xv(:))), <span class="SublimeWhite">log10</span>(<span class="SublimeWhite">max</span>(xv(:))), <span class="SublimeWarmGrey">...</span>
-        grid_col)<span class="SublimePink">;</span>
-    yq = linspace(<span class="SublimeWarmGrey">...</span>
-        <span class="SublimeWhite">min</span>(yv(:)), <span class="SublimeWhite">max</span>(yv(:)), <span class="SublimeWarmGrey">...</span>
-        grid_row)<span class="SublimePink">;</span>
-    <span class="SublimeWhite">[</span>xq, yq<span class="SublimeWhite">]</span> = meshgrid(xq, yq)<span class="SublimePink">;</span>
-
-    vq = griddata(xv, yv, vv, xq, yq)<span class="SublimePink">;</span>
-
-    contourf(xq, yq, vq, <span class="SublimePurple">20</span>, <span class="SublimeYellow">'LineStyle'</span>,<span class="SublimeYellow">'none'</span>)<span class="SublimePink">;</span>
-    cset(gca, <span class="SublimeYellow">'XScale'</span>, <span class="SublimeYellow">'log'</span>)<span class="SublimePink">;</span> set(gca, <span class="SublimeYellow">'FontSize'</span>, <span class="SublimePurple">16</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">%set(gca, 'YScale', 'log'); </span>
-    set(xlabel(<span class="SublimeYellow">&quot;$f$ (Hz)&quot;</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span> 
-    set(ylabel(<span class="SublimeYellow">&quot;$z(\rm m)$&quot;</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)<span class="SublimePink">;</span>
-    set(ylabel(col,<span class="SublimeYellow">&quot;$fS_{uu}(f) (\rm m^2/s^2)$&quot;</span>), <span class="SublimeYellow">'Interpreter'</span>, <span class="SublimeYellow">'latex'</span>)olormap(jet)<span class="SublimePink">;</span>
-<span class="SublimePink">end</span>
-
-
+<body onload='JumpToLine();'>
+<pre id='vimCodeElement'>
+<span id="L1" class="LineNr"> 1 </span><span class="Comment">% This script processes and visualizes Power Spectral Density (PSD) data </span>
+<span id="L2" class="LineNr"> 2 </span><span class="Comment">% from a given dataset. It generates multiple plots to analyze the PSD </span>
+<span id="L3" class="LineNr"> 3 </span><span class="Comment">% and pre-multiplied PSD at different vertical positions in the dataset. </span>
+<span id="L4" class="LineNr"> 4 </span><span class="Comment">% Additionally, it creates a contour plot to visualize the variation of </span>
+<span id="L5" class="LineNr"> 5 </span><span class="Comment">% pre-multiplied PSD along the vertical centerline.</span>
+<span id="L6" class="LineNr"> 6 </span>
+<span id="L7" class="LineNr"> 7 </span><span class="Comment">% The script performs the following steps:</span>
+<span id="L8" class="LineNr"> 8 </span><span class="Comment">% 1. Loads PSD data (`pxxs`) and frequency data (`fs`) from a specified file.</span>
+<span id="L9" class="LineNr"> 9 </span><span class="Comment">% 2. Extracts data at specific vertical positions (1/4, 1/2, and 3/4 of the </span>
+<span id="L10" class="LineNr">10 </span><span class="Comment">%    vertical range) and plots:</span>
+<span id="L11" class="LineNr">11 </span><span class="Comment">%    - PSD vs frequency on a log-log scale.</span>
+<span id="L12" class="LineNr">12 </span><span class="Comment">%    - Pre-multiplied PSD (`f * PSD`) vs frequency on a log scale.</span>
+<span id="L13" class="LineNr">13 </span><span class="Comment">% 3. Extracts PSD data along the vertical centerline and interpolates it </span>
+<span id="L14" class="LineNr">14 </span><span class="Comment">%    onto a finer grid for visualization.</span>
+<span id="L15" class="LineNr">15 </span><span class="Comment">% 4. Generates a contour plot of the pre-multiplied PSD along the vertical </span>
+<span id="L16" class="LineNr">16 </span><span class="Comment">%    centerline, with frequency on the x-axis and vertical position on the </span>
+<span id="L17" class="LineNr">17 </span><span class="Comment">%    y-axis.</span>
+<span id="L18" class="LineNr">18 </span>
+<span id="L19" class="LineNr">19 </span><span class="Comment">% Key variables:</span>
+<span id="L20" class="LineNr">20 </span><span class="Comment">% - `fs`: Frequency data (Hz).</span>
+<span id="L21" class="LineNr">21 </span><span class="Comment">% - `pxxs`: PSD data (m^2/s).</span>
+<span id="L22" class="LineNr">22 </span><span class="Comment">% - `Y`: Vertical positions (m).</span>
+<span id="L23" class="LineNr">23 </span><span class="Comment">% - `ymesh`: Vertical grid positions (m).</span>
+<span id="L24" class="LineNr">24 </span><span class="Comment">% - `xv`, `yv`, `vv`: Data for interpolation (frequency, vertical position, </span>
+<span id="L25" class="LineNr">25 </span><span class="Comment">%   and pre-multiplied PSD, respectively).</span>
+<span id="L26" class="LineNr">26 </span><span class="Comment">% - `xq`, `yq`, `vq`: Interpolated grid data for contour plotting.</span>
+<span id="L27" class="LineNr">27 </span>
+<span id="L28" class="LineNr">28 </span><span class="Comment">% Notes:</span>
+<span id="L29" class="LineNr">29 </span><span class="Comment">% - The script uses logarithmic scaling for frequency and PSD axes to </span>
+<span id="L30" class="LineNr">30 </span><span class="Comment">%   better visualize data spanning multiple orders of magnitude.</span>
+<span id="L31" class="LineNr">31 </span><span class="Comment">% - The contour plot provides a detailed view of how the pre-multiplied </span>
+<span id="L32" class="LineNr">32 </span><span class="Comment">%   PSD varies with frequency and vertical position.</span>
+<span id="L33" class="LineNr">33 </span><span class="Comment">% - Ensure that the required data files are available in the specified </span>
+<span id="L34" class="LineNr">34 </span><span class="Comment">%   `casePath` directory before running the script.</span>
+<span id="L35" class="LineNr">35 </span>
+<span id="L36" class="LineNr">36 </span>load(fullfile(casePath, <span class="Constant">'figure_data'</span>, <span class="Constant">'pxxs.mat'</span>))<span class="Special">;</span>
+<span id="L37" class="LineNr">37 </span>
+<span id="L38" class="LineNr">38 </span><span class="Identifier">[</span>ii_c, jj_c<span class="Identifier">]</span> = deal(<span class="Statement">round</span>(<span class="Statement">size</span>(fs, <span class="Constant">1</span>)<span class="Statement">/</span><span class="Constant">4</span>), <span class="Statement">round</span>(<span class="Statement">size</span>(fs, <span class="Constant">2</span>)<span class="Statement">/</span><span class="Constant">4</span>))<span class="Special">;</span>
+<span id="L39" class="LineNr">39 </span>figure()<span class="Special">;</span>
+<span id="L40" class="LineNr">40 </span>plot(<span class="Statement">reshape</span>(fs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>), <span class="Statement">reshape</span>(pxxs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>))<span class="Special">;</span>
+<span id="L41" class="LineNr">41 </span>grid on<span class="Special">;</span> set(gca, <span class="Constant">'XScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span> set(gca, <span class="Constant">'YScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span>
+<span id="L42" class="LineNr">42 </span>set(xlabel(<span class="Constant">&quot;$f$ (Hz)&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L43" class="LineNr">43 </span>set(ylabel(<span class="Constant">&quot;$S_{uu}(f) (m^2/s)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L44" class="LineNr">44 </span>set(title(sprintf(<span class="Constant">&quot;PSD at y = %.5f m&quot;</span>, Y(jj_c)), FontSize=<span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L45" class="LineNr">45 </span>
+<span id="L46" class="LineNr">46 </span>figure()<span class="Special">;</span>
+<span id="L47" class="LineNr">47 </span>plot(<span class="Statement">reshape</span>(fs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>), <span class="Statement">reshape</span>(fs(ii_c, jj_c, :) <span class="Statement">.*</span> pxxs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>))<span class="Special">;</span>
+<span id="L48" class="LineNr">48 </span>grid on<span class="Special">;</span> set(gca, <span class="Constant">'XScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span>
+<span id="L49" class="LineNr">49 </span>set(xlabel(<span class="Constant">&quot;$f$ (Hz)&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Comment">...</span>
+<span id="L50" class="LineNr">50 </span>    <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L51" class="LineNr">51 </span>set(ylabel(<span class="Constant">&quot;$fS_{uu}(f) (m^2)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Comment">...</span>
+<span id="L52" class="LineNr">52 </span>    <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L53" class="LineNr">53 </span>set(title(sprintf(<span class="Constant">&quot;pre-multiplied PSD at y = %.5f m&quot;</span>, Y(jj_c)), FontSize=<span class="Constant">14</span>), <span class="Comment">...</span>
+<span id="L54" class="LineNr">54 </span>    <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L55" class="LineNr">55 </span>
+<span id="L56" class="LineNr">56 </span><span class="Identifier">[</span>ii_c, jj_c<span class="Identifier">]</span> = deal(<span class="Statement">round</span>(<span class="Statement">size</span>(fs, <span class="Constant">1</span>)<span class="Statement">/</span><span class="Constant">2</span>), <span class="Statement">round</span>(<span class="Statement">size</span>(fs, <span class="Constant">2</span>)<span class="Statement">/</span><span class="Constant">2</span>))<span class="Special">;</span>
+<span id="L57" class="LineNr">57 </span>figure()<span class="Special">;</span>
+<span id="L58" class="LineNr">58 </span>plot(<span class="Statement">reshape</span>(fs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>), <span class="Statement">reshape</span>(pxxs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>))<span class="Special">;</span>
+<span id="L59" class="LineNr">59 </span>grid on<span class="Special">;</span> set(gca, <span class="Constant">'XScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span> set(gca, <span class="Constant">'YScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span>
+<span id="L60" class="LineNr">60 </span>set(xlabel(<span class="Constant">&quot;$f$ (Hz)&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L61" class="LineNr">61 </span>set(ylabel(<span class="Constant">&quot;$S_{uu}(f) (m^2/s)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L62" class="LineNr">62 </span>set(title(sprintf(<span class="Constant">&quot;PSD at y = %.5f m&quot;</span>, Y(jj_c)), FontSize=<span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L63" class="LineNr">63 </span>
+<span id="L64" class="LineNr">64 </span>figure()<span class="Special">;</span>
+<span id="L65" class="LineNr">65 </span>plot(<span class="Statement">reshape</span>(fs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>), <span class="Statement">reshape</span>(fs(ii_c, jj_c, :) <span class="Statement">.*</span> pxxs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>))<span class="Special">;</span>
+<span id="L66" class="LineNr">66 </span>grid on<span class="Special">;</span> set(gca, <span class="Constant">'XScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span>
+<span id="L67" class="LineNr">67 </span>set(xlabel(<span class="Constant">&quot;$f$ (Hz)&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Comment">...</span>
+<span id="L68" class="LineNr">68 </span>    <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L69" class="LineNr">69 </span>set(ylabel(<span class="Constant">&quot;$fS_{uu}(f) (m^2)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Comment">...</span>
+<span id="L70" class="LineNr">70 </span>    <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L71" class="LineNr">71 </span>set(title(sprintf(<span class="Constant">&quot;pre-multiplied PSD at y = %.5f m&quot;</span>, Y(jj_c)), FontSize=<span class="Constant">14</span>), <span class="Comment">...</span>
+<span id="L72" class="LineNr">72 </span>    <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L73" class="LineNr">73 </span>
+<span id="L74" class="LineNr">74 </span><span class="Identifier">[</span>ii_c, jj_c<span class="Identifier">]</span> = deal(<span class="Statement">round</span>(<span class="Statement">size</span>(fs, <span class="Constant">1</span>)<span class="Statement">*</span><span class="Constant">3</span><span class="Statement">/</span><span class="Constant">4</span>), <span class="Statement">round</span>(<span class="Statement">size</span>(fs, <span class="Constant">2</span>)<span class="Statement">*</span><span class="Constant">3</span><span class="Statement">/</span><span class="Constant">4</span>))<span class="Special">;</span>
+<span id="L75" class="LineNr">75 </span>figure()<span class="Special">;</span>
+<span id="L76" class="LineNr">76 </span>plot(<span class="Statement">reshape</span>(fs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>), <span class="Statement">reshape</span>(pxxs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>))<span class="Special">;</span>
+<span id="L77" class="LineNr">77 </span>grid on<span class="Special">;</span> set(gca, <span class="Constant">'XScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span> set(gca, <span class="Constant">'YScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span>
+<span id="L78" class="LineNr">78 </span>set(xlabel(<span class="Constant">&quot;$f$ (Hz)&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L79" class="LineNr">79 </span>set(ylabel(<span class="Constant">&quot;$S_{uu}(f) (m^2/s)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L80" class="LineNr">80 </span>set(title(sprintf(<span class="Constant">&quot;PSD at y = %.5f m&quot;</span>, Y(jj_c)), FontSize=<span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L81" class="LineNr">81 </span>
+<span id="L82" class="LineNr">82 </span>figure()<span class="Special">;</span>
+<span id="L83" class="LineNr">83 </span>plot(<span class="Statement">reshape</span>(fs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>), <span class="Statement">reshape</span>(fs(ii_c, jj_c, :) <span class="Statement">.*</span> pxxs(ii_c, jj_c, :), <span class="Identifier">[]</span>, <span class="Constant">1</span>))<span class="Special">;</span>
+<span id="L84" class="LineNr">84 </span>grid on<span class="Special">;</span> set(gca, <span class="Constant">'XScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span>
+<span id="L85" class="LineNr">85 </span>set(xlabel(<span class="Constant">&quot;$f$ (Hz)&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Comment">...</span>
+<span id="L86" class="LineNr">86 </span>    <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L87" class="LineNr">87 </span>set(ylabel(<span class="Constant">&quot;$fS_{uu}(f) (m^2)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Comment">...</span>
+<span id="L88" class="LineNr">88 </span>    <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L89" class="LineNr">89 </span>set(title(sprintf(<span class="Constant">&quot;pre-multiplied PSD at y = %.5f m&quot;</span>, Y(jj_c)), FontSize=<span class="Constant">14</span>), <span class="Comment">...</span>
+<span id="L90" class="LineNr">90 </span>    <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L91" class="LineNr">91 </span>
 </pre>
 </body>
 </html>
+<!-- vim: set foldmethod=manual : -->

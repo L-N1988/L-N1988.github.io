@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>~/openchannel/content/codes/PIV-processing/mergePxxPlot.m.html</title>
+<meta name="Generator" content="Vim/9.1">
+<meta name="plugin-version" content="vim9.0_v2">
+<meta name="syntax" content="matlab">
+<meta name="settings" content="number_lines,use_css,no_foldcolumn,expand_tabs,line_ids,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: "Roboto Mono"; color: #ffffff; background-color: #000000; }
+body { font-family: "Roboto Mono"; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Comment { color: #80a0ff; }
+.Constant { color: #ffa0a0; }
+.Special { color: #ffa500; }
+.Identifier { color: #40ffff; }
+.Statement { color: #ffff60; font-weight: bold; }
+.LineNr { color: #ffff00; }
+.Todo { color: #0000ff; background-color: #ffff00; padding-bottom: 1px; }
+-->
+</style>
+
+<script>
+<!--
+
+/* function to open any folds containing a jumped-to line before jumping to it */
+function JumpToLine()
+{
+  var lineNum;
+  lineNum = window.location.hash;
+  lineNum = lineNum.substr(1); /* strip off '#' */
+
+  if (lineNum.indexOf('L') == -1) {
+    lineNum = 'L'+lineNum;
+  }
+  var lineElem = document.getElementById(lineNum);
+  /* Always jump to new location even if the line was hidden inside a fold, or
+   * we corrected the raw number to a line ID.
+   */
+  if (lineElem) {
+    lineElem.scrollIntoView(true);
+  }
+  return true;
+}
+if ('onhashchange' in window) {
+  window.onhashchange = JumpToLine;
+}
+
+-->
+</script>
+</head>
+<body onload='JumpToLine();'>
+<pre id='vimCodeElement'>
+<span id="L1" class="LineNr">  1 </span><span class="Comment">%{</span>
+<span id="L2" class="LineNr">  2 </span><span class="Comment">mergePxxPlot.m</span>
+<span id="L3" class="LineNr">  3 </span>
+<span id="L4" class="LineNr">  4 </span><span class="Comment">This script processes and visualizes pre-multiplied power spectral density (PSD) data </span>
+<span id="L5" class="LineNr">  5 </span><span class="Comment">from a merged dataset. The script performs the following tasks:</span>
+<span id="L6" class="LineNr">  6 </span>
+<span id="L7" class="LineNr">  7 </span><span class="Comment">1. **Load Data**:</span>
+<span id="L8" class="LineNr">  8 </span><span class="Comment">    - Loads the merged PSD data from a `.mat` file (`merged_pxx.mat`).</span>
+<span id="L9" class="LineNr">  9 </span>
+<span id="L10" class="LineNr"> 10 </span><span class="Comment">2. **Preprocess Data**:</span>
+<span id="L11" class="LineNr"> 11 </span><span class="Comment">    - Extracts frequency (`f_merge`), vertical positions (`Y_merge`), and PSD values (`pxx_merge`).</span>
+<span id="L12" class="LineNr"> 12 </span><span class="Comment">    - Computes pre-multiplied PSD values (`f * S_uu(f)`).</span>
+<span id="L13" class="LineNr"> 13 </span>
+<span id="L14" class="LineNr"> 14 </span><span class="Comment">3. **Generate Individual PSD Plots**:</span>
+<span id="L15" class="LineNr"> 15 </span><span class="Comment">    - Creates and saves individual PSD plots for each vertical position (`z`).</span>
+<span id="L16" class="LineNr"> 16 </span><span class="Comment">    - Saves the plots in a specified output folder (`mergePSD-figure`) as `.png` files.</span>
+<span id="L17" class="LineNr"> 17 </span>
+<span id="L18" class="LineNr"> 18 </span><span class="Comment">4. **Generate Combined PSD Plot**:</span>
+<span id="L19" class="LineNr"> 19 </span><span class="Comment">    - Selects specific vertical positions (`z`) for visualization.</span>
+<span id="L20" class="LineNr"> 20 </span><span class="Comment">    - Normalizes the selected `z` values for color mapping.</span>
+<span id="L21" class="LineNr"> 21 </span><span class="Comment">    - Plots the selected PSD data with a color gradient based on vertical position.</span>
+<span id="L22" class="LineNr"> 22 </span><span class="Comment">    - Adds a colorbar to indicate the mapping of colors to `z` values.</span>
+<span id="L23" class="LineNr"> 23 </span><span class="Comment">    - Saves the combined plot as `.fig`, `.emf`, and high-resolution `.jpg` files.</span>
+<span id="L24" class="LineNr"> 24 </span>
+<span id="L25" class="LineNr"> 25 </span><span class="Comment">5. **Interpolate Data**:</span>
+<span id="L26" class="LineNr"> 26 </span><span class="Comment">    - Interpolates the PSD data onto a finer grid for contour plotting.</span>
+<span id="L27" class="LineNr"> 27 </span><span class="Comment">    - Uses logarithmic spacing for frequency (`f`) and linear spacing for vertical positions (`z`).</span>
+<span id="L28" class="LineNr"> 28 </span>
+<span id="L29" class="LineNr"> 29 </span><span class="Comment">6. **Generate Contour Plot**:</span>
+<span id="L30" class="LineNr"> 30 </span>    <span class="Statement">-</span> Creates a filled contour plot of the interpolated PSD data.
+<span id="L31" class="LineNr"> 31 </span>    <span class="Statement">-</span> Configures axes, labels, and colorbar with LaTeX formatting.
+<span id="L32" class="LineNr"> 32 </span>    <span class="Statement">-</span> Uses a custom colormap (`sky`) <span class="Statement">for</span> visualization.
+<span id="L33" class="LineNr"> 33 </span>
+<span id="L34" class="LineNr"> 34 </span>Dependencies:
+<span id="L35" class="LineNr"> 35 </span><span class="Statement">-</span> Requires the `merged_pxx.mat` file containing the following variables:
+<span id="L36" class="LineNr"> 36 </span>  <span class="Statement">-</span> `f_merge`: Frequency data (Hz).
+<span id="L37" class="LineNr"> 37 </span>  <span class="Statement">-</span> `Y_merge`: Vertical positions (m).
+<span id="L38" class="LineNr"> 38 </span>  <span class="Statement">-</span> `pxx_merge`: PSD values.
+<span id="L39" class="LineNr"> 39 </span><span class="Statement">-</span> Requires the `sky` colormap <span class="Identifier">function</span> <span class="Statement">for</span> custom color mapping.
+<span id="L40" class="LineNr"> 40 </span>
+<span id="L41" class="LineNr"> 41 </span>Output:
+<span id="L42" class="LineNr"> 42 </span><span class="Statement">-</span> Individual PSD plots saved in the `mergePSD<span class="Statement">-</span>figure` folder.
+<span id="L43" class="LineNr"> 43 </span><span class="Statement">-</span> Combined PSD plot saved as `.fig`, `.emf`, and `.jpg` files.
+<span id="L44" class="LineNr"> 44 </span><span class="Statement">-</span> Contour plot displayed with interpolated PSD data.
+<span id="L45" class="LineNr"> 45 </span>
+<span id="L46" class="LineNr"> 46 </span>Notes:
+<span id="L47" class="LineNr"> 47 </span><span class="Statement">-</span> Ensure the `merged_pxx.mat` file is in the same directory as the script or provide the correct path.
+<span id="L48" class="LineNr"> 48 </span><span class="Statement">-</span> The `sky` colormap <span class="Identifier">function</span> must be available in the MATLAB path.
+<span id="L49" class="LineNr"> 49 </span>
+<span id="L50" class="LineNr"> 50 </span>Author: L<span class="Statement">-</span>N1988
+<span id="L51" class="LineNr"> 51 </span>Date: <span class="Constant">2025</span><span class="Statement">-</span><span class="Constant">3</span><span class="Statement">-</span><span class="Constant">30</span>
+<span id="L52" class="LineNr"> 52 </span><span class="Comment">%}</span>
+<span id="L53" class="LineNr"> 53 </span>clc<span class="Special">;</span> <span class="Statement">clear</span><span class="Special">;</span> close all<span class="Special">;</span>
+<span id="L54" class="LineNr"> 54 </span>mergeData = load(<span class="Constant">'merged_pxx.mat'</span>)<span class="Special">;</span>
+<span id="L55" class="LineNr"> 55 </span>
+<span id="L56" class="LineNr"> 56 </span><span class="Comment">% Measuring points along vertical centre line</span>
+<span id="L57" class="LineNr"> 57 </span>xv = mergeData.f_merge<span class="Special">;</span>
+<span id="L58" class="LineNr"> 58 </span>yv = repmat(double(mergeData.Y_merge), <span class="Constant">1</span>, <span class="Statement">size</span>(xv, <span class="Constant">2</span>))<span class="Special">;</span>
+<span id="L59" class="LineNr"> 59 </span>vv = xv <span class="Statement">.*</span> mergeData.pxx_merge<span class="Special">;</span> <span class="Comment">% pre-PSD</span>
+<span id="L60" class="LineNr"> 60 </span>
+<span id="L61" class="LineNr"> 61 </span><span class="Comment">% Plot and save the merged PSD</span>
+<span id="L62" class="LineNr"> 62 </span>outputFolder = <span class="Constant">'mergePSD-figure'</span><span class="Special">;</span>
+<span id="L63" class="LineNr"> 63 </span><span class="Statement">if</span> <span class="Statement">~</span>exist(outputFolder, <span class="Constant">'dir'</span>)
+<span id="L64" class="LineNr"> 64 </span>    mkdir(outputFolder)<span class="Special">;</span>
+<span id="L65" class="LineNr"> 65 </span><span class="Statement">end</span>
+<span id="L66" class="LineNr"> 66 </span>
+<span id="L67" class="LineNr"> 67 </span><span class="Statement">for</span> ii = <span class="Constant">1</span>:length(mergeData.Y_merge)
+<span id="L68" class="LineNr"> 68 </span>    figure<span class="Special">;</span>
+<span id="L69" class="LineNr"> 69 </span>    plot(xv(ii, :), vv(ii, :), <span class="Constant">'LineWidth'</span>, <span class="Constant">2</span>)<span class="Special">;</span>
+<span id="L70" class="LineNr"> 70 </span>    set(gca, <span class="Constant">'XScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span> set(gca, <span class="Constant">'YScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span>
+<span id="L71" class="LineNr"> 71 </span>    set(gca, <span class="Constant">'FontSize'</span>, <span class="Constant">16</span>)<span class="Special">;</span>
+<span id="L72" class="LineNr"> 72 </span>    set(xlabel(<span class="Constant">&quot;$f$ (Hz)&quot;</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L73" class="LineNr"> 73 </span>    set(ylabel(<span class="Constant">&quot;$fS_{uu}(f) (\rm m^2/s^2)$&quot;</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L74" class="LineNr"> 74 </span>    set(title(sprintf(<span class="Constant">&quot;PSD at $z = %.3f$ m&quot;</span>, mergeData.Y_merge(ii))), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L75" class="LineNr"> 75 </span>    saveas(gcf, fullfile(outputFolder, sprintf(<span class="Constant">&quot;merged_psd_z%.3f.png&quot;</span>, mergeData.Y_merge(ii))))<span class="Special">;</span>
+<span id="L76" class="LineNr"> 76 </span><span class="Statement">end</span>
+<span id="L77" class="LineNr"> 77 </span>
+<span id="L78" class="LineNr"> 78 </span><span class="Todo">%%</span>
+<span id="L79" class="LineNr"> 79 </span><span class="Comment">% Create a single figure</span>
+<span id="L80" class="LineNr"> 80 </span>figure<span class="Special">;</span>
+<span id="L81" class="LineNr"> 81 </span>
+<span id="L82" class="LineNr"> 82 </span><span class="Comment">% Define the indices for the five data series</span>
+<span id="L83" class="LineNr"> 83 </span>indices = <span class="Constant">10</span>:<span class="Constant">10</span>:length(mergeData.Y_merge)<span class="Special">;</span> <span class="Comment">% Select every 5th index</span>
+<span id="L84" class="LineNr"> 84 </span>
+<span id="L85" class="LineNr"> 85 </span><span class="Comment">% Extract the corresponding z values for these indices</span>
+<span id="L86" class="LineNr"> 86 </span>z_values = mergeData.Y_merge(indices)<span class="Special">;</span> <span class="Comment">% Vertical positions for the selected indices</span>
+<span id="L87" class="LineNr"> 87 </span>
+<span id="L88" class="LineNr"> 88 </span><span class="Comment">% Normalize the selected z values to [0, 1] for color mapping</span>
+<span id="L89" class="LineNr"> 89 </span>z_min = <span class="Statement">min</span>(z_values)<span class="Special">;</span>
+<span id="L90" class="LineNr"> 90 </span>z_max = <span class="Statement">max</span>(z_values)<span class="Special">;</span>
+<span id="L91" class="LineNr"> 91 </span>z_normalized = (z_values <span class="Statement">-</span> z_min) <span class="Statement">/</span> (z_max <span class="Statement">-</span> z_min)<span class="Special">;</span> <span class="Comment">% Normalize to [0, 1]</span>
+<span id="L92" class="LineNr"> 92 </span>
+<span id="L93" class="LineNr"> 93 </span><span class="Comment">% Define a colormap (e.g., 'jet') for the five selected series</span>
+<span id="L94" class="LineNr"> 94 </span>cmap = sky(length(indices))<span class="Special">;</span> <span class="Comment">% Colormap with 5 colors (one for each selected series)</span>
+<span id="L95" class="LineNr"> 95 </span>
+<span id="L96" class="LineNr"> 96 </span><span class="Comment">% Plot the selected data series with a color gradient</span>
+<span id="L97" class="LineNr"> 97 </span>hold on<span class="Special">;</span>
+<span id="L98" class="LineNr"> 98 </span><span class="Statement">for</span> idx = <span class="Constant">1</span>:length(indices)
+<span id="L99" class="LineNr"> 99 </span>    ii = indices(idx)<span class="Special">;</span> <span class="Comment">% Get the actual index</span>
+<span id="L100" class="LineNr">100 </span>    <span class="Comment">% Get the color for this vertical position</span>
+<span id="L101" class="LineNr">101 </span>    color_idx = <span class="Statement">round</span>(z_normalized(idx) <span class="Statement">*</span> (<span class="Statement">size</span>(cmap, <span class="Constant">1</span>) <span class="Statement">-</span> <span class="Constant">1</span>)) <span class="Statement">+</span> <span class="Constant">1</span><span class="Special">;</span> <span class="Comment">% Map to colormap index</span>
+<span id="L102" class="LineNr">102 </span>    plot(xv(ii, :), vv(ii, :), <span class="Constant">'LineWidth'</span>, <span class="Constant">1.5</span>, <span class="Constant">'Color'</span>, cmap(color_idx, :))<span class="Special">;</span>
+<span id="L103" class="LineNr">103 </span><span class="Statement">end</span>
+<span id="L104" class="LineNr">104 </span>hold off<span class="Special">;</span>
+<span id="L105" class="LineNr">105 </span>
+<span id="L106" class="LineNr">106 </span><span class="Comment">% Set the axes properties</span>
+<span id="L107" class="LineNr">107 </span>set(gca, <span class="Constant">'XScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span>
+<span id="L108" class="LineNr">108 </span>set(gca, <span class="Constant">'YScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span>
+<span id="L109" class="LineNr">109 </span>set(gca, <span class="Constant">'FontSize'</span>, <span class="Constant">16</span>)<span class="Special">;</span>
+<span id="L110" class="LineNr">110 </span>
+<span id="L111" class="LineNr">111 </span><span class="Comment">% Set labels and title with LaTeX interpreter</span>
+<span id="L112" class="LineNr">112 </span>set(xlabel(<span class="Constant">'$f$ (Hz)'</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>, <span class="Constant">'FontSize'</span>, <span class="Constant">16</span>)<span class="Special">;</span>
+<span id="L113" class="LineNr">113 </span>set(ylabel(<span class="Constant">'$fS_{uu}(f) (\rm m^2/s^2)$'</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>, <span class="Constant">'FontSize'</span>, <span class="Constant">16</span>)<span class="Special">;</span>
+<span id="L114" class="LineNr">114 </span>set(title(<span class="Constant">'Pre-multiplied Power Spectral Density'</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>, <span class="Constant">'FontSize'</span>, <span class="Constant">16</span>)<span class="Special">;</span>
+<span id="L115" class="LineNr">115 </span>
+<span id="L116" class="LineNr">116 </span><span class="Comment">% Add a colorbar to show the mapping of colors to z values</span>
+<span id="L117" class="LineNr">117 </span>colormap(cmap)<span class="Special">;</span>
+<span id="L118" class="LineNr">118 </span>cbar = colorbar<span class="Special">;</span>
+<span id="L119" class="LineNr">119 </span>set(cbar, <span class="Constant">'FontSize'</span>, <span class="Constant">16</span>)<span class="Special">;</span>
+<span id="L120" class="LineNr">120 </span>set(get(cbar, <span class="Constant">'Label'</span>), <span class="Constant">'String'</span>, <span class="Constant">'$z$ (m)'</span>, <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>, <span class="Constant">'FontSize'</span>, <span class="Constant">16</span>)<span class="Special">;</span>
+<span id="L121" class="LineNr">121 </span>clim(<span class="Identifier">[</span>z_min z_max<span class="Identifier">]</span>)<span class="Special">;</span> <span class="Comment">% Set the colorbar limits to the range of selected z values</span>
+<span id="L122" class="LineNr">122 </span>
+<span id="L123" class="LineNr">123 </span><span class="Comment">% Save the figure</span>
+<span id="L124" class="LineNr">124 </span>base_filename = fullfile(outputFolder, <span class="Constant">'merged_psd_selected'</span>)<span class="Special">;</span>
+<span id="L125" class="LineNr">125 </span><span class="Comment">% Save as MATLAB figure (.fig)</span>
+<span id="L126" class="LineNr">126 </span>savefig(gcf, <span class="Identifier">[</span>base_filename <span class="Constant">'.fig'</span><span class="Identifier">]</span>)<span class="Special">;</span>
+<span id="L127" class="LineNr">127 </span>
+<span id="L128" class="LineNr">128 </span><span class="Comment">% Save as EMF (.emf)</span>
+<span id="L129" class="LineNr">129 </span>print(gcf, <span class="Identifier">[</span>base_filename <span class="Constant">'.emf'</span><span class="Identifier">]</span>, <span class="Constant">'-dmeta'</span>)<span class="Special">;</span>
+<span id="L130" class="LineNr">130 </span>
+<span id="L131" class="LineNr">131 </span><span class="Comment">% Save as high-DPI JPEG using print (e.g., 500 DPI)</span>
+<span id="L132" class="LineNr">132 </span>print(gcf, <span class="Identifier">[</span>base_filename <span class="Constant">'.jpg'</span><span class="Identifier">]</span>, <span class="Constant">'-djpeg'</span>, <span class="Constant">'-r500'</span>)<span class="Special">;</span>
+<span id="L133" class="LineNr">133 </span><span class="Todo">%%</span>
+<span id="L134" class="LineNr">134 </span>
+<span id="L135" class="LineNr">135 </span><span class="Comment">% Interpolate data</span>
+<span id="L136" class="LineNr">136 </span><span class="Identifier">[</span>grid_row, grid_col<span class="Identifier">]</span> = deal(<span class="Statement">max</span>(<span class="Constant">400</span>, <span class="Statement">size</span>(yv, <span class="Constant">1</span>)<span class="Statement">*</span><span class="Constant">10</span>), <span class="Statement">max</span>(<span class="Constant">50</span>, <span class="Statement">round</span>(<span class="Statement">size</span>(xv, <span class="Constant">2</span>)<span class="Statement">/</span><span class="Constant">100</span>)))<span class="Special">;</span>
+<span id="L137" class="LineNr">137 </span>xq = logspace(<span class="Comment">...</span>
+<span id="L138" class="LineNr">138 </span>    <span class="Statement">log10</span>(<span class="Statement">min</span>(xv(xv <span class="Statement">&gt;</span> <span class="Constant">0</span>))), <span class="Statement">log10</span>(<span class="Statement">max</span>(xv(:))), <span class="Comment">...</span>
+<span id="L139" class="LineNr">139 </span>    grid_col)<span class="Special">;</span>
+<span id="L140" class="LineNr">140 </span>yq = linspace(<span class="Comment">...</span>
+<span id="L141" class="LineNr">141 </span>    <span class="Statement">min</span>(yv(:)), <span class="Statement">max</span>(yv(:)), <span class="Comment">...</span>
+<span id="L142" class="LineNr">142 </span>    grid_row)<span class="Special">;</span>
+<span id="L143" class="LineNr">143 </span><span class="Identifier">[</span>xq, yq<span class="Identifier">]</span> = meshgrid(xq, yq)<span class="Special">;</span>
+<span id="L144" class="LineNr">144 </span>
+<span id="L145" class="LineNr">145 </span>vq = griddata(xv, yv, vv, xq, yq)<span class="Special">;</span>
+<span id="L146" class="LineNr">146 </span>
+<span id="L147" class="LineNr">147 </span><span class="Todo">%% Plot contour</span>
+<span id="L148" class="LineNr">148 </span>contourf(xq, yq, vq, <span class="Constant">10</span>, <span class="Constant">'LineStyle'</span>, <span class="Constant">'--'</span>)<span class="Special">;</span>
+<span id="L149" class="LineNr">149 </span>set(gca, <span class="Constant">'XScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span> set(gca, <span class="Constant">'FontSize'</span>, <span class="Constant">16</span>)<span class="Special">;</span> <span class="Comment">%set(gca, 'YScale', 'log');</span>
+<span id="L150" class="LineNr">150 </span>set(xlabel(<span class="Constant">&quot;$f$ (Hz)&quot;</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L151" class="LineNr">151 </span>set(ylabel(<span class="Constant">&quot;$z(\rm m)$&quot;</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L152" class="LineNr">152 </span>colormap(<span class="Constant">&quot;sky&quot;</span>)<span class="Special">;</span>
+<span id="L153" class="LineNr">153 </span>col = colorbar()<span class="Special">;</span>
+<span id="L154" class="LineNr">154 </span>set(ylabel(col,<span class="Constant">&quot;$fS_{uu}(f) (\rm m^2/s^2)$&quot;</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

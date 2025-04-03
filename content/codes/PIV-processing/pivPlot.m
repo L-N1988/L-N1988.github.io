@@ -1,4 +1,3 @@
-
 clc; clear; close all; % Clear command window, workspace, and close all figures
 casePath = '..'; % Define the relative path to the case directory
 load(fullfile(casePath, 'figure_data', 'u_stat.mat')); % Load statistical data for plotting

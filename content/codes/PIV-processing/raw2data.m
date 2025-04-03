@@ -86,16 +86,3 @@ v_rms = mean(sqrt(vv_t), 2); % RMS of v
 save(fullfile(casePath, 'figure_data', 'u_stat.mat'), 'xmesh', 'X', 'ymesh', 'Y', 'U_xt', 'V_xt', 'RSS', 'uu_xt', 'vv_xt', 'u_rms', 'v_rms', 'uuu_xt', 'vvv_xt');
 save(fullfile(casePath, 'figure_data', 'u4pxx.mat'), '-v7.3', 'xmesh', 'X', 'ymesh', 'Y', 'U_t', 'V_t', 'u_pri', 'v_pri');
 
-% Prompt user for power spectral analysis
-prompt = "Do you want power spectral analysis? Y/N [N]: ";
-txt = input(prompt, "s");
-if isempty(txt)
-    txt = 'N';
-end
-if txt == 'Y' || txt == 'y'
-    % Perform power spectral density (PSD) analysis if user opts in
-    Fs = input('PIV sample frequency [fps]?');
-    PSD(casePath, Fs);
-else
-    % Placeholder for no action
-end

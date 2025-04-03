@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>~/openchannel/content/codes/PIV-processing/ustar.m.html</title>
+<meta name="Generator" content="Vim/9.1">
+<meta name="plugin-version" content="vim9.0_v2">
+<meta name="syntax" content="matlab">
+<meta name="settings" content="number_lines,use_css,no_foldcolumn,expand_tabs,line_ids,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: "Roboto Mono"; color: #ffffff; background-color: #000000; }
+body { font-family: "Roboto Mono"; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Comment { color: #80a0ff; }
+.Constant { color: #ffa0a0; }
+.Special { color: #ffa500; }
+.Identifier { color: #40ffff; }
+.Statement { color: #ffff60; font-weight: bold; }
+.LineNr { color: #ffff00; }
+.Todo { color: #0000ff; background-color: #ffff00; padding-bottom: 1px; }
+-->
+</style>
+
+<script>
+<!--
+
+/* function to open any folds containing a jumped-to line before jumping to it */
+function JumpToLine()
+{
+  var lineNum;
+  lineNum = window.location.hash;
+  lineNum = lineNum.substr(1); /* strip off '#' */
+
+  if (lineNum.indexOf('L') == -1) {
+    lineNum = 'L'+lineNum;
+  }
+  var lineElem = document.getElementById(lineNum);
+  /* Always jump to new location even if the line was hidden inside a fold, or
+   * we corrected the raw number to a line ID.
+   */
+  if (lineElem) {
+    lineElem.scrollIntoView(true);
+  }
+  return true;
+}
+if ('onhashchange' in window) {
+  window.onhashchange = JumpToLine;
+}
+
+-->
+</script>
+</head>
+<body onload='JumpToLine();'>
+<pre id='vimCodeElement'>
+<span id="L1" class="LineNr"> 1 </span>clc<span class="Special">;</span> <span class="Statement">clear</span><span class="Special">;</span> close all<span class="Special">;</span>
+<span id="L2" class="LineNr"> 2 </span>
+<span id="L3" class="LineNr"> 3 </span><span class="Comment">% Define the path to the case data and load the velocity statistics</span>
+<span id="L4" class="LineNr"> 4 </span>casePath = <span class="Constant">'..'</span><span class="Special">;</span>
+<span id="L5" class="LineNr"> 5 </span>load(fullfile(casePath, <span class="Constant">'figure_data'</span>, <span class="Constant">'u_stat.mat'</span>))<span class="Special">;</span>
+<span id="L6" class="LineNr"> 6 </span>
+<span id="L7" class="LineNr"> 7 </span><span class="Todo">%% Log-law velocity profile analysis</span>
+<span id="L8" class="LineNr"> 8 </span><span class="Comment">% The log-law velocity profile satisfies the equation:</span>
+<span id="L9" class="LineNr"> 9 </span><span class="Comment">% U+ = 1/k * log(y+) + B</span>
+<span id="L10" class="LineNr">10 </span><span class="Comment">% where U+ = U/U_tau, y+ = y*U_tau/nu, k = 0.41, B = 5.2</span>
+<span id="L11" class="LineNr">11 </span><span class="Comment">% Perform linear regression to fit U and y in the semilog plot.</span>
+<span id="L12" class="LineNr">12 </span>
+<span id="L13" class="LineNr">13 </span><span class="Comment">% Select the log layer region based on y values</span>
+<span id="L14" class="LineNr">14 </span>log_index = Y <span class="Statement">&gt;</span> <span class="Constant">0.015</span> <span class="Statement">&amp;</span> Y <span class="Statement">&lt;</span> <span class="Constant">0.035</span><span class="Special">;</span>  <span class="Comment">% Define the log layer range</span>
+<span id="L15" class="LineNr">15 </span>U_log = U_xt(log_index)<span class="Special">;</span>           <span class="Comment">% Extract U values in the log layer</span>
+<span id="L16" class="LineNr">16 </span>Y_log = <span class="Statement">log10</span>(Y(log_index))<span class="Special">;</span>       <span class="Comment">% Extract log10(y) values in the log layer</span>
+<span id="L17" class="LineNr">17 </span>
+<span id="L18" class="LineNr">18 </span><span class="Comment">% Perform linear regression to find the slope and intercept</span>
+<span id="L19" class="LineNr">19 </span>p = polyfit(Y_log, U_log, <span class="Constant">1</span>)<span class="Special">;</span>
+<span id="L20" class="LineNr">20 </span>
+<span id="L21" class="LineNr">21 </span><span class="Comment">% Calculate friction velocity (u_tau) from the log-law fit</span>
+<span id="L22" class="LineNr">22 </span>k = <span class="Constant">0.41</span><span class="Special">;</span>                          <span class="Comment">% von Kármán constant</span>
+<span id="L23" class="LineNr">23 </span>U_tau_log = k <span class="Statement">*</span> p(<span class="Constant">1</span>)<span class="Special">;</span>              <span class="Comment">% Friction velocity from log-law fit</span>
+<span id="L24" class="LineNr">24 </span>disp(<span class="Identifier">[</span><span class="Constant">'u_tau from log law fit: '</span>, num2str(U_tau_log)<span class="Identifier">]</span>)<span class="Special">;</span>
+<span id="L25" class="LineNr">25 </span>
+<span id="L26" class="LineNr">26 </span><span class="Comment">% Calculate kinematic viscosity based on water temperature</span>
+<span id="L27" class="LineNr">27 </span>T = <span class="Constant">13.4</span><span class="Special">;</span>                          <span class="Comment">% Temperature in degrees Celsius</span>
+<span id="L28" class="LineNr">28 </span>nu = <span class="Constant">1e-6</span> <span class="Statement">*</span> (<span class="Constant">60</span><span class="Statement">/</span>(T<span class="Statement">+</span><span class="Constant">40</span>))<span class="Statement">^</span><span class="Constant">1.45</span><span class="Special">;</span>      <span class="Comment">% Kinematic viscosity (m^2/s)</span>
+<span id="L29" class="LineNr">29 </span>
+<span id="L30" class="LineNr">30 </span><span class="Comment">% Compute dimensionless velocity (U+) and wall-normal distance (y+)</span>
+<span id="L31" class="LineNr">31 </span>y_plus = Y <span class="Statement">*</span> U_tau_log <span class="Statement">/</span> nu<span class="Special">;</span>
+<span id="L32" class="LineNr">32 </span>U_plus = U_xt <span class="Statement">/</span> U_tau_log<span class="Special">;</span>
+<span id="L33" class="LineNr">33 </span>
+<span id="L34" class="LineNr">34 </span><span class="Comment">% Plot U+ vs y+ in a semilog plot</span>
+<span id="L35" class="LineNr">35 </span>figure()<span class="Special">;</span>
+<span id="L36" class="LineNr">36 </span>scatter(U_plus, y_plus, <span class="Constant">'o'</span>)<span class="Special">;</span>      <span class="Comment">% Scatter plot of U+ vs y+</span>
+<span id="L37" class="LineNr">37 </span>set(gca, <span class="Constant">'YScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span>         <span class="Comment">% Set y-axis to log scale</span>
+<span id="L38" class="LineNr">38 </span>xlabel(<span class="Constant">&quot;$U^+$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>, <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L39" class="LineNr">39 </span>ylabel(<span class="Constant">&quot;$y^+$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>, <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L40" class="LineNr">40 </span>hold on<span class="Special">;</span>
+<span id="L41" class="LineNr">41 </span>
+<span id="L42" class="LineNr">42 </span><span class="Comment">% Plot the log-law velocity profile as a reference</span>
+<span id="L43" class="LineNr">43 </span>y_plus_log = <span class="Constant">10</span><span class="Statement">.^</span>(Y_log) <span class="Statement">*</span> U_tau_log <span class="Statement">/</span> nu<span class="Special">;</span>
+<span id="L44" class="LineNr">44 </span>U_plus_log = (polyval(p, Y_log)) <span class="Statement">/</span> U_tau_log<span class="Special">;</span>
+<span id="L45" class="LineNr">45 </span>plot(U_plus_log, y_plus_log, <span class="Constant">'r--'</span>, <span class="Constant">'LineWidth'</span>, <span class="Constant">1.5</span>)<span class="Special">;</span> <span class="Comment">% Log-law fit</span>
+<span id="L46" class="LineNr">46 </span>set(gca, <span class="Constant">'FontSize'</span>, <span class="Constant">10</span>)<span class="Special">;</span> <span class="Comment">% Adjust tick label size</span>
+<span id="L47" class="LineNr">47 </span>legend(<span class="Constant">'Data'</span>, <span class="Constant">'Log law fit'</span>, <span class="Constant">'Location'</span>, <span class="Constant">'Best'</span>)<span class="Special">;</span>
+<span id="L48" class="LineNr">48 </span>
+<span id="L49" class="LineNr">49 </span><span class="Todo">%% Friction velocity from channel slope</span>
+<span id="L50" class="LineNr">50 </span><span class="Comment">% Calculate friction velocity using the slope of the channel:</span>
+<span id="L51" class="LineNr">51 </span><span class="Comment">% u_tau = sqrt(g * R * S), where R is the hydraulic radius and S is the slope.</span>
+<span id="L52" class="LineNr">52 </span>
+<span id="L53" class="LineNr">53 </span>H = <span class="Constant">0.1112</span><span class="Special">;</span>                        <span class="Comment">% Water depth (m)</span>
+<span id="L54" class="LineNr">54 </span>W = <span class="Constant">0.0867</span><span class="Special">;</span>                        <span class="Comment">% Channel width (m)</span>
+<span id="L55" class="LineNr">55 </span>A = H <span class="Statement">*</span> W<span class="Special">;</span>                         <span class="Comment">% Cross-sectional area (m^2)</span>
+<span id="L56" class="LineNr">56 </span>P = <span class="Constant">2</span> <span class="Statement">*</span> H <span class="Statement">+</span> W<span class="Special">;</span>                     <span class="Comment">% Wetted perimeter (m)</span>
+<span id="L57" class="LineNr">57 </span>R = A <span class="Statement">/</span> P<span class="Special">;</span>                         <span class="Comment">% Hydraulic radius (m)</span>
+<span id="L58" class="LineNr">58 </span>S = <span class="Constant">0.52</span> <span class="Statement">/</span> <span class="Constant">348.36</span><span class="Special">;</span>                 <span class="Comment">% Channel slope</span>
+<span id="L59" class="LineNr">59 </span>u_tau_slope = <span class="Statement">sqrt</span>(<span class="Constant">9.81</span> <span class="Statement">*</span> R <span class="Statement">*</span> S)<span class="Special">;</span>  <span class="Comment">% Friction velocity from slope</span>
+<span id="L60" class="LineNr">60 </span>disp(<span class="Identifier">[</span><span class="Constant">'u_tau from slope of channel: '</span>, num2str(u_tau_slope)<span class="Identifier">]</span>)<span class="Special">;</span>
+<span id="L61" class="LineNr">61 </span>
+<span id="L62" class="LineNr">62 </span><span class="Todo">%% Friction velocity from RSS linear depth profile</span>
+<span id="L63" class="LineNr">63 </span><span class="Comment">% Calculate friction velocity using the Reynolds shear stress (RSS):</span>
+<span id="L64" class="LineNr">64 </span><span class="Comment">% u_tau = sqrt(-slope of RSS profile).</span>
+<span id="L65" class="LineNr">65 </span>
+<span id="L66" class="LineNr">66 </span>figure()<span class="Special">;</span>
+<span id="L67" class="LineNr">67 </span>scatter(RSS, Y, <span class="Constant">'o'</span>)<span class="Special">;</span>              <span class="Comment">% Scatter plot of RSS vs y</span>
+<span id="L68" class="LineNr">68 </span>xlabel(<span class="Constant">&quot;$-\overline{u'v'}(\rm m^2/s^2)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>, <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L69" class="LineNr">69 </span>ylabel(<span class="Constant">&quot;$y(\rm m)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>, <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span>
+<span id="L70" class="LineNr">70 </span>hold on<span class="Special">;</span>
+<span id="L71" class="LineNr">71 </span>
+<span id="L72" class="LineNr">72 </span><span class="Comment">% Perform linear regression on the RSS profile in the selected range</span>
+<span id="L73" class="LineNr">73 </span>RSS_index = Y <span class="Statement">&gt;</span> <span class="Constant">0.03</span> <span class="Statement">&amp;</span> Y <span class="Statement">&lt;</span> <span class="Constant">0.05</span><span class="Special">;</span>   <span class="Comment">% Define the range for linear fit</span>
+<span id="L74" class="LineNr">74 </span>RSS_linear = RSS(RSS_index)<span class="Special">;</span>       <span class="Comment">% Extract RSS values in the range</span>
+<span id="L75" class="LineNr">75 </span>Y_linear = Y(RSS_index)<span class="Special">;</span>           <span class="Comment">% Extract y values in the range</span>
+<span id="L76" class="LineNr">76 </span>p_trans = polyfit(Y_linear, RSS_linear, <span class="Constant">1</span>)<span class="Special">;</span> <span class="Comment">% Linear regression</span>
+<span id="L77" class="LineNr">77 </span>u_tau_RSS = <span class="Statement">sqrt</span>(p_trans(<span class="Constant">2</span>))<span class="Special">;</span>      <span class="Comment">% Friction velocity from RSS</span>
+<span id="L78" class="LineNr">78 </span>disp(<span class="Identifier">[</span><span class="Constant">'u_tau from RSS linear depth profile: '</span>, num2str(u_tau_RSS)<span class="Identifier">]</span>)<span class="Special">;</span>
+<span id="L79" class="LineNr">79 </span>
+<span id="L80" class="LineNr">80 </span><span class="Comment">% Add the linear fit to the plot</span>
+<span id="L81" class="LineNr">81 </span>p = polyfit(RSS_linear, Y_linear, <span class="Constant">1</span>)<span class="Special">;</span>
+<span id="L82" class="LineNr">82 </span>plot(RSS_linear, polyval(p, RSS_linear), <span class="Constant">'r--'</span>, <span class="Constant">'LineWidth'</span>, <span class="Constant">1.5</span>)<span class="Special">;</span> <span class="Comment">% Linear fit</span>
+<span id="L83" class="LineNr">83 </span>set(gca, <span class="Constant">'FontSize'</span>, <span class="Constant">10</span>)<span class="Special">;</span> <span class="Comment">% Adjust tick label size</span>
+<span id="L84" class="LineNr">84 </span>legend(<span class="Constant">'Data'</span>, <span class="Constant">'RSS linear fit'</span>, <span class="Constant">'Location'</span>, <span class="Constant">'Best'</span>)<span class="Special">;</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

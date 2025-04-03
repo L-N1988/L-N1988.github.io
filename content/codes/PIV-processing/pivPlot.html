@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>~/openchannel/content/codes/PIV-processing/pivPlot.m.html</title>
+<meta name="Generator" content="Vim/9.1">
+<meta name="plugin-version" content="vim9.0_v2">
+<meta name="syntax" content="matlab">
+<meta name="settings" content="number_lines,use_css,no_foldcolumn,expand_tabs,line_ids,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: "Roboto Mono"; color: #ffffff; background-color: #000000; }
+body { font-family: "Roboto Mono"; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Comment { color: #80a0ff; }
+.Constant { color: #ffa0a0; }
+.Special { color: #ffa500; }
+.Statement { color: #ffff60; font-weight: bold; }
+.LineNr { color: #ffff00; }
+.Todo { color: #0000ff; background-color: #ffff00; padding-bottom: 1px; }
+-->
+</style>
+
+<script>
+<!--
+
+/* function to open any folds containing a jumped-to line before jumping to it */
+function JumpToLine()
+{
+  var lineNum;
+  lineNum = window.location.hash;
+  lineNum = lineNum.substr(1); /* strip off '#' */
+
+  if (lineNum.indexOf('L') == -1) {
+    lineNum = 'L'+lineNum;
+  }
+  var lineElem = document.getElementById(lineNum);
+  /* Always jump to new location even if the line was hidden inside a fold, or
+   * we corrected the raw number to a line ID.
+   */
+  if (lineElem) {
+    lineElem.scrollIntoView(true);
+  }
+  return true;
+}
+if ('onhashchange' in window) {
+  window.onhashchange = JumpToLine;
+}
+
+-->
+</script>
+</head>
+<body onload='JumpToLine();'>
+<pre id='vimCodeElement'>
+<span id="L1" class="LineNr">  1 </span>clc<span class="Special">;</span> <span class="Statement">clear</span><span class="Special">;</span> close all<span class="Special">;</span> <span class="Comment">% Clear command window, workspace, and close all figures</span>
+<span id="L2" class="LineNr">  2 </span>casePath = <span class="Constant">'..'</span><span class="Special">;</span> <span class="Comment">% Define the relative path to the case directory</span>
+<span id="L3" class="LineNr">  3 </span>load(fullfile(casePath, <span class="Constant">'figure_data'</span>, <span class="Constant">'u_stat.mat'</span>))<span class="Special">;</span> <span class="Comment">% Load statistical data for plotting</span>
+<span id="L4" class="LineNr">  4 </span>
+<span id="L5" class="LineNr">  5 </span><span class="Todo">%% Plot lines</span>
+<span id="L6" class="LineNr">  6 </span><span class="Comment">% Plot 1: Double average velocity (U) along the vertical line</span>
+<span id="L7" class="LineNr">  7 </span>figure(<span class="Constant">1</span>)<span class="Special">;</span> scatter(U_xt, Y)<span class="Special">;</span> <span class="Comment">% Scatter plot of U_xt vs Y</span>
+<span id="L8" class="LineNr">  8 </span>set(xlabel(<span class="Constant">&quot;$U(\rm m/s)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set x-axis label with LaTeX formatting</span>
+<span id="L9" class="LineNr">  9 </span>set(ylabel(<span class="Constant">&quot;$y(\rm m)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set y-axis label with LaTeX formatting</span>
+<span id="L10" class="LineNr"> 10 </span>set(gca, <span class="Constant">'YScale'</span>, <span class="Constant">'log'</span>)<span class="Special">;</span> <span class="Comment">% Set y-axis to logarithmic scale</span>
+<span id="L11" class="LineNr"> 11 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'U_vs_Y.emf'</span>), <span class="Constant">'-dmeta'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .emf</span>
+<span id="L12" class="LineNr"> 12 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'U_vs_Y.fig'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .fig</span>
+<span id="L13" class="LineNr"> 13 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'U_vs_Y.svg'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .svg</span>
+<span id="L14" class="LineNr"> 14 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'U_vs_Y.jpg'</span>), <span class="Constant">'-djpeg'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .jpg</span>
+<span id="L15" class="LineNr"> 15 </span>
+<span id="L16" class="LineNr"> 16 </span><span class="Comment">% Plot 2: Double average velocity (V) along the vertical line</span>
+<span id="L17" class="LineNr"> 17 </span>figure(<span class="Constant">2</span>)<span class="Special">;</span> scatter(V_xt, Y)<span class="Special">;</span> <span class="Comment">% Scatter plot of V_xt vs Y</span>
+<span id="L18" class="LineNr"> 18 </span>set(xlabel(<span class="Constant">&quot;$V(\rm m/s)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set x-axis label with LaTeX formatting</span>
+<span id="L19" class="LineNr"> 19 </span>set(ylabel(<span class="Constant">&quot;$y(\rm m)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set y-axis label with LaTeX formatting</span>
+<span id="L20" class="LineNr"> 20 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'V_vs_Y.emf'</span>), <span class="Constant">'-dmeta'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .emf</span>
+<span id="L21" class="LineNr"> 21 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'V_vs_Y.fig'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .fig</span>
+<span id="L22" class="LineNr"> 22 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'V_vs_Y.svg'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .svg</span>
+<span id="L23" class="LineNr"> 23 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'V_vs_Y.jpg'</span>), <span class="Constant">'-djpeg'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .jpg</span>
+<span id="L24" class="LineNr"> 24 </span>
+<span id="L25" class="LineNr"> 25 </span><span class="Comment">% Plot 3: Reynolds shear stress (RSS) along the vertical line</span>
+<span id="L26" class="LineNr"> 26 </span>figure(<span class="Constant">3</span>)<span class="Special">;</span> scatter(RSS, Y)<span class="Special">;</span> <span class="Comment">% Scatter plot of RSS vs Y</span>
+<span id="L27" class="LineNr"> 27 </span>set(xlabel(<span class="Constant">&quot;$-\overline{u'v'}(\rm m^2/s^2)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set x-axis label with LaTeX formatting</span>
+<span id="L28" class="LineNr"> 28 </span>set(ylabel(<span class="Constant">&quot;$y(\rm m)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set y-axis label with LaTeX formatting</span>
+<span id="L29" class="LineNr"> 29 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'RSS_vs_Y.emf'</span>), <span class="Constant">'-dmeta'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .emf</span>
+<span id="L30" class="LineNr"> 30 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'RSS_vs_Y.fig'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .fig</span>
+<span id="L31" class="LineNr"> 31 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'RSS_vs_Y.svg'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .svg</span>
+<span id="L32" class="LineNr"> 32 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'RSS_vs_Y.jpg'</span>), <span class="Constant">'-djpeg'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .jpg</span>
+<span id="L33" class="LineNr"> 33 </span>
+<span id="L34" class="LineNr"> 34 </span><span class="Comment">% Plot 4: Turbulent normal stress (uu) along the vertical line</span>
+<span id="L35" class="LineNr"> 35 </span>figure(<span class="Constant">4</span>)<span class="Special">;</span> scatter(uu_xt, Y)<span class="Special">;</span> <span class="Comment">% Scatter plot of uu_xt vs Y</span>
+<span id="L36" class="LineNr"> 36 </span>set(xlabel(<span class="Constant">&quot;$\overline{u'u'}(\rm m^2/s^2)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set x-axis label with LaTeX formatting</span>
+<span id="L37" class="LineNr"> 37 </span>set(ylabel(<span class="Constant">&quot;$y(\rm m)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set y-axis label with LaTeX formatting</span>
+<span id="L38" class="LineNr"> 38 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'uu_vs_Y.emf'</span>), <span class="Constant">'-dmeta'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .emf</span>
+<span id="L39" class="LineNr"> 39 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'uu_vs_Y.fig'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .fig</span>
+<span id="L40" class="LineNr"> 40 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'uu_vs_Y.svg'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .svg</span>
+<span id="L41" class="LineNr"> 41 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'uu_vs_Y.jpg'</span>), <span class="Constant">'-djpeg'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .jpg</span>
+<span id="L42" class="LineNr"> 42 </span>
+<span id="L43" class="LineNr"> 43 </span><span class="Comment">% Plot 5: Turbulent normal stress (vv) along the vertical line</span>
+<span id="L44" class="LineNr"> 44 </span>figure(<span class="Constant">5</span>)<span class="Special">;</span> scatter(vv_xt, Y)<span class="Special">;</span> <span class="Comment">% Scatter plot of vv_xt vs Y</span>
+<span id="L45" class="LineNr"> 45 </span>set(xlabel(<span class="Constant">&quot;$\overline{v'v'}(\rm m^2/s^2)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set x-axis label with LaTeX formatting</span>
+<span id="L46" class="LineNr"> 46 </span>set(ylabel(<span class="Constant">&quot;$y(\rm m)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set y-axis label with LaTeX formatting</span>
+<span id="L47" class="LineNr"> 47 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'vv_vs_Y.emf'</span>), <span class="Constant">'-dmeta'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .emf</span>
+<span id="L48" class="LineNr"> 48 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'vv_vs_Y.fig'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .fig</span>
+<span id="L49" class="LineNr"> 49 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'vv_vs_Y.svg'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .svg</span>
+<span id="L50" class="LineNr"> 50 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'vv_vs_Y.jpg'</span>), <span class="Constant">'-djpeg'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .jpg</span>
+<span id="L51" class="LineNr"> 51 </span>
+<span id="L52" class="LineNr"> 52 </span><span class="Comment">% Plot 6: Root mean square of velocity fluctuations (u_rms) along the vertical line</span>
+<span id="L53" class="LineNr"> 53 </span>figure(<span class="Constant">6</span>)<span class="Special">;</span> scatter(u_rms, Y)<span class="Special">;</span> <span class="Comment">% Scatter plot of u_rms vs Y</span>
+<span id="L54" class="LineNr"> 54 </span>set(xlabel(<span class="Constant">&quot;$u_{rms}(\rm m/s)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set x-axis label with LaTeX formatting</span>
+<span id="L55" class="LineNr"> 55 </span>set(ylabel(<span class="Constant">&quot;$y(\rm m)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set y-axis label with LaTeX formatting</span>
+<span id="L56" class="LineNr"> 56 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'u_rms_vs_Y.emf'</span>), <span class="Constant">'-dmeta'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .emf</span>
+<span id="L57" class="LineNr"> 57 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'u_rms_vs_Y.fig'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .fig</span>
+<span id="L58" class="LineNr"> 58 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'u_rms_vs_Y.svg'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .svg</span>
+<span id="L59" class="LineNr"> 59 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'u_rms_vs_Y.jpg'</span>), <span class="Constant">'-djpeg'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .jpg</span>
+<span id="L60" class="LineNr"> 60 </span>
+<span id="L61" class="LineNr"> 61 </span><span class="Comment">% Plot 7: Root mean square of velocity fluctuations (v_rms) along the vertical line</span>
+<span id="L62" class="LineNr"> 62 </span>figure(<span class="Constant">7</span>)<span class="Special">;</span> scatter(v_rms, Y)<span class="Special">;</span> <span class="Comment">% Scatter plot of v_rms vs Y</span>
+<span id="L63" class="LineNr"> 63 </span>set(xlabel(<span class="Constant">&quot;$v_{rms}(\rm m/s)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set x-axis label with LaTeX formatting</span>
+<span id="L64" class="LineNr"> 64 </span>set(ylabel(<span class="Constant">&quot;$y(\rm m)$&quot;</span>, <span class="Constant">&quot;FontSize&quot;</span>, <span class="Constant">14</span>), <span class="Constant">'Interpreter'</span>, <span class="Constant">'latex'</span>)<span class="Special">;</span> <span class="Comment">% Set y-axis label with LaTeX formatting</span>
+<span id="L65" class="LineNr"> 65 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'v_rms_vs_Y.emf'</span>), <span class="Constant">'-dmeta'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .emf</span>
+<span id="L66" class="LineNr"> 66 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'v_rms_vs_Y.fig'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .fig</span>
+<span id="L67" class="LineNr"> 67 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'v_rms_vs_Y.svg'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .svg</span>
+<span id="L68" class="LineNr"> 68 </span>print(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'v_rms_vs_Y.jpg'</span>), <span class="Constant">'-djpeg'</span>, <span class="Constant">'-r300'</span>)<span class="Special">;</span> <span class="Comment">% Save plot as .jpg</span>
+<span id="L69" class="LineNr"> 69 </span>saveas(gcf, fullfile(<span class="Constant">'..'</span>, <span class="Constant">'analysis_figures'</span>, <span class="Constant">'v_rms_vs_Y.svg'</span>))<span class="Special">;</span> <span class="Comment">% Save plot as .svg</span>
+<span id="L70" class="LineNr"> 70 </span>
+<span id="L71" class="LineNr"> 71 </span><span class="Comment">% %% Plot fields (commented out)</span>
+<span id="L72" class="LineNr"> 72 </span><span class="Comment">% </span>
+<span id="L73" class="LineNr"> 73 </span><span class="Comment">% figure(8)</span>
+<span id="L74" class="LineNr"> 74 </span><span class="Comment">% imagesc(X,Y, U_t); % Plot 2D field of U_t</span>
+<span id="L75" class="LineNr"> 75 </span><span class="Comment">% set(gca,'YDir','normal'); % Set y-axis direction to normal</span>
+<span id="L76" class="LineNr"> 76 </span><span class="Comment">% set(xlabel(&quot;$x/\rm m$&quot;,&quot;FontSize&quot;, 14), 'Interpreter', 'latex'); % Set x-axis label with LaTeX formatting</span>
+<span id="L77" class="LineNr"> 77 </span><span class="Comment">% set(ylabel(&quot;$y/\rm m$&quot;,&quot;FontSize&quot;, 14), 'Interpreter', 'latex'); % Set y-axis label with LaTeX formatting</span>
+<span id="L78" class="LineNr"> 78 </span><span class="Comment">% c = colorbar; % Add colorbar</span>
+<span id="L79" class="LineNr"> 79 </span><span class="Comment">% c.Label.String = '$\overline{U}/\rm m/s$'; % Set colorbar label</span>
+<span id="L80" class="LineNr"> 80 </span><span class="Comment">% c.Label.Interpreter = 'latex'; % Use LaTeX formatting for colorbar label</span>
+<span id="L81" class="LineNr"> 81 </span><span class="Comment">% c.Label.FontSize = 14; % Set font size for colorbar label</span>
+<span id="L82" class="LineNr"> 82 </span><span class="Comment">% % hold on;</span>
+<span id="L83" class="LineNr"> 83 </span><span class="Comment">% % h1 = quiver(data.x{1, 1}, flip(data.y{1, 1}), flip(U_t), zeros(size(V_t))); % Add quiver plot (commented out)</span>
+<span id="L84" class="LineNr"> 84 </span><span class="Comment">% % set(h1, 'AutoScale', 'on', 'AutoScaleFactor', 5); % Configure quiver plot scaling</span>
+<span id="L85" class="LineNr"> 85 </span><span class="Comment">% </span>
+<span id="L86" class="LineNr"> 86 </span><span class="Comment">% figure(9)</span>
+<span id="L87" class="LineNr"> 87 </span><span class="Comment">% imagesc(X,Y,V_t); % Plot 2D field of V_t</span>
+<span id="L88" class="LineNr"> 88 </span><span class="Comment">% set(gca,'YDir','normal'); % Set y-axis direction to normal</span>
+<span id="L89" class="LineNr"> 89 </span><span class="Comment">% set(xlabel(&quot;$x/\rm m$&quot;,&quot;FontSize&quot;, 14), 'Interpreter', 'latex'); % Set x-axis label with LaTeX formatting</span>
+<span id="L90" class="LineNr"> 90 </span><span class="Comment">% set(ylabel(&quot;$y/\rm m$&quot;,&quot;FontSize&quot;, 14), 'Interpreter', 'latex'); % Set y-axis label with LaTeX formatting</span>
+<span id="L91" class="LineNr"> 91 </span><span class="Comment">% c = colorbar; % Add colorbar</span>
+<span id="L92" class="LineNr"> 92 </span><span class="Comment">% c.Label.String = '$\overline{V}/\rm m/s$'; % Set colorbar label</span>
+<span id="L93" class="LineNr"> 93 </span><span class="Comment">% c.Label.Interpreter = 'latex'; % Use LaTeX formatting for colorbar label</span>
+<span id="L94" class="LineNr"> 94 </span><span class="Comment">% c.Label.FontSize = 14; % Set font size for colorbar label</span>
+<span id="L95" class="LineNr"> 95 </span><span class="Comment">% </span>
+<span id="L96" class="LineNr"> 96 </span><span class="Comment">% figure(10)</span>
+<span id="L97" class="LineNr"> 97 </span><span class="Comment">% imagesc(X,Y, V_t); % Plot 2D field of V_t (duplicate of figure 9)</span>
+<span id="L98" class="LineNr"> 98 </span><span class="Comment">% set(gca,'YDir','normal'); % Set y-axis direction to normal</span>
+<span id="L99" class="LineNr"> 99 </span><span class="Comment">% set(xlabel(&quot;$x/\rm m$&quot;,&quot;FontSize&quot;, 14), 'Interpreter', 'latex'); % Set x-axis label with LaTeX formatting</span>
+<span id="L100" class="LineNr">100 </span><span class="Comment">% set(ylabel(&quot;$y/\rm m$&quot;,&quot;FontSize&quot;, 14), 'Interpreter', 'latex'); % Set y-axis label with LaTeX formatting</span>
+<span id="L101" class="LineNr">101 </span><span class="Comment">% c = colorbar; % Add colorbar</span>
+<span id="L102" class="LineNr">102 </span><span class="Comment">% c.Label.String = '$\overline{V}/\rm m/s$'; % Set colorbar label</span>
+<span id="L103" class="LineNr">103 </span><span class="Comment">% c.Label.Interpreter = 'latex'; % Use LaTeX formatting for colorbar label</span>
+<span id="L104" class="LineNr">104 </span><span class="Comment">% c.Label.FontSize = 14; % Set font size for colorbar label</span>
+<span id="L105" class="LineNr">105 </span><span class="Comment">% </span>
+<span id="L106" class="LineNr">106 </span><span class="Comment">% figure(11)</span>
+<span id="L107" class="LineNr">107 </span><span class="Comment">% imagesc(X,Y,sqrt(U_t.*U_t + V_t.*V_t)); % Plot 2D field of velocity magnitude</span>
+<span id="L108" class="LineNr">108 </span><span class="Comment">% set(gca,'YDir','normal'); % Set y-axis direction to normal</span>
+<span id="L109" class="LineNr">109 </span><span class="Comment">% set(xlabel(&quot;$x/\rm m$&quot;,&quot;FontSize&quot;, 14), 'Interpreter', 'latex'); % Set x-axis label with LaTeX formatting</span>
+<span id="L110" class="LineNr">110 </span><span class="Comment">% set(ylabel(&quot;$y/\rm m$&quot;,&quot;FontSize&quot;, 14), 'Interpreter', 'latex'); % Set y-axis label with LaTeX formatting</span>
+<span id="L111" class="LineNr">111 </span><span class="Comment">% c = colorbar; % Add colorbar</span>
+<span id="L112" class="LineNr">112 </span><span class="Comment">% c.Label.String = '$\sqrt{\overline{U}^2+\overline{V}^2}/\rm m/s$'; % Set colorbar label</span>
+<span id="L113" class="LineNr">113 </span><span class="Comment">% c.Label.Interpreter = 'latex'; % Use LaTeX formatting for colorbar label</span>
+<span id="L114" class="LineNr">114 </span><span class="Comment">% c.Label.FontSize = 14; % Set font size for colorbar label</span>
+<span id="L115" class="LineNr">115 </span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->

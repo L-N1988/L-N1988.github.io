@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>~/openchannel/content/codes/PIV-processing/PSD.m.html</title>
+<meta name="Generator" content="Vim/9.1">
+<meta name="plugin-version" content="vim9.0_v2">
+<meta name="syntax" content="matlab">
+<meta name="settings" content="number_lines,use_css,no_foldcolumn,expand_tabs,line_ids,pre_wrap,prevent_copy=,use_input_for_pc=none">
+<meta name="colorscheme" content="none">
+<style>
+<!--
+pre { white-space: pre-wrap; font-family: "Roboto Mono"; color: #ffffff; background-color: #000000; }
+body { font-family: "Roboto Mono"; color: #ffffff; background-color: #000000; }
+* { font-size: 1em; }
+a { color: inherit; }
+.Comment { color: #80a0ff; }
+.Constant { color: #ffa0a0; }
+.Special { color: #ffa500; }
+.Identifier { color: #40ffff; }
+.Statement { color: #ffff60; font-weight: bold; }
+.LineNr { color: #ffff00; }
+-->
+</style>
+
+<script>
+<!--
+
+/* function to open any folds containing a jumped-to line before jumping to it */
+function JumpToLine()
+{
+  var lineNum;
+  lineNum = window.location.hash;
+  lineNum = lineNum.substr(1); /* strip off '#' */
+
+  if (lineNum.indexOf('L') == -1) {
+    lineNum = 'L'+lineNum;
+  }
+  var lineElem = document.getElementById(lineNum);
+  /* Always jump to new location even if the line was hidden inside a fold, or
+   * we corrected the raw number to a line ID.
+   */
+  if (lineElem) {
+    lineElem.scrollIntoView(true);
+  }
+  return true;
+}
+if ('onhashchange' in window) {
+  window.onhashchange = JumpToLine;
+}
+
+-->
+</script>
+</head>
+<body onload='JumpToLine();'>
+<pre id='vimCodeElement'>
+<span id="L1" class="LineNr"> 1 </span><span class="Comment">% PSD.m</span>
+<span id="L2" class="LineNr"> 2 </span><span class="Comment">%</span>
+<span id="L3" class="LineNr"> 3 </span><span class="Comment">% This script processes velocity data to compute the Power Spectral Density (PSD)</span>
+<span id="L4" class="LineNr"> 4 </span><span class="Comment">% using Welch's method. It performs the following steps:</span>
+<span id="L5" class="LineNr"> 5 </span><span class="Comment">% 1. Clears the workspace, closes all figures, and clears the command window.</span>
+<span id="L6" class="LineNr"> 6 </span><span class="Comment">% 2. Loads velocity data from a specified file.</span>
+<span id="L7" class="LineNr"> 7 </span><span class="Comment">% 3. Computes the PSD for each spatial point in the velocity data using Welch's method.</span>
+<span id="L8" class="LineNr"> 8 </span><span class="Comment">% 4. Applies a 3x3 moving average filter to smooth the PSD data.</span>
+<span id="L9" class="LineNr"> 9 </span><span class="Comment">% 5. Saves the processed PSD data to a .mat file for further analysis.</span>
+<span id="L10" class="LineNr">10 </span><span class="Comment">%</span>
+<span id="L11" class="LineNr">11 </span><span class="Comment">% Key Variables:</span>
+<span id="L12" class="LineNr">12 </span><span class="Comment">% - casePath: Path to the case directory containing the input data.</span>
+<span id="L13" class="LineNr">13 </span><span class="Comment">% - Fs: Sampling frequency (Hz).</span>
+<span id="L14" class="LineNr">14 </span><span class="Comment">% - X, Y: Spatial coordinates of the velocity data.</span>
+<span id="L15" class="LineNr">15 </span><span class="Comment">% - xmesh, ymesh: Mesh grids for the spatial coordinates.</span>
+<span id="L16" class="LineNr">16 </span><span class="Comment">% - U_xt: Mean velocity over time.</span>
+<span id="L17" class="LineNr">17 </span><span class="Comment">% - u_pri: Primary velocity data (3D matrix).</span>
+<span id="L18" class="LineNr">18 </span><span class="Comment">% - window_length: Length of the window used in Welch's method.</span>
+<span id="L19" class="LineNr">19 </span><span class="Comment">% - nfft: Number of FFT points (next power of 2 of window_length).</span>
+<span id="L20" class="LineNr">20 </span><span class="Comment">% - fs: Frequency matrix (3D matrix).</span>
+<span id="L21" class="LineNr">21 </span><span class="Comment">% - pxxs: PSD matrix (3D matrix).</span>
+<span id="L22" class="LineNr">22 </span><span class="Comment">%</span>
+<span id="L23" class="LineNr">23 </span><span class="Comment">% Functions:</span>
+<span id="L24" class="LineNr">24 </span><span class="Comment">% - patch_moving_average_conv: Computes a moving average using convolution</span>
+<span id="L25" class="LineNr">25 </span><span class="Comment">%   with a specified kernel. Used to smooth the PSD data.</span>
+<span id="L26" class="LineNr">26 </span><span class="Comment">%</span>
+<span id="L27" class="LineNr">27 </span><span class="Comment">% Outputs:</span>
+<span id="L28" class="LineNr">28 </span><span class="Comment">% - Saves the processed PSD data (fs, pxxs) along with spatial coordinates</span>
+<span id="L29" class="LineNr">29 </span><span class="Comment">%   (X, Y, xmesh, ymesh) and mean velocity (U_xt) to 'pxxs.mat'.</span>
+<span id="L30" class="LineNr">30 </span><span class="Comment">%</span>
+<span id="L31" class="LineNr">31 </span><span class="Comment">% Notes:</span>
+<span id="L32" class="LineNr">32 </span><span class="Comment">% - The script uses a 3x3 moving average filter for smoothing.</span>
+<span id="L33" class="LineNr">33 </span><span class="Comment">% - Welch's method is applied to each spatial point in the velocity data.</span>
+<span id="L34" class="LineNr">34 </span><span class="Comment">% - The PSD is visualized on a log-log scale during computation.</span>
+<span id="L35" class="LineNr">35 </span><span class="Comment">% Clear workspace, close all figures, and clear command window</span>
+<span id="L36" class="LineNr">36 </span>clc<span class="Special">;</span> <span class="Statement">clear</span><span class="Special">;</span> close all<span class="Special">;</span>
+<span id="L37" class="LineNr">37 </span>
+<span id="L38" class="LineNr">38 </span><span class="Comment">% Define the path to the case directory and sampling frequency</span>
+<span id="L39" class="LineNr">39 </span>casePath = <span class="Constant">'..'</span><span class="Special">;</span>
+<span id="L40" class="LineNr">40 </span>Fs = <span class="Constant">1100</span><span class="Special">;</span> <span class="Comment">% Sampling frequency (Hz) edited by YZ</span>
+<span id="L41" class="LineNr">41 </span>
+<span id="L42" class="LineNr">42 </span><span class="Comment">% Load the data from the specified file</span>
+<span id="L43" class="LineNr">43 </span>data = load(fullfile(casePath, <span class="Constant">'figure_data'</span>, <span class="Constant">'u4pxx.mat'</span>))<span class="Special">;</span>
+<span id="L44" class="LineNr">44 </span>X = data.X<span class="Special">;</span> <span class="Comment">% X-coordinates</span>
+<span id="L45" class="LineNr">45 </span>Y = data.Y<span class="Special">;</span> <span class="Comment">% Y-coordinates</span>
+<span id="L46" class="LineNr">46 </span>xmesh = data.xmesh<span class="Special">;</span> <span class="Comment">% X-mesh grid</span>
+<span id="L47" class="LineNr">47 </span>ymesh = data.ymesh<span class="Special">;</span> <span class="Comment">% Y-mesh grid</span>
+<span id="L48" class="LineNr">48 </span>U_xt = <span class="Statement">mean</span>(data.U_t, <span class="Constant">2</span>)<span class="Special">;</span> <span class="Comment">% Mean velocity over time</span>
+<span id="L49" class="LineNr">49 </span>u_pri = data.u_pri<span class="Special">;</span> <span class="Comment">% Primary velocity data</span>
+<span id="L50" class="LineNr">50 </span>
+<span id="L51" class="LineNr">51 </span><span class="Comment">% Get the dimensions of the velocity data</span>
+<span id="L52" class="LineNr">52 </span><span class="Identifier">[</span>m, n, <span class="Statement">~</span><span class="Identifier">]</span> = <span class="Statement">size</span>(u_pri)<span class="Special">;</span>
+<span id="L53" class="LineNr">53 </span>
+<span id="L54" class="LineNr">54 </span><span class="Comment">% Define the window length for Welch's method and calculate FFT parameters</span>
+<span id="L55" class="LineNr">55 </span>window_length = <span class="Constant">8000</span><span class="Special">;</span> <span class="Comment">% Length of the window for Welch's method</span>
+<span id="L56" class="LineNr">56 </span>nfft = <span class="Constant">2</span><span class="Statement">^</span>nextpow2(window_length)<span class="Special">;</span> <span class="Comment">% Next power of 2 for FFT</span>
+<span id="L57" class="LineNr">57 </span>output_length = nfft<span class="Statement">/</span><span class="Constant">2</span> <span class="Statement">+</span> <span class="Constant">1</span><span class="Special">;</span> <span class="Comment">% Output length for real-valued input</span>
+<span id="L58" class="LineNr">58 </span>
+<span id="L59" class="LineNr">59 </span><span class="Comment">% Initialize matrices to store frequency and power spectral density (PSD)</span>
+<span id="L60" class="LineNr">60 </span>fs = <span class="Statement">zeros</span>(m, n, output_length)<span class="Special">;</span> <span class="Comment">% Frequency matrix</span>
+<span id="L61" class="LineNr">61 </span>pxxs = <span class="Statement">zeros</span>(m, n, output_length)<span class="Special">;</span> <span class="Comment">% PSD matrix</span>
+<span id="L62" class="LineNr">62 </span>
+<span id="L63" class="LineNr">63 </span><span class="Comment">% Loop through each spatial point to compute PSD using Welch's method</span>
+<span id="L64" class="LineNr">64 </span><span class="Statement">for</span> ii = <span class="Constant">1</span>:m
+<span id="L65" class="LineNr">65 </span>    <span class="Statement">for</span> jj = <span class="Constant">1</span>:n
+<span id="L66" class="LineNr">66 </span>        <span class="Comment">% Compute PSD and frequency using Welch's method</span>
+<span id="L67" class="LineNr">67 </span>        <span class="Identifier">[</span>pxxs(ii, jj, :), fs(ii, jj, :)<span class="Identifier">]</span> = pwelch(squeeze(u_pri(ii, jj, :)), <span class="Comment">...</span>
+<span id="L68" class="LineNr">68 </span>            window_length, <span class="Identifier">[]</span>, <span class="Identifier">[]</span>, Fs)<span class="Special">;</span>
+<span id="L69" class="LineNr">69 </span>
+<span id="L70" class="LineNr">70 </span>        <span class="Comment">% Plot the PSD on a log-log scale for visualization</span>
+<span id="L71" class="LineNr">71 </span>        loglog(squeeze(fs(ii, jj, :)), squeeze(pxxs(ii, jj, :)))<span class="Special">;</span>
+<span id="L72" class="LineNr">72 </span>    <span class="Statement">end</span>
+<span id="L73" class="LineNr">73 </span><span class="Statement">end</span>
+<span id="L74" class="LineNr">74 </span>
+<span id="L75" class="LineNr">75 </span><span class="Comment">% Define the window size for moving average (3x3)</span>
+<span id="L76" class="LineNr">76 </span>window_size = <span class="Constant">3</span><span class="Special">;</span>
+<span id="L77" class="LineNr">77 </span>kernel = <span class="Statement">ones</span>(window_size, window_size)<span class="Special">;</span> <span class="Comment">% 3x3 matrix of ones</span>
+<span id="L78" class="LineNr">78 </span>
+<span id="L79" class="LineNr">79 </span><span class="Comment">% Apply a 3x3 moving average filter to smooth the PSD data</span>
+<span id="L80" class="LineNr">80 </span>pxxs = patch_moving_average_conv(pxxs, kernel)<span class="Special">;</span>
+<span id="L81" class="LineNr">81 </span>
+<span id="L82" class="LineNr">82 </span><span class="Comment">% Save the processed data to a .mat file</span>
+<span id="L83" class="LineNr">83 </span>save(fullfile(casePath, <span class="Constant">'figure_data'</span>, <span class="Constant">'pxxs.mat'</span>), <span class="Constant">'X'</span>, <span class="Constant">'xmesh'</span>, <span class="Constant">'Y'</span>, <span class="Constant">'ymesh'</span>, <span class="Constant">'fs'</span>, <span class="Constant">'pxxs'</span>, <span class="Constant">'U_xt'</span>)<span class="Special">;</span>
+<span id="L84" class="LineNr">84 </span>
+<span id="L85" class="LineNr">85 </span><span class="Comment">% Function to compute a moving average using convolution</span>
+<span id="L86" class="LineNr">86 </span><span class="Identifier">function</span> moving_avg_matrix = patch_moving_average_conv(matrix, kernel)
+<span id="L87" class="LineNr">87 </span>    <span class="Comment">% Input: matrix (e.g., 6x10), kernel (e.g., 3x3)</span>
+<span id="L88" class="LineNr">88 </span>    <span class="Comment">% Output: moving_avg_matrix with the same size as input, containing averages</span>
+<span id="L89" class="LineNr">89 </span>
+<span id="L90" class="LineNr">90 </span>    <span class="Comment">% Perform convolution with 'same' to keep output size equal to input</span>
+<span id="L91" class="LineNr">91 </span>    conv_result = convn(matrix, kernel, <span class="Constant">'same'</span>)<span class="Special">;</span>
+<span id="L92" class="LineNr">92 </span>
+<span id="L93" class="LineNr">93 </span>    <span class="Comment">% Create a matrix to count how many elements contribute at each position</span>
+<span id="L94" class="LineNr">94 </span>    contrib_count = convn(<span class="Statement">ones</span>(<span class="Statement">size</span>(matrix)), kernel, <span class="Constant">'same'</span>)<span class="Special">;</span>
+<span id="L95" class="LineNr">95 </span>
+<span id="L96" class="LineNr">96 </span>    <span class="Comment">% Compute the moving average by dividing the sum by the number of contributing elements</span>
+<span id="L97" class="LineNr">97 </span>    moving_avg_matrix = conv_result <span class="Statement">./</span> contrib_count<span class="Special">;</span>
+<span id="L98" class="LineNr">98 </span><span class="Statement">end</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->
