@@ -37,14 +37,14 @@ load(fullfile(casePath, 'figure_data', 'pxxs.mat'));
 
 [ii_c, jj_c] = deal(round(size(fs, 1)/4), round(size(fs, 2)/4));
 figure();
-plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(pxxs(ii_c, jj_c, :), [], 1));
+plot(squeeze(fs(ii_c, jj_c, :)), squeeze(pxxs(ii_c, jj_c, :)));
 grid on; set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), 'Interpreter', 'latex');
 set(ylabel("$S_{uu}(f) (m^2/s)$", "FontSize", 14), 'Interpreter', 'latex');
 set(title(sprintf("PSD at y = %.5f m", Y(jj_c)), FontSize=14), 'Interpreter', 'latex');
 
 figure();
-plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(fs(ii_c, jj_c, :) .* pxxs(ii_c, jj_c, :), [], 1));
+plot(squeeze(fs(ii_c, jj_c, :)), squeeze(fs(ii_c, jj_c, :) .* pxxs(ii_c, jj_c, :)));
 grid on; set(gca, 'XScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), ...
     'Interpreter', 'latex');
@@ -55,14 +55,14 @@ set(title(sprintf("pre-multiplied PSD at y = %.5f m", Y(jj_c)), FontSize=14), ..
 
 [ii_c, jj_c] = deal(round(size(fs, 1)/2), round(size(fs, 2)/2));
 figure();
-plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(pxxs(ii_c, jj_c, :), [], 1));
+plot(squeeze(fs(ii_c, jj_c, :)), squeeze(pxxs(ii_c, jj_c, :)));
 grid on; set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), 'Interpreter', 'latex');
 set(ylabel("$S_{uu}(f) (m^2/s)$", "FontSize", 14), 'Interpreter', 'latex');
 set(title(sprintf("PSD at y = %.5f m", Y(jj_c)), FontSize=14), 'Interpreter', 'latex');
 
 figure();
-plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(fs(ii_c, jj_c, :) .* pxxs(ii_c, jj_c, :), [], 1));
+plot(squeeze(fs(ii_c, jj_c, :)), squeeze(fs(ii_c, jj_c, :) .* pxxs(ii_c, jj_c, :)));
 grid on; set(gca, 'XScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), ...
     'Interpreter', 'latex');
@@ -73,14 +73,14 @@ set(title(sprintf("pre-multiplied PSD at y = %.5f m", Y(jj_c)), FontSize=14), ..
 
 [ii_c, jj_c] = deal(round(size(fs, 1)*3/4), round(size(fs, 2)*3/4));
 figure();
-plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(pxxs(ii_c, jj_c, :), [], 1));
+plot(squeeze(fs(ii_c, jj_c, :)), squeeze(pxxs(ii_c, jj_c, :)));
 grid on; set(gca, 'XScale', 'log'); set(gca, 'YScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), 'Interpreter', 'latex');
 set(ylabel("$S_{uu}(f) (m^2/s)$", "FontSize", 14), 'Interpreter', 'latex');
 set(title(sprintf("PSD at y = %.5f m", Y(jj_c)), FontSize=14), 'Interpreter', 'latex');
 
 figure();
-plot(reshape(fs(ii_c, jj_c, :), [], 1), reshape(fs(ii_c, jj_c, :) .* pxxs(ii_c, jj_c, :), [], 1));
+plot(squeeze(fs(ii_c, jj_c, :)), squeeze(fs(ii_c, jj_c, :) .* pxxs(ii_c, jj_c, :)));
 grid on; set(gca, 'XScale', 'log');
 set(xlabel("$f$ (Hz)", "FontSize", 14), ...
     'Interpreter', 'latex');
