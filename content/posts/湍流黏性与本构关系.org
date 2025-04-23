@@ -1,0 +1,37 @@
+#+title: 湍流黏性与本构关系
+#+author: L-N1988
+Attention: 本文仅考虑不可压缩流体。
+
+* NS方程封闭问题
+流场中的切应力张量:
+- 牛顿黏性切应力 ==> ${\tau}/{\rho} = \nu {du}/{dy}$
+- 雷诺切应力 $\tau_{ij} = -\overline{u_i u_j}$ ==> RANS 方程
+- 亚网格应力 $\tau_{ij}^{(r)} = - \left[ \left( u_i u_j \right) ^{(r)} - u_i^{(r)} u_j^{(r)} \right]$ ==> LES 方法
+
+  #+begin_quote
+  亚网格模型的目的：解析小于网格尺度的湍流涡体(借助亚网格尺度切应力$\tau = \overline{uu} - \overline{u}~\overline{u}$)引起的能量耗散
+
+  $$\tau - \frac{1}{3} \mathrm{tr}(\tau) \mathbf{I} = -2\nu_t \overline{S}$$
+
+  - 左式：纯剪切应力张量，减去了各向同性项（归并至压力项），或者称为Deviatoric Stresses 见 [[https://www.continuummechanics.org/hydrodeviatoricstress.html][Hydrostatic & Deviatoric Stresses]]
+  - 右式：$\overline{S} = \frac{1}{2}\left( \nabla \overline{u} + \nabla \overline{u}^T \right)$ 为Resolved strain rate tensor.
+  #+end_quote
+
+流场中的 local 应变率张量
+$$S_{ij} = \frac{1}{2}\left( \frac{\partial U_i}{\partial x_j} + \frac{\partial U_j}{\partial x_i}  \right) $$
+
+- 牛顿黏性切应力与应变率张量的本构关系 ==> 牛顿内摩擦定律
+- 雷诺切应力张量与应变率张量的本构关系 ==> mixing length model: 涡黏性系数的计算
+- 亚网格应力与应变率张量的本构关系 ==> LES 亚网格模型: 一系列亚网格黏性系数的计算公式
+
+* 湍流黏性与流体本构关系
+湍流中的总切应力可以表示成:
+$$\tau_{ij} = -\overline{u_iu_j} + \nu S_{ij} $$
+所有的涡黏性湍流模型都在寻找合适的涡黏性系数拟合湍流切应力与流场应变率之间潜在的线性关系
+$$-\overline{u_i u_j} = 2\nu_t S_{ij}$$
+换句话说，在于表征湍流应力与流场应变率之间的本构关系. 以上便是 Boussinesq 近似的动机.
+
+但是，上述计算公式存在湍动能恒为0的悖论 (考虑连续性方程) 易得 $k = \overline{u_i u_i} = -2 \nu_t S_ii = 2 \frac{\partial U_i}{\partial x_i} = 0$.
+因此，考虑应变率张量的 deviatoric 分量将本构关系重新写作等价形式:
+$$-\overline{u_i u_j} = 2 \nu_t \left( S_{ij} - \frac{1}{3} \frac{\partial U_k}{\partial x_k} \delta_{ij} \right) - \frac{2}{3} k \delta_{ij}$$
+其中应变率张量的 deviatoric 分量为 $S_{ij}^* = \left( S_{ij} - \frac{1}{3} \frac{\partial U_k}{\partial x_k} \delta_{ij} \right)$，修正了应力张量 trace 恒为0的悖论.
