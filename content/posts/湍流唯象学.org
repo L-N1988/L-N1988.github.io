@@ -1,0 +1,21 @@
+#+title: 湍流唯象学
+#+author: L-N1988
+
+* K41 theory as back-bone of turbulence
+
+#+begin_quote
+每一个 universal 的 scaling law 都蕴含着湍流惯性区的 universal scaling law.
+#+end_quote
+**  Direct cascade and turbulence phenomenology
+** Some empirical rules
+
+Gioia的一系列工作
+- Manning formula
+- Strickler scaling law
+- Blasius scaling law
+** Inverse energy cascade implication
+
+* Control turbulence from energetic range
+
+能谱大尺度含能区调控了湍流的特征：拐点，峰值等；通过调控大尺度区域的能谱特征进而调控湍流特征。
+- Zampiron (2020, JFM) riblet roughness open channel flow
