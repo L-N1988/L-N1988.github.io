@@ -36,19 +36,21 @@ typevector = cat(3, typevector{:});
 
 % Remove invalid, NaN, and infinite data based on typevector
 % Valid vectors are identified by typevector values (0: masked, 1: valid, 2: erroneous)
-validVector = (typevector ~= 0);
+validVector_u = (~isnan(u_filtered)) & (~isinf(u_filtered)) & (typevector ~= 0);
+validVector_v = (~isnan(v_filtered)) & (~isinf(v_filtered)) & (typevector ~= 0);
 % FIXME: subtle bug 0 * Nan = Nan, 0 * Inf = Nan
 % u_filtered = u_filtered .* validVector .* (~isnan(u_filtered)) .* (~isinf(u_filtered));
 % v_filtered = v_filtered .* validVector .* (~isnan(v_filtered)) .* (~isinf(v_filtered));
-u_filtered(isnan(u_filtered) | isinf(u_filtered) | (~validVector)) = 0
-v_filtered(isnan(v_filtered) | isinf(v_filtered) | (~validVector)) = 0
+u_filtered(~validVector_u) = 0
+v_filtered(~validVector_v) = 0
 assert(nnz(isnan(u_filtered) + isinf(u_filtered) + isnan(v_filtered) + isinf(v_filtered)) == 0)
-nValidFrame = sum(validVector, 3); % Count valid frames for each cell
+nValidFrame_u = sum(validVector_u, 3); % Count valid frames for each cell
+nValidFrame_v = sum(validVector_v, 3); % Count valid frames for each cell
 
 % Statistical processing
 % Compute time-averaged velocity for each cell
-U_t = sum(u_filtered, 3) ./ nValidFrame;
-V_t = sum(v_filtered, 3) ./ nValidFrame;
+U_t = sum(u_filtered, 3) ./ nValidFrame_u;
+V_t = sum(v_filtered, 3) ./ nValidFrame_v;
 
 % Compute double-averaged velocity (spatial average in x-direction)
 U_xt = mean(U_t, 2);
@@ -68,11 +70,11 @@ uuu = u_pri.^3;
 vvv = v_pri.^3;
 
 % Compute time-averaged second and third moments
-uv_t  = sum(uv, 3) ./ nValidFrame;
-uu_t  = sum(uu, 3) ./ nValidFrame;
-vv_t  = sum(vv, 3) ./ nValidFrame;
-uuu_t = sum(uuu, 3) ./ nValidFrame;
-vvv_t = sum(vvv, 3) ./ nValidFrame;
+uv_t  = sum(uv, 3) ./ (nValidFrame_u/2 + nValidFrame_v/2);
+uu_t  = sum(uu, 3) ./ nValidFrame_u;
+vv_t  = sum(vv, 3) ./ nValidFrame_v;
+uuu_t = sum(uuu, 3) ./ nValidFrame_u;
+vvv_t = sum(vvv, 3) ./ nValidFrame_v;
 
 % Compute double-averaged second and third moments (spatial average in x-direction)
 uv_xt  = mean(uv_t, 2); % u'v'

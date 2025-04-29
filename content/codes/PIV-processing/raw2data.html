@@ -54,19 +54,21 @@ typevector = cat(<span class="SublimePurple">3</span>, typevector{:})<span class
 
 <span class="SublimeWarmGrey">% Remove invalid, NaN, and infinite data based on typevector</span>
 <span class="SublimeWarmGrey">% Valid vectors are identified by typevector values (0: masked, 1: valid, 2: erroneous)</span>
-validVector = (typevector <span class="SublimePink">~</span>= <span class="SublimePurple">0</span>)<span class="SublimePink">;</span>
+validVector_u = (<span class="SublimePink">~</span>isnan(u_filtered)) <span class="SublimePink">&amp;</span> (<span class="SublimePink">~</span>isinf(u_filtered)) <span class="SublimePink">&amp;</span> (typevector <span class="SublimePink">~</span>= <span class="SublimePurple">0</span>)<span class="SublimePink">;</span>
+validVector_v = (<span class="SublimePink">~</span>isnan(v_filtered)) <span class="SublimePink">&amp;</span> (<span class="SublimePink">~</span>isinf(v_filtered)) <span class="SublimePink">&amp;</span> (typevector <span class="SublimePink">~</span>= <span class="SublimePurple">0</span>)<span class="SublimePink">;</span>
 <span class="SublimeWarmGrey">% FIXME: subtle bug 0 * Nan = Nan, 0 * Inf = Nan</span>
 <span class="SublimeWarmGrey">% u_filtered = u_filtered .* validVector .* (~isnan(u_filtered)) .* (~isinf(u_filtered));</span>
 <span class="SublimeWarmGrey">% v_filtered = v_filtered .* validVector .* (~isnan(v_filtered)) .* (~isinf(v_filtered));</span>
-u_filtered(isnan(u_filtered) <span class="SublimePink">|</span> isinf(u_filtered) <span class="SublimePink">|</span> (<span class="SublimePink">~</span>validVector)) = <span class="SublimePurple">0</span>
-v_filtered(isnan(v_filtered) <span class="SublimePink">|</span> isinf(v_filtered) <span class="SublimePink">|</span> (<span class="SublimePink">~</span>validVector)) = <span class="SublimePurple">0</span>
+u_filtered(<span class="SublimePink">~</span>validVector_u) = <span class="SublimePurple">0</span>
+v_filtered(<span class="SublimePink">~</span>validVector_v) = <span class="SublimePurple">0</span>
 assert(nnz(isnan(u_filtered) <span class="SublimePink">+</span> isinf(u_filtered) <span class="SublimePink">+</span> isnan(v_filtered) <span class="SublimePink">+</span> isinf(v_filtered)) <span class="SublimePink">==</span> <span class="SublimePurple">0</span>)
-nValidFrame = <span class="SublimeWhite">sum</span>(validVector, <span class="SublimePurple">3</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% Count valid frames for each cell</span>
+nValidFrame_u = <span class="SublimeWhite">sum</span>(validVector_u, <span class="SublimePurple">3</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% Count valid frames for each cell</span>
+nValidFrame_v = <span class="SublimeWhite">sum</span>(validVector_v, <span class="SublimePurple">3</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% Count valid frames for each cell</span>
 
 <span class="SublimeWarmGrey">% Statistical processing</span>
 <span class="SublimeWarmGrey">% Compute time-averaged velocity for each cell</span>
-U_t = <span class="SublimeWhite">sum</span>(u_filtered, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
-V_t = <span class="SublimeWhite">sum</span>(v_filtered, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
+U_t = <span class="SublimeWhite">sum</span>(u_filtered, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame_u<span class="SublimePink">;</span>
+V_t = <span class="SublimeWhite">sum</span>(v_filtered, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame_v<span class="SublimePink">;</span>
 
 <span class="SublimeWarmGrey">% Compute double-averaged velocity (spatial average in x-direction)</span>
 U_xt = <span class="SublimePink">mean</span>(U_t, <span class="SublimePurple">2</span>)<span class="SublimePink">;</span>
@@ -86,11 +88,11 @@ uuu = u_pri<span class="SublimePink">.^</span><span class="SublimePurple">3</spa
 vvv = v_pri<span class="SublimePink">.^</span><span class="SublimePurple">3</span><span class="SublimePink">;</span>
 
 <span class="SublimeWarmGrey">% Compute time-averaged second and third moments</span>
-uv_t  = <span class="SublimeWhite">sum</span>(uv, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
-uu_t  = <span class="SublimeWhite">sum</span>(uu, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
-vv_t  = <span class="SublimeWhite">sum</span>(vv, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
-uuu_t = <span class="SublimeWhite">sum</span>(uuu, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
-vvv_t = <span class="SublimeWhite">sum</span>(vvv, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame<span class="SublimePink">;</span>
+uv_t  = <span class="SublimeWhite">sum</span>(uv, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> (nValidFrame_u<span class="SublimePink">/</span><span class="SublimePurple">2</span> <span class="SublimePink">+</span> nValidFrame_v<span class="SublimePink">/</span><span class="SublimePurple">2</span>)<span class="SublimePink">;</span>
+uu_t  = <span class="SublimeWhite">sum</span>(uu, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame_u<span class="SublimePink">;</span>
+vv_t  = <span class="SublimeWhite">sum</span>(vv, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame_v<span class="SublimePink">;</span>
+uuu_t = <span class="SublimeWhite">sum</span>(uuu, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame_u<span class="SublimePink">;</span>
+vvv_t = <span class="SublimeWhite">sum</span>(vvv, <span class="SublimePurple">3</span>) <span class="SublimePink">./</span> nValidFrame_v<span class="SublimePink">;</span>
 
 <span class="SublimeWarmGrey">% Compute double-averaged second and third moments (spatial average in x-direction)</span>
 uv_xt  = <span class="SublimePink">mean</span>(uv_t, <span class="SublimePurple">2</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% u'v'</span>
