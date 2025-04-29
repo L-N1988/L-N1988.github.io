@@ -7,11 +7,11 @@
 <style>
 * {font-family: monospace}
 body {background-color: #272822; color: #e8e8e3}
-.SublimeWarmGrey {color: #75715e}
 .SublimePink {color: #f92772}
-.SublimePurple {color: #ae81ff}
-.SublimeWhite {color: #e8e8e3}
+.SublimeWarmGrey {color: #75715e}
 .SublimeYellow {color: #e6db74}
+.SublimeWhite {color: #e8e8e3}
+.SublimePurple {color: #ae81ff}
 </style>
 </head>
 <body style="display: flex">
@@ -59,8 +59,8 @@ validVector_v = (<span class="SublimePink">~</span>isnan(v_filtered)) <span clas
 <span class="SublimeWarmGrey">% FIXME: subtle bug 0 * Nan = Nan, 0 * Inf = Nan</span>
 <span class="SublimeWarmGrey">% u_filtered = u_filtered .* validVector .* (~isnan(u_filtered)) .* (~isinf(u_filtered));</span>
 <span class="SublimeWarmGrey">% v_filtered = v_filtered .* validVector .* (~isnan(v_filtered)) .* (~isinf(v_filtered));</span>
-u_filtered(<span class="SublimePink">~</span>validVector_u) = <span class="SublimePurple">0</span>
-v_filtered(<span class="SublimePink">~</span>validVector_v) = <span class="SublimePurple">0</span>
+u_filtered(<span class="SublimePink">~</span>validVector_u) = <span class="SublimePurple">0</span><span class="SublimePink">;</span>
+v_filtered(<span class="SublimePink">~</span>validVector_v) = <span class="SublimePurple">0</span><span class="SublimePink">;</span>
 assert(nnz(isnan(u_filtered) <span class="SublimePink">+</span> isinf(u_filtered) <span class="SublimePink">+</span> isnan(v_filtered) <span class="SublimePink">+</span> isinf(v_filtered)) <span class="SublimePink">==</span> <span class="SublimePurple">0</span>)
 nValidFrame_u = <span class="SublimeWhite">sum</span>(validVector_u, <span class="SublimePurple">3</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% Count valid frames for each cell</span>
 nValidFrame_v = <span class="SublimeWhite">sum</span>(validVector_v, <span class="SublimePurple">3</span>)<span class="SublimePink">;</span> <span class="SublimeWarmGrey">% Count valid frames for each cell</span>

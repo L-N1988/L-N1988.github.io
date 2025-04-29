@@ -41,8 +41,8 @@ validVector_v = (~isnan(v_filtered)) & (~isinf(v_filtered)) & (typevector ~= 0);
 % FIXME: subtle bug 0 * Nan = Nan, 0 * Inf = Nan
 % u_filtered = u_filtered .* validVector .* (~isnan(u_filtered)) .* (~isinf(u_filtered));
 % v_filtered = v_filtered .* validVector .* (~isnan(v_filtered)) .* (~isinf(v_filtered));
-u_filtered(~validVector_u) = 0
-v_filtered(~validVector_v) = 0
+u_filtered(~validVector_u) = 0;
+v_filtered(~validVector_v) = 0;
 assert(nnz(isnan(u_filtered) + isinf(u_filtered) + isnan(v_filtered) + isinf(v_filtered)) == 0)
 nValidFrame_u = sum(validVector_u, 3); % Count valid frames for each cell
 nValidFrame_v = sum(validVector_v, 3); % Count valid frames for each cell
