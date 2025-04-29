@@ -37,8 +37,12 @@ typevector = cat(3, typevector{:});
 % Remove invalid, NaN, and infinite data based on typevector
 % Valid vectors are identified by typevector values (0: masked, 1: valid, 2: erroneous)
 validVector = (typevector ~= 0);
-u_filtered = u_filtered .* validVector .* (~isnan(u_filtered)) .* (~isinf(u_filtered));
-v_filtered = v_filtered .* validVector .* (~isnan(v_filtered)) .* (~isinf(v_filtered));
+% FIXME: subtle bug 0 * Nan = Nan, 0 * Inf = Nan
+% u_filtered = u_filtered .* validVector .* (~isnan(u_filtered)) .* (~isinf(u_filtered));
+% v_filtered = v_filtered .* validVector .* (~isnan(v_filtered)) .* (~isinf(v_filtered));
+u_filtered(isnan(u_filtered) | isinf(u_filtered) | (~validVector)) = 0
+v_filtered(isnan(v_filtered) | isinf(v_filtered) | (~validVector)) = 0
+assert(nnz(isnan(u_filtered) + isinf(u_filtered) + isnan(v_filtered) + isinf(v_filtered)) == 0)
 nValidFrame = sum(validVector, 3); % Count valid frames for each cell
 
 % Statistical processing
