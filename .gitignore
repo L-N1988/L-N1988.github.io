@@ -50,7 +50,9 @@ figure/logo/*.jpg
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
+*.bbl-*
 *.bcf
+*.bcf-*
 *.blg
 *-blx.aux
 *-blx.bib

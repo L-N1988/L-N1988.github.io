@@ -1,0 +1,77 @@
+\documentclass[10pt,xcolor={table,dvipsnames},t]{beamer}
+\usetheme{UCBerkeley}
+\usepackage{ctex}
+\bibliography{ref}
+
+\title{Turbulence phenomenology}
+\subtitle{The Gioia way.}
+\author{刘宁}
+\institute{浙江大学}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Velocity component at $s$ scale}
+    \begin{align*}
+        u_s^2 = \int_0^s E(\sigma) \sigma^{-2} d\sigma = \int_{1 / s}^{\infty} E(k) dk
+    .\end{align*}
+    with $E(\sigma) \sim \varepsilon^{2 / 3} \sigma^{5 / 3} \mathbf{c_d} \left( \eta / \sigma \right) \mathbf{c_e} \left( R / \sigma \right)$ and $E(k) \sim \varepsilon^{2 / 3} k^{-5 / 3} \mathbf{c_d} (\eta k) \mathbf{c_e} \left( Rk \right) $ \footnote{Note: \citet{gioiaFriction2006}中使用$\mathbf{c_e} \left( \sigma / R \right) $ 形式，注意到$R / \sigma = Rk$，为了$\mathbf{c_e} $ 的统一形式将其定义为$\mathbf{c_e} \left( R / \sigma \right) $.}.
+
+    \begin{align*}
+        \begin{cases}
+            \mathbf{c_d}\left( x \right)  = \exp\left( -\beta_d x \right) \\
+            \mathbf{c_e} \left( x \right) = \left( 1+\beta_e x^{-2} \right) ^{-17 / 6} 
+        \end{cases}
+    .\end{align*}
+
+    $\mathbf{c_d}$ 形式来自\citet{gioiaFriction2006}，$\mathbf{c_e}$ 的选取来自von K\'arm\'an. 在惯性区$\eta \ll s \ll R$ ，两个修正项均为$1$.
+    
+\end{frame}
+
+\begin{frame}{The uniform form of velocity $u_s$}
+    Let $\xi = sk = s / \sigma$, rewrite $u_S$ in a uniform form:
+    \begin{align*}
+        u_s \sim \left( \varepsilon s \right) ^{1 / 3} \left[ \int_1^{\infty} \xi^{-5 / 3} \mathbf{c_d}\left( \frac{\eta}{s} \xi \right) \mathbf{c_e} \left( \frac{R}{s} \xi \right) d\xi \right]^{1 / 2}  
+    .\end{align*}
+    \begin{block}{Takeaway msg}
+        \begin{itemize}
+            \item $u_s \sim \left( \varepsilon s \right) ^{1 / 3} $ in inertial range ($\eta \ll s \ll R$).
+            \item 提取涡体(尺度为$s$)特征速度$u_s$ 的问题转化为修正函数$\mathcal{I}$ 的讨论，$\mathcal{I}\left( \eta / s, R / s \right)  = \int_1^{\infty} \xi^{-5 / 3} \mathbf{c_d}\left( \frac{\eta}{s} \xi \right) \mathbf{c_e} \left( \frac{R}{s} \xi \right) d\xi$.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{The phenomenology big picture}
+    \begin{itemize}
+        \item Energy cascade
+            \begin{align*}
+                u_s^3 / s \sim u_R^3 / R
+            .\end{align*}
+            \begin{itemize}
+                \item With $\varepsilon \sim u_R^3 / R$, $\eta = \left( \nu^3 / \varepsilon \right)^{1 / 4}\sim R\cdot Re^{-\frac{3}{4}} $.
+            \end{itemize}
+        \item Local wall shear stress model
+        \begin{align*}
+            \tau \sim \rho v_t v_n \sim \rho V u_s
+        .\end{align*}
+        \begin{figure}[htpb]
+            \centering
+            \includegraphics[width=0.4\textwidth]{./figures/eddies.png}
+            \caption{Schematic of the dominant eddies at immediate vicinity of wall \cite{gioiaprl2001}.}
+            \label{fig:-figures-eddies-png}
+        \end{figure}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{参考文献}
+  \printbibliography[heading=bibliography,title=参考文献]
+  % \bibliographystyle{plain} % We choose the "plain" reference style
+  % \bibliography{ref} % Entries are in the refs.bib file
+\end{frame}
+
+\end{document}
