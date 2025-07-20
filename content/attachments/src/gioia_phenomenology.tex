@@ -2,9 +2,10 @@
 \usetheme{UCBerkeley}
 \usepackage{ctex}
 \bibliography{ref}
+\newcommand{\his}{\textsuperscript{\ddag}}
 
 \title{Turbulence phenomenology}
-\subtitle{The Gioia way.}
+\subtitle{The Gioia\his way.}
 \author{刘宁}
 \institute{浙江大学}
 \date{\today}
@@ -28,7 +29,7 @@
         \end{cases}
     .\end{align*}
 
-    $\mathbf{c_d}$ 形式来自\citet{gioiaFriction2006}，$\mathbf{c_e}$ 取自von K\'arm\'an. 在惯性区$\eta \ll s \ll R$ ，两个修正项均为$1$.
+    $\mathbf{c_d}$ 形式来自\citet{gioiaFriction2006}，$\mathbf{c_e}$ 取自von K\'arm\'an. 在惯性区$\eta \ll s \ll R$ ，两个修正项均为$1$\footnote{为什么调整耗散区和含能区系数无法推导常见的$-1$ 标度律？参考\cite{nikora1999prl}。}.
     
 \end{frame}
 
@@ -53,6 +54,7 @@
             .\end{align*}
             \begin{itemize}
                 \item With $\varepsilon \sim u_R^3 / R$, $\eta = \left( \nu^3 / \varepsilon \right)^{1 / 4}\sim R\cdot Re^{-\frac{3}{4}} $.
+                \item With $\varepsilon  \sim {u_{\tau }^3}/{\kappa y}$ and $v_n\sim \left( \varepsilon s \right) ^{1 / 3} $, for inertial range eddies (especially the log layer, i.e. the outer layer $s \sim y$) $v_n \sim u_{\tau } \left( s / y \right) ^{1 / 3} \sim u_{\tau}$\footnote{因此，在忽略黏性底层的外区，掺混动量的涡体天然具有$u_{\tau }$ 的特征速度。}.
             \end{itemize}
     \end{itemize}
 \end{frame}
@@ -60,8 +62,8 @@
 \begin{frame}{The Gioia way: Local shear stress model}
     Eddies $\left( u_s, s \right) $ that straddle wetted surface $W_y\implies $ shear stress $\tau$,
     \begin{itemize}
-        \item $v_t$ 代表涡体能够传递的动量大小，取决于湿面积两侧的动量差（$\propto \frac{\partial u}{\partial y}\cdot s $）
         \item $v_n$ 代表涡体传递动量的速率，取决于涡体的特征速度（$\sim u_s$）
+        \item $v_t$ 代表涡体能够传递的动量大小，取决于湿面积两侧的动量差（$\propto \frac{\partial u}{\partial y}\cdot s $）
     \end{itemize}
     \begin{columns}
         \begin{column}{0.5\textwidth}
@@ -108,8 +110,29 @@
 
 \begin{frame}{Unify the local shear stress model}
     \begin{itemize}
-        \item $v_n$ ：近床面位置，特征涡体由粗糙高度$k_s$ 和黏性底层$a\eta$ 共同控制 $s = k_s + a\eta$；外区部分的特征涡体完全由床面高度$y$ 控制\footnote{Townsend 附着涡模型存在类似的特征尺度正比于床面距离的涡体。或许可视作仅考虑外区涡体的特例。}
-        \item $v_t$ ：Gioia的贡献。
+        \item 搬运工$v_n$ ：近床面位置，特征涡体由粗糙高度$k_s$ 和黏性底层$a\eta$ 共同控制 $s = k_s + a\eta$\ddag；外区部分的特征涡体完全由床面高度$s\sim y$ 控制\footnote{Townsend 附着涡模型存在类似的特征尺度正比于床面距离的一系列自相似涡体。或许可视作仅考虑外区涡体的特例，这导致附着涡模型仅适用于对数区\cite{aemmarusic2019}。}
+        \item 货物$v_t$\his ：提供$v_n$分量的涡体起到动量搬运工的作用，而其空间尺度决定\footnote{因为给定涡体空间尺度$s$，此距离覆盖的速度梯度是关于$s$ 的函数。}了其所能搬运的动量$v_t$ 
+            \begin{itemize}
+                \item 一旦涡体尺度$s$ 确定，$v_n$ 和$v_t$ 同时确定？那么大涡叠加小涡的模型不再必要，仅需引入搬运工涡体，与附着涡模型类似。
+                \item 外区速度梯度引起的能够搬运的动量差 $$v_t \sim 2s u'(y) \sim 2y \cdot u'(y).$$
+                \item 壁面附近的动量差\his \footnote{Strickler-type for transitional rough $\tau_0 \propto \left( k_s / R \right) ^{\frac{1}{3}} \rho V^2 $.}
+                    $$\lim_{y \to 0} v_t \sim \left( k_s + a\eta \right) \lim_{y \to 0} u'(y) =  \frac{(k_s + a \eta)u_{\tau}^2}{\nu} \sim (k_s + a\eta) \frac{\left( k_s / R \right)^{\frac{1}{3}} V^2}{\nu}.$$
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{The Gioia eddy model vs Attached eddy model}
+    
+\end{frame}
+
+\begin{frame}{The Gioia eddy model vs Eddy viscosity model}
+    
+\end{frame}
+
+\begin{frame}{The vision}
+    \begin{itemize}
+        \item The local shear stress model $\implies$ sub-grid stress model
+        \item New sub-grid stress model $\implies$ Mesh optimizer
     \end{itemize}
 \end{frame}
 
