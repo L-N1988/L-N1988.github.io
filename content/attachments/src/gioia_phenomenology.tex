@@ -54,7 +54,9 @@
             .\end{align*}
             \begin{itemize}
                 \item With $\varepsilon \sim u_R^3 / R$, $\eta = \left( \nu^3 / \varepsilon \right)^{1 / 4}\sim R\cdot Re^{-\frac{3}{4}} $.
-                \item With $\varepsilon  \sim {u_{\tau }^3}/{\kappa y}$ and $v_n\sim \left( \varepsilon s \right) ^{1 / 3} $, for inertial range eddies (especially the log layer, i.e. the outer layer $s \sim y$) $v_n \sim u_{\tau } \left( s / y \right) ^{1 / 3} \sim u_{\tau}$\footnote{因此，在忽略黏性底层的外区，掺混动量的涡体天然具有$u_{\tau }$ 的特征速度。}.
+                \item With $\varepsilon  \sim {u_{\tau }^3}/{\kappa y}$ and $u_s\sim \left( \varepsilon s \right) ^{1 / 3} $, for inertial range eddies (especially the log layer, i.e. the outer layer $s \sim y$) \footnote{因此，在忽略黏性底层的外区，掺混动量的涡体天然具有$u_{\tau }$ 的特征速度。} 
+                    $$u_s \sim u_{\tau } \left( s / y \right) ^{1 / 3} \sim u_{\tau}.$$ 
+                \item $C_f$ 标度的不一致（？）：\citet{gioiaFriction2006}将阻力系数表示为$C_f \sim u_s / V \sim u_{\tau } / V$，但是考虑摩阻流速和阻力系数的定义得到$C_f \sim \tau / V^2 \sim u_{\tau }^2 / V^2$.
             \end{itemize}
     \end{itemize}
 \end{frame}
@@ -121,11 +123,46 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Unify the local shear stress model}
+    \begin{itemize}
+        \item 一个涡体$\left( V, R \right) $ 代表一个动量扩散系统$\mathcal{D}_e \propto VR$ \cite{ocfjfm2024}\footnote{此时我们已经脱离流体可视化的视野，不再追求从流场中捕捉抽象的涡体。此处的视角与普朗特混合长度类似。}。越大的涡体扩散动能的能量越强。
+            \begin{itemize}
+                \item laminar flux is driven by molecular diffusion $\left( \propto \nu \right) $
+                \item turbulent flow is driven by diffusion by the largest eddies and recirculation cells $\left( \propto VR \right) $
+                \item $Re = \frac{VR}{\nu}$ 表示了湍流与层流驱动量的比值
+            \end{itemize}
+        \item 一个涡体$\left( V, R \right) $ 产生的动量通量$F$为\footnote{文章第二种情况的推导可能存在伪证的风险。} \cite{ocfjfm2024}
+    \end{itemize}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{align*}
+                F \sim \rho \left[ (VR)^2 \right] '\sim -\rho \int_0^{R}  \mathcal{D}_e \frac{\partial u}{\partial y} dz
+            .\end{align*}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}[htpb]
+                \centering
+                \includegraphics[width=0.85\textwidth]{./figures/momentum-flux.png}
+                \caption{Momentum balance in a portion of the channel. \cite{ocfjfm2024}}
+                \label{fig:-figures-momentum-flux-png}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
 \begin{frame}{The Gioia eddy model vs Attached eddy model}
     
 \end{frame}
 
 \begin{frame}{The Gioia eddy model vs Eddy viscosity model}
+    
+\end{frame}
+
+\begin{frame}{HOWTO The Gioia eddy model in perspective of time average field}
+    
+\end{frame}
+
+\begin{frame}{The Gioia eddy model vs LSM/VLSM}
     
 \end{frame}
 
